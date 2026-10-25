@@ -50,6 +50,11 @@ The Courses page, expert sign in and the expert dashboard run on a small data la
 ## Join form
 On a static host the Join form opens the visitor's email app addressed to connect@buddhadhamma.in. To collect sign-ups automatically, connect a form service such as Formspree or Google Forms by defining `window.BD_SIGNUP = async record => { ... return true; }` in a small script before `</body>`.
 
+## Checks
+Every push runs the Site check workflow. It rebuilds index.html from src, fails if the committed files differ from the rebuild, checks that every script parses and that every image the data points to exists. Run the same check locally with `python src/build.py && python scripts/check_site.py`.
+
+Work on a branch, push it, wait for the check to pass, then merge into main.
+
 ## Deploy on GitHub Pages
 Push to GitHub, open Settings, then Pages, and choose the `main` branch with the root folder. `index.html` is served as it is.
 

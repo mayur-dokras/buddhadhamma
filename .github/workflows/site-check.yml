@@ -1,0 +1,22 @@
+name: Site check
+on:
+  push:
+    branches: ['**']
+  pull_request:
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rebuild the site from src
+        run: python src/build.py
+      - name: Built files must match what is committed
+        run: git diff --stat --exit-code
+      - name: Syntax, encoding and image checks
+        run: python scripts/check_site.py

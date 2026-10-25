@@ -17,7 +17,7 @@ panel='''<aside class="panel card" id="panel" aria-live="polite">
   <h3>Isipatana</h3><p class="anc">Earliest Buddhist presence c. 450 BCE</p>
   <div class="tags"><span class="badge">◇ Traditional account</span></div>
   <p class="d">Deer park of the first teaching in tradition; Ashokan pillar, c. 3rd c. BCE.</p>
-  <span class="label" style="margin-top:4px">Hover a light · click to open</span>
+  <span class="label" style="margin-top:4px">Hover to preview · tap to open</span>
   <a class="btn primary" id="penter" href="#place-isipatana">Enter Isipatana →</a>
  </aside>'''
 mp=mp[:p0]+panel+mp[p1:]
