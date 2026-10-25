@@ -671,9 +671,9 @@ svg.main.dragging{cursor:grabbing}
 .cbody{padding:18px 18px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
 .cbody h3{font-size:21px;line-height:1.22}
 .cbody p{font-size:14px;color:var(--quiet);margin:0}
-.cfacts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--quiet);margin-top:auto;padding-top:6px}
-.cfacts span{display:inline-flex;gap:6px;align-items:center}
-.cfacts svg{width:14px;height:14px;color:var(--dim)}
+.crfacts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--quiet);margin-top:auto;padding-top:6px}
+.crfacts span{display:inline-flex;gap:6px;align-items:center}
+.crfacts svg{width:14px;height:14px;color:var(--dim)}
 .cby{display:flex;align-items:center;gap:10px;border-top:1px solid var(--rule);padding:12px 18px;font-size:13.5px}
 .av{width:32px;height:32px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font:600 13px var(--sans);color:var(--lamp);overflow:hidden;flex:none}
 .av img{width:100%;height:100%;object-fit:cover}
@@ -698,8 +698,8 @@ svg.main.dragging{cursor:grabbing}
 .tcard h4{font-size:18px;margin:0}
 /* teacher page */
 .thero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:26px;align-items:center;padding:clamp(22px,3vw,34px)}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tags span{font-size:13px;padding:4px 11px;border-radius:999px;background:var(--soft)}
+.ttags{display:flex;flex-wrap:wrap;gap:6px}
+.ttags span{font-size:13px;padding:4px 11px;border-radius:999px;background:var(--soft)}
 /* dashboard */
 .dash{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
 .dside{padding:18px;display:flex;flex-direction:column;gap:6px;position:sticky;top:96px}
@@ -813,6 +813,63 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 .smfoot .lang{display:none}
 @media (max-width:640px){.top .lang{display:none}.smfoot .lang{display:flex}.smpanel{width:100%}.smnav a{font-size:clamp(32px,9.4vw,50px)}}
 @media (prefers-reduced-motion:reduce){.smpanel,.smbg,.smnav a,.roll>span,.mbi{transition:none!important}}
+/* councils on phones: swipe row, compact facts, list instead of table */
+@media (max-width:700px){
+ .cfacts{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .cfacts>div{flex-direction:column;align-items:flex-start;gap:6px;padding:14px 12px;border-radius:16px}
+ .cfacts b{font-size:30px;min-width:0}
+ .cfacts span{font-size:0;line-height:1.25}.cfacts strong{font-size:12.5px;font-weight:500;color:var(--quiet)}
+ .ctrack{display:flex;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;margin:0 -16px 16px;padding:2px 16px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,transparent 0,#000 16px,#000 calc(100% - 28px),transparent)}
+ .ctrack::-webkit-scrollbar{display:none}
+ .ctrack button{flex:none;flex-direction:row;align-items:center;gap:10px;padding:10px 14px 10px 10px;border-radius:999px;scroll-snap-align:center;min-height:52px}
+ .ctrack b{width:32px;height:32px;flex:none}
+ .ctrack strong{font-size:14.5px}.ctrack em{font-size:12px;white-space:nowrap}
+ .cvis{padding:18px}.ctext{padding:20px}
+ .ctext .cscene{font-size:18px}
+ .cnav{flex-direction:column-reverse}.cnav .btn{width:100%}
+ .ctable{min-width:0;font-size:14px}.ctable thead{display:none}
+ .ctable tbody,.ctable tr,.ctable td{display:block}
+ .ctable tr{padding:14px 16px;border-bottom:1px solid var(--rule)}
+ .ctable td{padding:0;border:0}
+ .ctable td.cn{font-weight:600;font-size:15.5px;margin-bottom:6px}
+ .ctable td[data-l]{display:flex;gap:10px;font-size:13.5px;color:var(--quiet);line-height:1.45}
+ .ctable td[data-l]::before{content:attr(data-l);flex:none;width:62px;font:500 10.5px/2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+ .ctable td.ce{margin-top:8px}
+}
+/* ---------- phone polish ---------- */
+.fdet>summary{display:none}
+@media (max-width:1100px){
+ .fdet{border:1px solid var(--rule);border-radius:16px;background:var(--surface)}
+ .fdet>summary{display:flex;align-items:center;justify-content:space-between;list-style:none;cursor:pointer;padding:14px 16px;font-weight:600;font-size:15px}
+ .fdet>summary::-webkit-details-marker{display:none}
+ .fdet>summary i{width:10px;height:10px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) translateY(-3px);transition:transform .25s}
+ .fdet[open]>summary i{transform:rotate(225deg) translateY(-2px)}
+ .fdet .filters{padding:0 16px 16px}
+}
+@media (max-width:700px){
+ /* hero: keep the words readable over the golden Buddha */
+ #doorway .sticky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:58%;background:linear-gradient(to top,rgba(250,247,240,.97) 34%,rgba(250,247,240,.75) 62%,rgba(250,247,240,0));pointer-events:none;z-index:1}
+ #doorway .beat{z-index:3}#doorway .cue{z-index:3}
+ /* long rows of chips become one swipe row */
+ .eras,.pchips,.vfilters div,#ctopics{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-inline:-16px;padding:2px 16px 6px;scroll-snap-type:x proximity}
+ .eras::-webkit-scrollbar,.pchips::-webkit-scrollbar,.vfilters div::-webkit-scrollbar{display:none}
+ .eras>*,.pchips>*,.vfilters button{flex:none;scroll-snap-align:start}
+ .eras button{min-height:40px}
+ /* question path: a swipeable progress strip */
+ .stops{display:flex;overflow-x:auto;gap:10px;margin-inline:-16px;padding:0 16px 6px;scrollbar-width:none;scroll-snap-type:x mandatory}
+ .stops::-webkit-scrollbar{display:none}
+ .stops li{flex:0 0 46%;scroll-snap-align:start}
+ /* evidence labels: two columns */
+ .labels{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .labels div{padding:14px;font-size:13px}
+ /* forms and actions first */
+ .authgrid .authcard{order:-1}
+ .authpitch{padding:22px}.authpitch h1{font-size:34px}
+ .cdgrid .enrol{order:-1}
+ /* comfortable tap targets */
+ .crumbs a{padding:8px 0}
+ .zoomctl button{width:40px;height:40px}
+}
 </style>
 
 <header class="top wrap">
@@ -919,7 +976,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
   <div class="inner">
     <div class="head">
       <div><span class="label lit">Explore · the spread</span><h2>An idea began <em>travelling.</em></h2></div>
-      <p class="side lede">Hover a light to meet a place. Click it to step inside.</p>
+      <p class="side lede">Hover a light to preview a place, tap or click it to step inside.</p>
     </div>
     <div id="homeMapSlot">{{MAP}}</div>
   </div>
@@ -930,7 +987,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
   <div class="inner">
     <div class="head">
       <div><span class="label lit">Mudrā · the language of hands</span><h2>Read the Buddha's <em>hands.</em></h2></div>
-      <p class="side">Every hand gesture in Buddhist art has a name and a meaning. Hover to pause, click a card to read more.</p>
+      <p class="side">Every hand gesture in Buddhist art has a name and a meaning. Swipe through the cards and tap one to read its story.</p>
     </div>
   </div>
   <div class="mudras" id="mudrastrip"><div class="mtrack" id="mtrack"></div></div>
@@ -941,7 +998,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
   <div class="inner">
     <div class="head">
       <div><span class="label lit">Inscription · Dhamma Lipi · Prakrit · c. 249 BCE</span><h2>Move the light <em>across the stone.</em></h2></div>
-      <p class="side">The Rummindei pillar at Lumbinī, photographed when it was uncovered in 1896. Move your cursor like a lamp. Click a line on the stone or in the list; each word is read below.</p>
+      <p class="side">The Rummindei pillar at Lumbinī, photographed when it was uncovered in 1896. Move your finger or cursor like a lamp. Tap a line on the stone or in the list; each word is read below.</p>
     </div>
     <div class="insc">
       <div style="display:flex;flex-direction:column;min-width:0">
@@ -1002,7 +1059,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 <section class="screen wrap" id="s-map" hidden aria-label="Map">
   <div class="inner">
     <div class="crumbs"><a href="#home">Home</a><span class="sep">›</span><span>Map</span></div>
-    <div class="pagehead"><div><span class="label lit">Explore · 37 places · c. 400 BCE to 1600 CE</span><h1>The spread <em>map</em></h1></div><p class="side">Mountains, rivers, lakes and deserts shaped where the teaching could travel. Hover a light for a short introduction; click it to open the place.</p></div>
+    <div class="pagehead"><div><span class="label lit">Explore · 37 places · c. 400 BCE to 1600 CE</span><h1>The spread <em>map</em></h1></div><p class="side">Mountains, rivers, lakes and deserts shaped where the teaching could travel. Hover a light for a short introduction, tap or click it to open the place.</p></div>
     <div id="mapSlot"></div>
   </div>
 </section>
@@ -1060,11 +1117,11 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
     <form class="search" id="asearch" role="search"><label for="aq" class="label" style="position:absolute;left:-9999px">Search the archive</label><input id="aq" type="search" value="" placeholder="Search places, people, objects…"><button class="btn primary" type="submit">Search</button></form>
     <div class="pchips" id="aplaces" role="group" aria-label="Filter by place"></div>
     <div class="agrid">
-      <div class="filters" id="afilters">
+      <details class="fdet" id="afdet" open><summary><span>Filters</span><i aria-hidden="true"></i></summary><div class="filters" id="afilters">
         <fieldset><legend class="label">Evidence</legend><label><input type="checkbox" id="f-primary" data-f="ev" value="Primary" checked> Primary sources</label><label><input type="checkbox" id="f-secondary" data-f="ev" value="Secondary" checked> Secondary</label></fieldset>
         <fieldset><legend class="label">Type</legend><label><input type="checkbox" id="f-exc" data-f="type" value="Excavation report" checked> Excavation reports</label><label><input type="checkbox" id="f-ins" data-f="type" value="Edition of inscriptions" checked> Inscription editions</label><label><input type="checkbox" id="f-cat" data-f="type" value="Museum catalogue" checked> Museum catalogues</label><label><input type="checkbox" id="f-sur" data-f="type" value="Survey report" checked> Survey reports</label><label><input type="checkbox" id="f-tr" data-f="type" value="Translation" checked> Translations</label><label><input type="checkbox" id="f-st" data-f="type" value="Study" checked> Studies</label></fieldset>
         <fieldset><legend class="label">Period studied</legend><label><input type="checkbox" id="f-pre" data-f="per" value="Pre-Mauryan" checked> The Buddha’s time</label><label><input type="checkbox" id="f-mau" data-f="per" value="Mauryan" checked> Mauryan</label><label><input type="checkbox" id="f-kus" data-f="per" value="Kushan" checked> Kushan</label><label><input type="checkbox" id="f-gup" data-f="per" value="Gupta" checked> Gupta</label><label><input type="checkbox" id="f-post" data-f="per" value="Post-Gupta" checked> After 550 CE</label></fieldset>
-      </div>
+      </div></details>
       <div><p class="muted" style="font-size:14px;margin-bottom:12px" id="acount"></p><div class="results" id="aresults"></div></div>
       <div class="card record" id="arecord" aria-live="polite"></div>
     </div>
@@ -1242,7 +1299,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
   <div class="inner">
     <div class="crumbs"><a href="#home">Home</a><span class="sep">›</span><span>Councils</span></div>
     <div class="pagehead"><div><span class="label lit">Dhamma Saṅgīti · the great councils</span><h1>When the monks gathered to <em>remember</em></h1></div><p class="side">Saṅgīti means “reciting together”. For centuries nothing was written down: the Buddha’s words lived only in the memory of monks. Whenever that memory seemed in danger, they gathered to chant the teaching aloud and agree on every word.</p></div>
-    <div class="cfacts"><div><b>6</b><span><strong>Six councils in the Theravāda count</strong>plus a northern council in Kashmir</span></div><div><b>2,400</b><span><strong>2,400 years</strong>from a cave in Rājagaha to a cave in Yangon</span></div><div><b>400</b><span><strong>400 years of memory</strong>before the teaching was first written down</span></div></div>
+    <div class="cfacts"><div><b>6</b><span><strong>Councils in the Theravāda count</strong>plus a northern council in Kashmir</span></div><div><b>2,400</b><span><strong>Years, Rājagaha to Yangon</strong>from a cave in Rājagaha to a cave in Yangon</span></div><div><b>400</b><span><strong>Years of memory before writing</strong>before the teaching was first written down</span></div></div>
     <span class="label" style="display:block;margin:28px 0 12px">Choose a council</span>
     <div class="ctrack" id="ctrack" role="tablist"></div>
     <div class="cdetail" id="cdetail" aria-live="polite"></div>
@@ -1631,7 +1688,7 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
 /* =================== QUESTION page =================== */
 (function(){let i=2;const li=$('#stops');
  const mk=()=>{li.innerHTML=STOPS.map((s,k)=>`<li><button type="button" data-k="${k}"><b>${String(k+1).padStart(2,'0')}</b>${T(s.t)}</button></li>`).join('');};mk();
- function go(n){i=Math.max(0,Math.min(STOPS.length-1,n));const s=STOPS[i];
+ function go(n){i=Math.max(0,Math.min(STOPS.length-1,n));const s=STOPS[i];requestAnimationFrame(()=>{const on=li.querySelector('li.on');if(on&&li.scrollWidth>li.clientWidth)li.scrollTo({left:on.offsetLeft-16,behavior:'smooth'});});
   $$('li',li).forEach((l,k)=>{l.className=k<i?'done':k===i?'on':'';l.querySelector('b').textContent=String(k+1).padStart(2,'0')+(k===i?' · '+T('you are here'):'')});
   $('#qtitle').textContent=T(s.t);$('#qstory').textContent=T(s.s);
   $('#qev').innerHTML=s.ev.map(e=>`<div class="card">${e[5]?PH(e[5],'pic',T(e[2])):`<div class="pic">${ART[e[0]]}</div>`}<span class="label">${T(e[1])}</span><h3>${T(e[2])}</h3><p>${T(e[3])}</p><span class="badge" style="align-self:flex-start">${T(BADGE[e[4]])}</span></div>`).join('');
@@ -1657,7 +1714,8 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
  function run(){chips();const r=filtered();$('#acount').textContent=`${r.length} / ${SOURCES.length} ${T('sources')}`;
   $('#aresults').innerHTML=r.map(s=>`<div class="card res" role="button" tabindex="0" data-id="${s.id}" aria-pressed="${s.id===cur}"><h3>${esc(s.a)} · “${esc(s.t)}”</h3><span class="muted" style="font-size:14px">${esc(s.w)}</span><div class="row"><span class="badge">${T(s.ev)}</span><span class="badge">${T(s.type)}</span>${s.pages?`<span class="badge">📖 ${T('readable here')}</span>`:''}</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px"><button class="btn sm primary" type="button" data-read="${s.id}">${T('Read')}</button><a class="btn sm" href="${IA(s.ia)}" target="_blank" rel="noopener">${T('Full scan')} ↗</a></div></div>`).join('')||'<p class="muted">'+T('Nothing matches. Clear a filter or try another word.')+'</p>';
   if(!r.find(s=>s.id===cur)&&r[0])cur=r[0].id;rec(SOURCES.find(s=>s.id===cur&&r.includes(s)));}
- $('#aresults').addEventListener('click',e=>{if(e.target.closest('a,[data-read]'))return;const b=e.target.closest('.res');if(b){cur=b.dataset.id;run();}});
+ $('#aresults').addEventListener('click',e=>{if(e.target.closest('a,[data-read]'))return;const b=e.target.closest('.res');if(b){cur=b.dataset.id;run();if(innerWidth<=1100){const y=$('#arecord').getBoundingClientRect().top+scrollY-90;scrollTo({top:y,behavior:'smooth'});}}});
+ {const d=$('#afdet');if(d&&innerWidth<=1100)d.open=false;}
  $('#aresults').addEventListener('keydown',e=>{const b=e.target.closest('.res');if(b&&e.key==='Enter'){cur=b.dataset.id;run();}});
  document.addEventListener('click',e=>{const b=e.target.closest('[data-read]');if(b)openReader(b.dataset.read);});
  $('#afilters').addEventListener('change',run);$('#asearch').addEventListener('submit',e=>{e.preventDefault();run();});$('#aq').addEventListener('input',run);
@@ -1731,7 +1789,7 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
   const leaf=c.monks?'':`<g transform="translate(${cx-90} 90)"><rect width="180" height="34" rx="17" fill="#EADFC8"/><rect x="18" y="12" width="144" height="2" fill="#9E6B1B"/><rect x="18" y="19" width="110" height="2" fill="#9E6B1B"/></g>`;
   const R=c.monks?Math.max(r,110):200;const vb=`${cx-R-8} ${cy-R*0.82-14} ${2*R+16} ${R*0.82+40}`;return `<svg viewBox="${vb}" role="img" aria-label="${esc(T(c.name))}">${dots}${leaf}${seat}</svg>`;}
  function track(){tr.innerHTML=C.map((c,i)=>`<button type="button" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${c.no}</b><span><strong>${esc(T(c.place.split(',').slice(-1)[0].trim()))}</strong><em>${esc(T(c.yr))}</em></span></button>`).join('');}
- function show(i){cur=i;const c=C[i];track();
+ function show(i){cur=i;const c=C[i];track();requestAnimationFrame(()=>{const b=tr.querySelector('[aria-selected="true"]');if(b&&tr.scrollWidth>tr.clientWidth)tr.scrollTo({left:b.offsetLeft-(tr.clientWidth-b.offsetWidth)/2,behavior:'smooth'});});
   det.innerHTML=`<div class="card cvis"><span class="label lit">${esc(T(c.name))}</span><h2>${esc(T(c.tagline))}</h2>${assembly(c)}<p class="muted cdots">${c.monks?`${T('Each dot is 10 monks')} · ${c.monks.toLocaleString('en-IN')} ${T('Monks').toLowerCase()}`:T('Number of monks not recorded')}</p>
    <dl class="kv"><dt>${T('Where')}</dt><dd>${esc(T(c.place))}</dd><dt>${T('When')}</dt><dd>${esc(T(c.when))} · ${esc(T(c.yr))}</dd><dt>${T('Patron')}</dt><dd>${esc(T(c.patron))}</dd><dt>${T('Presided')}</dt><dd>${esc(T(c.chair))}</dd><dt>${T('Monks')}</dt><dd>${c.monks?c.monks.toLocaleString('en-IN'):esc(T('Number not recorded'))}</dd><dt>${T('Took')}</dt><dd>${esc(T(c.took))}</dd></dl></div>
    <div class="card ctext"><div class="cbadge"><span class="badge">${T(BADGE[c.b])}</span></div>
@@ -1741,8 +1799,8 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
     <section><span class="label">${T('What it left us')}</span><p>${esc(T(c.left))}</p></section>
     <section class="cknow"><span class="label">${T('How we know')}</span><p>${esc(T(c.note))}</p><ol class="refs">${c.src.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])}</a></li>`).join('')}</ol></section>
     <div class="cnav">${i>0?`<button class="btn" type="button" data-go="${i-1}">← ${esc(T(C[i-1].name))}</button>`:'<span></span>'}${i<C.length-1?`<button class="btn primary" type="button" data-go="${i+1}">${esc(T(C[i+1].name))} →</button>`:''}</div></div>`;}
- function table(){tb.innerHTML=`<thead><tr><th>${T('Council')}</th><th>${T('Where')}</th><th>${T('When')}</th><th>${T('Patron')}</th><th>${T('Monks')}</th><th>${T('Evidence')}</th></tr></thead><tbody>${C.map((c,i)=>`<tr data-i="${i}"><td><b>${c.no}</b> ${esc(T(c.name))}</td><td>${esc(T(c.place))}</td><td>${esc(T(c.yr))}</td><td>${esc(T(c.patron))}</td><td>${c.monks?c.monks.toLocaleString('en-IN'):'—'}</td><td><span class="badge">${T(BADGE[c.b])}</span></td></tr>`).join('')}</tbody>`;}
- tr.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i);});
+ function table(){tb.innerHTML=`<thead><tr><th>${T('Council')}</th><th>${T('Where')}</th><th>${T('When')}</th><th>${T('Patron')}</th><th>${T('Monks')}</th><th>${T('Evidence')}</th></tr></thead><tbody>${C.map((c,i)=>`<tr data-i="${i}"><td class="cn"><b>${c.no}</b> ${esc(T(c.name))}</td><td data-l="${T('Where')}">${esc(T(c.place))}</td><td data-l="${T('When')}">${esc(T(c.yr))}</td><td data-l="${T('Patron')}">${esc(T(c.patron))}</td><td data-l="${T('Monks')}">${c.monks?c.monks.toLocaleString('en-IN'):'·'}</td><td class="ce"><span class="badge">${T(BADGE[c.b])}</span></td></tr>`).join('')}</tbody>`;}
+ tr.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;show(+b.dataset.i);if(innerWidth<=700){const y=det.getBoundingClientRect().top+scrollY-140;scrollTo({top:y,behavior:'smooth'});}});
  det.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b){show(+b.dataset.go);det.scrollIntoView({behavior:'smooth',block:'start'});}});
  tb.addEventListener('click',e=>{const r=e.target.closest('tr[data-i]');if(r){show(+r.dataset.i);tr.scrollIntoView({behavior:'smooth',block:'center'});}});
  function render(){show(cur);table();}
@@ -1839,7 +1897,7 @@ window.BD_API=window.BD_API||(function(){
  const statusPill=s=>s==='published'?`<span class="pill pub"><i></i>${t('Published')}</span>`:s==='review'?`<span class="pill rev"><i></i>${t('Awaiting review')}</span>`:`<span class="pill drf"><i></i>${t('Draft')}</span>`;
  const cardHTML=c=>`<a class="card ccard" href="#course-${esc(c.id)}"><div class="ccov photo"><img src="${esc(c.cover||COVERS[0])}" alt="" loading="lazy"><span class="fmt">${esc(t(c.format))}</span><span class="price">${money(c.fee)}</span></div>
   <div class="cbody"><span class="label lit">${esc(t(c.topic))}</span><h3 data-noi18n>${esc(c.title)}</h3><p data-noi18n>${esc(c.summary)}</p>${c.status!=='published'?statusPill(c.status):''}
-  <div class="cfacts"><span>${I.cal}${dt(c.start)}</span><span>${I.clock}${c.sessions} × ${c.minutes} ${t('min')}</span><span>${I.lang}${esc(t(c.language))}</span><span>${I.lvl}${esc(t(c.level))}</span></div></div>
+  <div class="crfacts"><span>${I.cal}${dt(c.start)}</span><span>${I.clock}${c.sessions} × ${c.minutes} ${t('min')}</span><span>${I.lang}${esc(t(c.language))}</span><span>${I.lvl}${esc(t(c.level))}</span></div></div>
   <div class="cby">${avatar(c.expert)}<span data-noi18n><b style="font-weight:600">${esc(c.expert?c.expert.name:'')}</b><br><span class="muted" style="font-size:12.5px">${esc(c.expert?(c.expert.title||t(c.expert.topic)):'')}</span></span></div></a>`;
 
  /* ---------- public courses list ---------- */
@@ -1904,10 +1962,10 @@ window.BD_API=window.BD_API||(function(){
   const links=String(e.links||'').split(/\s+/).filter(u=>/^https?:\/\//.test(u));
   box.innerHTML=`<div class="crumbs"><a href="#home">${t('Home')}</a><span class="sep">›</span><a href="#courses">${t('Courses')}</a><span class="sep">›</span><span>${esc(e.name)}</span></div>
   <div class="card thero">${avatar(e,'lg')}<div style="display:flex;flex-direction:column;gap:10px;min-width:0"><span class="label lit">${esc(t(e.topic||''))}</span><h1 style="font-size:clamp(32px,4vw,50px)" data-noi18n>${esc(e.name)}</h1><p style="margin:0;color:var(--quiet)" data-noi18n>${esc([e.title,e.institution].filter(Boolean).join(' · '))}</p>
-   ${(e.expertise||[]).length?`<div class="tags" data-noi18n>${e.expertise.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}</div></div>
+   ${(e.expertise||[]).length?`<div class="ttags" data-noi18n>${e.expertise.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}</div></div>
   <div class="cdgrid"><div class="card cdsec"><span class="label">${t('About')}</span><p style="margin:0;font-size:16px;line-height:1.65" data-noi18n>${esc(e.bio||t('This teacher has not added a biography yet.'))}</p>
    ${links.length?`<span class="label" style="margin-top:6px">${t('Links')}</span>${links.map(u=>`<a class="linkbtn" href="${esc(u)}" target="_blank" rel="noopener" style="align-self:flex-start;word-break:break-all">${esc(u.replace(/^https?:\/\//,''))}</a>`).join('')}`:''}</div>
-   <div class="card cdsec"><span class="label">${t('Teaches in')}</span><div class="tags">${(e.languages||[]).map(x=>`<span>${esc(t(x))}</span>`).join('')}</div></div></div>
+   <div class="card cdsec"><span class="label">${t('Teaches in')}</span><div class="ttags">${(e.languages||[]).map(x=>`<span>${esc(t(x))}</span>`).join('')}</div></div></div>
   <h2 style="margin:36px 0 16px;font-size:30px">${t('Courses by')} ${esc(e.name)}</h2>
   <div class="crsgrid">${e.courses.length?e.courses.map(cardHTML).join(''):`<p class="muted">${t('No published courses yet.')}</p>`}</div>`;}
 
@@ -1970,7 +2028,7 @@ window.BD_API=window.BD_API||(function(){
    <div class="dprev"><span class="label">${t('Preview')}</span><div class="card tcard" id="pfPrev"></div></div></div>`;
   const f=$('#pf');
   const read=()=>({name:f.name.value.trim(),title:f.title.value.trim(),institution:f.institution.value.trim(),topic:f.topic.value,bio:f.bio.value.trim(),expertise:f.expertise.value.split(',').map(s=>s.trim()).filter(Boolean),languages:$$('#pf [name=lang]:checked').map(i=>i.value),links:f.links.value.trim(),photo});
-  const prev=()=>{const p=read();$('#pfPrev').innerHTML=`${avatar(p,'md')}<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h4>${esc(p.name||t('Your name'))}</h4><span class="muted" style="font-size:13.5px">${esc([p.title,p.institution].filter(Boolean).join(' · '))}</span><p style="margin:0;font-size:14px">${esc((p.bio||'').slice(0,180))}${(p.bio||'').length>180?'…':''}</p>${p.expertise.length?`<div class="tags">${p.expertise.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}</div>`;$('#pfAv').innerHTML=avatar(p,'lg');};
+  const prev=()=>{const p=read();$('#pfPrev').innerHTML=`${avatar(p,'md')}<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><h4>${esc(p.name||t('Your name'))}</h4><span class="muted" style="font-size:13.5px">${esc([p.title,p.institution].filter(Boolean).join(' · '))}</span><p style="margin:0;font-size:14px">${esc((p.bio||'').slice(0,180))}${(p.bio||'').length>180?'…':''}</p>${p.expertise.length?`<div class="ttags">${p.expertise.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}</div>`;$('#pfAv').innerHTML=avatar(p,'lg');};
   f.addEventListener('input',prev);prev();
   $('#pfFile').onchange=async e=>{try{photo=await resize(e.target.files[0],400);prev();}catch(x){$('#pfErr').textContent=t(x.message);}};
   $('#pfRm').onclick=()=>{photo='';prev();};
