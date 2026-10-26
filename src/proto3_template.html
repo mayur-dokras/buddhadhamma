@@ -844,6 +844,9 @@ svg.main.dragging{cursor:grabbing}
 .feedstrip .fcard{flex:0 0 min(400px,80vw);transition:border-color .3s,transform .3s}
 .feedstrip.drag .fcard{pointer-events:none}
 .feedstrip .fcard img{-webkit-user-drag:none;user-select:none}
+.admtr{border:1px solid var(--rule);border-radius:12px;padding:12px 14px}
+.admtr summary{cursor:pointer;font-size:14.5px;color:var(--ink)}
+.admtr .trgrp{display:flex;flex-direction:column;gap:12px;margin-top:14px}
 
 /*/FEEDC*/
 #spread .msite.dim circle{opacity:.4}
@@ -1036,8 +1039,8 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 </section>
 
 <div class="strip" aria-label="The word Dhamma in eight scripts"><div class="track">{{SCRIPTS}}{{SCRIPTS}}</div></div>
-<section id="feed" class="feedband" aria-label="Dhamma Dāna">
-  <div class="wrap"><div class="inner feedhead"><div><span class="label">Dhamma Dāna · the gift of the teaching</span><h2>Words that keep <em>travelling.</em></h2></div><div class="feednav"><button type="button" id="feedprev" aria-label="Previous">←</button><button type="button" id="feednext" aria-label="Next">→</button></div></div></div>
+<section id="feed" class="feedband" aria-label="Dhamma Vāṇī">
+  <div class="wrap"><div class="inner feedhead"><div><span class="label">Dhamma Vāṇī · voices of the teaching</span><h2>The Dhamma, still <em>speaking.</em></h2></div><div class="feednav"><button type="button" id="feedprev" aria-label="Previous">←</button><button type="button" id="feednext" aria-label="Next">→</button></div></div></div>
   <div class="mudras feedstrip" id="feedstrip"><div class="mtrack" id="feedtrack"></div></div>
 </section>
 
@@ -1326,6 +1329,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
         <label data-f="by">Source <input type="text" name="by" maxlength="120" placeholder="For example: Dhammapada 5"></label>
         <label data-f="link">Link (a page of this site like #learn, or a full web address) <input type="text" name="link" maxlength="300"></label>
         <label data-f="cta">Link text <input type="text" name="cta" maxlength="40" placeholder="Open →"></label>
+        <details class="admtr" id="admtr"><summary>हिंदी and मराठी (optional) · shown when a visitor picks that language</summary><div id="admtrf"></div></details>
         <label class="chk"><input type="checkbox" name="on" checked> Show on the home page</label>
         <p class="admerr" id="admerr" hidden></p>
         <div class="row"><button class="btn primary" type="submit" id="admsave">Add to slider</button><button class="btn" type="button" id="admcancel" hidden>Cancel edit</button></div>
@@ -2487,23 +2491,24 @@ window.BD_API=window.BD_API||(function(){
  const ytId=u=>{u=String(u||'').trim();if(/^[\w-]{11}$/.test(u))return u;const m=u.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);return m?m[1]:'';};
  /* starter cards, shown until the database has its own */
  const DEF=[
-  {id:'s1',type:'quote',text:'Hatred is never ended by hatred in this world. It is ended by non-hatred alone. This is an ancient law.',orig:'Na hi verena verāni sammantīdha kudācanaṃ, averena ca sammanti, esa dhammo sanantano.',by:'Dhammapada 5',on:true,order:1},
-  {id:'s2',type:'note',label:'New · Dhamma Saṅgīti',title:'Sit in on the great councils',text:'Six gatherings that fixed, argued over and carried the teaching, from Rājagaha to Yangon.',link:'#councils',cta:'Open the councils →',on:true,order:2},
-  {id:'s3',type:'quote',text:'Not doing any evil, taking up what is wholesome, purifying one’s own mind. This is the teaching of the Buddhas.',orig:'Sabbapāpassa akaraṇaṃ, kusalassa upasampadā, sacittapariyodapanaṃ, etaṃ buddhāna sāsanaṃ.',by:'Dhammapada 183',on:true,order:3},
-  {id:'s4',type:'note',label:'Learn',title:'Write your name in Dhamma Lipi',text:'Type a name or a line and see it in the scripts that carried the teaching across Asia.',link:'#learn',cta:'Try the converter →',on:true,order:4},
-  {id:'s5',type:'quote',text:'All conditioned things are subject to decay. Strive on with care.',orig:'Vayadhammā saṅkhārā, appamādena sampādetha.',by:'Mahāparinibbāna Sutta, the last words',on:true,order:5},
-  {id:'s6',type:'note',label:'Courses',title:'Learn from those who read the stones',text:'Courses by epigraphers, archaeologists and Pāli scholars, many of them free.',link:'#courses',cta:'Browse courses →',on:true,order:6},
-  {id:'s7',type:'quote',text:'Mind goes before all things. Mind is their chief, they are made of mind.',orig:'Manopubbaṅgamā dhammā, manoseṭṭhā manomayā.',by:'Dhammapada 1',on:true,order:7},
-  {id:'s8',type:'note',label:'Mahāvihāras',title:'Where Asia came to study',text:'Eighteen great monasteries, from Takṣaśilā to Jagaddala, with what survives and how each one ended.',link:'#viharas',cta:'Explore all 18 →',on:true,order:8},
-  {id:'s9',type:'quote',label:'Words of Aśoka',text:'Concord alone is good, so that people may listen to and respect one another’s Dhamma.',orig:'Samavāyo eva sādhu.',by:'Aśoka, Rock Edict XII',on:true,order:9},
-  {id:'s10',type:'note',label:'Map',title:'Follow the teaching across Asia',text:'Step into the places where the Dhamma travelled, each marked with what is evidence and what is tradition.',link:'#map',cta:'Open the map →',on:true,order:10}];
+  {id:'s1',type:'quote',text:'Hatred is never ended by hatred in this world. It is ended by non-hatred alone. This is an ancient law.',orig:'Na hi verena verāni sammantīdha kudācanaṃ, averena ca sammanti, esa dhammo sanantano.',by:'Dhammapada 5',on:true,order:1,text_hi:"इस संसार में वैर से वैर कभी शांत नहीं होता। अवैर से ही वह शांत होता है। यही सनातन धम्म है।",text_mr:"या जगात वैराने वैर कधीही शमत नाही. अवैरानेच ते शमते. हाच सनातन धम्म आहे.",by_hi:"धम्मपद 5",by_mr:"धम्मपद 5"},
+  {id:'s2',type:'note',label:'New · Dhamma Saṅgīti',title:'Sit in on the great councils',text:'Six gatherings that fixed, argued over and carried the teaching, from Rājagaha to Yangon.',link:'#councils',cta:'Open the councils →',on:true,order:2,label_hi:"नया · धम्म संगीति",label_mr:"नवे · धम्म संगीती",title_hi:"महान संगीतियों में शामिल होइए",title_mr:"महान संगीतींमध्ये सहभागी व्हा",text_hi:"छह सभाएँ जिन्होंने शिक्षा को स्थिर किया, उस पर विचार किया और उसे आगे ले गईं, राजगृह से यांगून तक।",text_mr:"सहा सभा ज्यांनी शिकवण निश्चित केली, तिच्यावर विचार केला आणि ती पुढे नेली, राजगृहापासून यांगूनपर्यंत.",cta_hi:"संगीतियाँ खोलें →",cta_mr:"संगीती उघडा →"},
+  {id:'s3',type:'quote',text:'Not doing any evil, taking up what is wholesome, purifying one’s own mind. This is the teaching of the Buddhas.',orig:'Sabbapāpassa akaraṇaṃ, kusalassa upasampadā, sacittapariyodapanaṃ, etaṃ buddhāna sāsanaṃ.',by:'Dhammapada 183',on:true,order:3,text_hi:"कोई पाप न करना, कुशल का संचय करना, अपने चित्त को शुद्ध करना, यही बुद्धों की शिक्षा है।",text_mr:"कोणतेही पाप न करणे, कुशल कर्म करणे, स्वतःचे चित्त शुद्ध करणे, हीच बुद्धांची शिकवण आहे.",by_hi:"धम्मपद 183",by_mr:"धम्मपद 183"},
+  {id:'s4',type:'note',label:'Learn',title:'Write your name in Dhamma Lipi',text:'Type a name or a line and see it in the scripts that carried the teaching across Asia.',link:'#learn',cta:'Try the converter →',on:true,order:4,label_hi:"सीखें",label_mr:"शिका",title_hi:"अपना नाम धम्म लिपि में लिखिए",title_mr:"तुमचे नाव धम्म लिपीत लिहा",text_hi:"कोई नाम या पंक्ति लिखिए और उसे उन लिपियों में देखिए जो शिक्षा को पूरे एशिया में ले गईं।",text_mr:"एखादे नाव किंवा ओळ लिहा आणि ती शिकवण आशियाभर नेणाऱ्या लिपींमध्ये पाहा.",cta_hi:"कन्वर्टर आज़माएँ →",cta_mr:"कन्व्हर्टर वापरून पाहा →"},
+  {id:'s5',type:'quote',text:'All conditioned things are subject to decay. Strive on with care.',orig:'Vayadhammā saṅkhārā, appamādena sampādetha.',by:'Mahāparinibbāna Sutta, the last words',on:true,order:5,text_hi:"सभी संस्कार नश्वर हैं। अप्रमाद के साथ प्रयत्न करते रहो।",text_mr:"सर्व संस्कार नश्वर आहेत. अप्रमादाने प्रयत्न करत राहा.",by_hi:"महापरिनिब्बान सुत्त, अंतिम वचन",by_mr:"महापरिनिब्बान सुत्त, अंतिम वचन"},
+  {id:'s6',type:'note',label:'Courses',title:'Learn from those who read the stones',text:'Courses by epigraphers, archaeologists and Pāli scholars, many of them free.',link:'#courses',cta:'Browse courses →',on:true,order:6,label_hi:"पाठ्यक्रम",label_mr:"अभ्यासक्रम",title_hi:"उनसे सीखिए जो शिलालेख पढ़ते हैं",title_mr:"शिलालेख वाचणाऱ्यांकडून शिका",text_hi:"पुरालिपिविदों, पुरातत्त्वविदों और पालि विद्वानों के पाठ्यक्रम, जिनमें से कई निःशुल्क हैं।",text_mr:"पुरालिपीतज्ज्ञ, पुरातत्त्वज्ञ आणि पाली विद्वानांचे अभ्यासक्रम, त्यांपैकी अनेक विनामूल्य.",cta_hi:"पाठ्यक्रम देखें →",cta_mr:"अभ्यासक्रम पाहा →"},
+  {id:'s7',type:'quote',text:'Mind goes before all things. Mind is their chief, they are made of mind.',orig:'Manopubbaṅgamā dhammā, manoseṭṭhā manomayā.',by:'Dhammapada 1',on:true,order:7,text_hi:"मन सभी धम्मों का अगुआ है। मन ही प्रधान है, वे मन से ही बने हैं।",text_mr:"मन सर्व धम्मांच्या अग्रस्थानी आहे. मनच प्रधान आहे, ते मनानेच घडलेले आहेत.",by_hi:"धम्मपद 1",by_mr:"धम्मपद 1"},
+  {id:'s8',type:'note',label:'Mahāvihāras',title:'Where Asia came to study',text:'Eighteen great monasteries, from Takṣaśilā to Jagaddala, with what survives and how each one ended.',link:'#viharas',cta:'Explore all 18 →',on:true,order:8,label_hi:"महाविहार",label_mr:"महाविहार",title_hi:"जहाँ एशिया पढ़ने आया",title_mr:"जिथे आशिया शिकायला आला",text_hi:"तक्षशिला से जगद्दल तक अठारह महान विहार, क्या बचा है और हर एक का अंत कैसे हुआ।",text_mr:"तक्षशिलेपासून जगद्दलपर्यंत अठरा महान विहार, काय उरले आहे आणि प्रत्येकाचा शेवट कसा झाला.",cta_hi:"सभी 18 देखें →",cta_mr:"सर्व 18 पाहा →"},
+  {id:'s9',type:'quote',label:'Words of Aśoka',text:'Concord alone is good, so that people may listen to and respect one another’s Dhamma.',orig:'Samavāyo eva sādhu.',by:'Aśoka, Rock Edict XII',on:true,order:9,label_hi:"अशोक के वचन",label_mr:"अशोकाचे वचन",text_hi:"मेल-मिलाप ही श्रेष्ठ है, ताकि लोग एक-दूसरे का धम्म सुनें और उसका आदर करें।",text_mr:"सलोखा हाच श्रेष्ठ आहे, जेणेकरून लोक एकमेकांचा धम्म ऐकतील आणि त्याचा आदर करतील.",by_hi:"अशोक, शिलालेख 12",by_mr:"अशोक, शिलालेख 12"},
+  {id:'s10',type:'note',label:'Map',title:'Follow the teaching across Asia',text:'Step into the places where the Dhamma travelled, each marked with what is evidence and what is tradition.',link:'#map',cta:'Open the map →',on:true,order:10,label_hi:"मानचित्र",label_mr:"नकाशा",title_hi:"पूरे एशिया में शिक्षा की यात्रा देखिए",title_mr:"आशियाभर शिकवणीचा प्रवास पाहा",text_hi:"उन स्थानों में जाइए जहाँ धम्म पहुँचा, हर एक पर लिखा है कि क्या प्रमाण है और क्या परंपरा।",text_mr:"जिथे धम्म पोहोचला त्या स्थळांमध्ये जा, प्रत्येक ठिकाणी काय पुरावा आहे आणि काय परंपरा हे नोंदवले आहे.",cta_hi:"मानचित्र खोलें →",cta_mr:"नकाशा उघडा →"}];
  const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg>';
- function card(it){const ty=it.type;
+ const TRK=['label','title','text','by','cta'];
+ function card(it0){const lg=(typeof LANG!=='undefined'&&LANG.cur)||'en';const it={...it0};if(lg!=='en')TRK.forEach(k=>{if(it0[k+'_'+lg])it[k]=it0[k+'_'+lg];});const ty=it.type;
   if(ty==='video'){const id=ytId(it.url);if(!id)return '';
    return `<button type="button" class="fcard fv" data-yt="${id}" data-title="${esc(it.title)}" data-noi18n><div class="thumb"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="play"><span>${PLAY}</span></span></div><span class="label lit">${esc(it.label||t('Watch'))}</span>${it.title?`<h3>${esc(it.title)}</h3>`:''}${it.text?`<p>${esc(it.text)}</p>`:''}</button>`;}
   if(ty==='note'){const u=safeUrl(it.link);const ext=/^https?:/i.test(u);const tag=u?'a':'div';
-   return `<${tag} class="fcard fn"${u?` href="${esc(u)}"${ext?' target="_blank" rel="noopener"':''}`:''} data-noi18n>${it.label?`<span class="label">${esc(it.label)}</span>`:''}${it.title?`<h3>${esc(it.title)}</h3>`:''}${it.text?`<p>${esc(it.text)}</p>`:''}${u?`<span class="go">${esc(it.cta||'Open →')}</span>`:''}</${tag}>`;}
-  return `<div class="fcard fq" data-noi18n><span class="label lit">${esc(it.label||'Words of the Buddha')}</span><blockquote>“${esc(it.text)}”</blockquote>${it.orig?`<p class="orig">${esc(it.orig)}</p>`:''}${it.by?`<cite>${esc(it.by)}</cite>`:''}</div>`;}
+   return `<${tag} class="fcard fn"${u?` href="${esc(u)}"${ext?' target="_blank" rel="noopener"':''}`:''} data-noi18n>${it.label?`<span class="label">${esc(it.label)}</span>`:''}${it.title?`<h3>${esc(it.title)}</h3>`:''}${it.text?`<p>${esc(it.text)}</p>`:''}${u?`<span class="go">${esc(it.cta||t('Open →'))}</span>`:''}</${tag}>`;}
+  return `<div class="fcard fq" data-noi18n><span class="label lit">${esc(it.label||t('Words of the Buddha'))}</span><blockquote>“${esc(it.text)}”</blockquote>${it.orig?`<p class="orig">${esc(it.orig)}</p>`:''}${it.by?`<cite>${esc(it.by)}</cite>`:''}</div>`;}
 
  /* ---------- data: one store, three possible backends ---------- */
  let be=null,all=null;const subs=[];
@@ -2532,6 +2537,7 @@ window.BD_API=window.BD_API||(function(){
 
  /* ---------- slider: endless, moving, pauses on hover, drag or swipe ---------- */
  const tr=$('#feedtrack'),band=$('#feed');let mq=null,sig='';
+ RENDER.feed=()=>{sig='';renderSlider();};
  function renderSlider(){if(!tr)return;const html=shown().map(card).join('');if(html===sig)return;sig=html;tr.innerHTML=html.repeat(3);band.hidden=!html;
   if(!mq&&html)mq=MARQUEE($('#feedstrip'),tr);}
  if(tr){const step=()=>{const c=tr.firstElementChild;return c?c.getBoundingClientRect().width+16:400;};
@@ -2549,13 +2555,15 @@ window.BD_API=window.BD_API||(function(){
  let ty='quote',editing=null,sure=null;const form=$('#admform');
  const FIELDS={quote:['label','text','orig','by'],video:['url','label','title','text'],note:['label','title','text','link','cta']};
  const TL={quote:'Quote',video:'One line about the video (optional)',note:'Text'};
- function setType(x){ty=x;$$('.admtypes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===x));
+ const LNG={hi:'हिंदी',mr:'मराठी'},FL={label:'Small label',title:'Title',text:'Text',by:'Source',cta:'Link text'};
+ const trKeys=()=>FIELDS[ty].filter(k=>TRK.includes(k)).flatMap(k=>['hi','mr'].map(l=>k+'_'+l));
+ function setType(x){const keep={};$$('#admtrf [name]').forEach(i=>keep[i.name]=i.value);ty=x;$('#admtrf').innerHTML=['hi','mr'].map(l=>`<div class="trgrp"><span class="label">${LNG[l]}</span>${FIELDS[x].filter(k=>TRK.includes(k)).map(k=>`<label>${FL[k]} <${k==='text'?'textarea':'input type="text"'} name="${k}_${l}" maxlength="600">${k==='text'?'</textarea>':''}</label>`).join('')}</div>`).join('');$$('#admtrf [name]').forEach(i=>{if(keep[i.name])i.value=keep[i.name];});$$('.admtypes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===x));
   $$('#admform [data-f]').forEach(l=>l.hidden=!FIELDS[x].includes(l.dataset.f));$('#admtextl').textContent=TL[x];preview();}
- function read(){const f=new FormData(form);const o={type:ty,on:form.on.checked};FIELDS[ty].forEach(k=>{o[k]=String(f.get(k)||'').trim();});return o;}
+ function read(){const f=new FormData(form);const o={type:ty,on:form.on.checked};[...FIELDS[ty],...trKeys()].forEach(k=>{o[k]=String(f.get(k)||'').trim();});return o;}
  function check(o){if(o.type==='video'&&!ytId(o.url))return 'Paste a YouTube link, for example https://www.youtube.com/watch?v=…';if(o.type==='quote'&&!o.text)return 'Write the quote.';if(o.type==='note'&&!o.title)return 'Give the notice a title.';if(o.link&&!safeUrl(o.link))return 'The link must start with # or https://';return '';}
  function preview(){const p=$('#admprev');if(!p)return;const o=read();p.innerHTML=card(o)||'<p class="muted">The preview appears when the card has enough to show.</p>';}
- function resetForm(){editing=null;form.reset();form.on.checked=true;$('#admftitle').textContent='New card';$('#admsave').textContent='Add to slider';$('#admcancel').hidden=true;$('#admerr').hidden=true;setType('quote');}
- function edit(it){editing=it;form.reset();setType(it.type||'quote');['label','url','title','text','orig','by','link','cta'].forEach(k=>{if(form[k])form[k].value=it[k]||'';});form.on.checked=it.on!==false;
+ function resetForm(){editing=null;form.reset();$('#admtrf').innerHTML='';$('#admtr').open=false;form.on.checked=true;$('#admftitle').textContent='New card';$('#admsave').textContent='Add to slider';$('#admcancel').hidden=true;$('#admerr').hidden=true;setType('quote');}
+ function edit(it){editing=it;form.reset();$('#admtrf').innerHTML='';setType(it.type||'quote');$$('#admtrf [name]').forEach(i=>{i.value=it[i.name]||'';});if(trKeys().some(k=>it[k]))$('#admtr').open=true;['label','url','title','text','orig','by','link','cta'].forEach(k=>{if(form[k])form[k].value=it[k]||'';});form.on.checked=it.on!==false;
   $('#admftitle').textContent='Editing a card';$('#admsave').textContent='Save changes';$('#admcancel').hidden=false;preview();form.scrollIntoView({behavior:'smooth',block:'start'});}
  const live=()=>(all||[]).slice().sort((a,b)=>(a.order||0)-(b.order||0));
  function renderAdmin(){if(!form||$('#s-admin').hidden)return;const ok=be&&be.isAdmin();
@@ -2578,7 +2586,7 @@ window.BD_API=window.BD_API||(function(){
   $$('.admtypes button').forEach(b=>b.onclick=()=>setType(b.dataset.t));
   form.addEventListener('input',preview);
   form.addEventListener('submit',async e=>{e.preventDefault();const o=read();const err=check(o);const E=$('#admerr');E.hidden=!err;E.textContent=err;if(err)return;
-   const L=live();const keep=editing?{...editing}:{};['label','url','title','text','orig','by','link','cta'].forEach(k=>delete keep[k]);
+   const L=live();const keep=editing?{...editing}:{};Object.keys(keep).forEach(k=>{if(/^(label|url|title|text|orig|by|link|cta)(_hi|_mr)?$/.test(k))delete keep[k];});
    const d={...keep,...o,order:editing?editing.order:(L.length?Math.max(...L.map(x=>x.order||0))+1:1),at:Date.now()};
    const id=editing?editing.id:be.newId();await run(be.save(id,strip(d)));toast(editing?'Saved':'Added to the slider');resetForm();});
   $('#admcancel').onclick=resetForm;
