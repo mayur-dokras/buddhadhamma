@@ -840,6 +840,10 @@ svg.main.dragging{cursor:grabbing}
 .admerr{color:#9B2C1F;font-size:14px;margin:0}
 .admform [hidden],.admstat [hidden],#s-admin [hidden]{display:none!important}
 .admitem .acts button:disabled{opacity:.35;cursor:default}
+.feedstrip{padding-block:4px 14px}
+.feedstrip .fcard{flex:0 0 min(400px,80vw);transition:border-color .3s,transform .3s}
+.feedstrip.drag .fcard{pointer-events:none}
+.feedstrip .fcard img{-webkit-user-drag:none;user-select:none}
 
 /*/FEEDC*/
 #spread .msite.dim circle{opacity:.4}
@@ -1034,8 +1038,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 <div class="strip" aria-label="The word Dhamma in eight scripts"><div class="track">{{SCRIPTS}}{{SCRIPTS}}</div></div>
 <section id="feed" class="feedband" aria-label="Worth sharing">
   <div class="wrap"><div class="inner feedhead"><div><span class="label">Worth sharing</span><h2>Words, videos and <em>news.</em></h2></div><div class="feednav"><button type="button" id="feedprev" aria-label="Previous">←</button><button type="button" id="feednext" aria-label="Next">→</button></div></div></div>
-  <div class="feedtrack" id="feedtrack"></div>
-  <div class="feeddots" id="feeddots"></div>
+  <div class="mudras feedstrip" id="feedstrip"><div class="mtrack" id="feedtrack"></div></div>
 </section>
 
 
@@ -1927,7 +1930,7 @@ const TPC={};function TPAT(en,d){const l=LANG.cur;if(!TPC[l])TPC[l]=((window.I18
 const T=en=>{if(LANG.cur==='en'||en==null)return en;const d=window.I18N&&I18N[LANG.cur];if(!d)return en;if(d[en])return d[en];const k=String(en).trim().replace(/\s+/g,' ');return d[k]||TPAT(k,d)||en;};window.T=T;window.PH=PH;
 const RENDER={};
 /* endless marquee: JS-driven so it never runs out, pauses on hover, can be dragged/swiped */
-window.MARQUEE=function(box,tr,sel,onPick){const still=matchMedia('(prefers-reduced-motion: reduce)').matches;let x=0,last=0,hover=false,drag=null,moved=false;
+window.MARQUEE=function(box,tr,sel,onPick){const still=matchMedia('(prefers-reduced-motion: reduce)').matches;let pend=0,x=0,last=0,hover=false,drag=null,moved=false;
  box.addEventListener('scroll',()=>{box.scrollLeft=0;});
  box.addEventListener('mouseenter',()=>hover=true);box.addEventListener('mouseleave',()=>hover=false);
  box.addEventListener('dragstart',e=>e.preventDefault());
@@ -1938,7 +1941,9 @@ window.MARQUEE=function(box,tr,sel,onPick){const still=matchMedia('(prefers-redu
  if(sel&&onPick)tr.addEventListener('click',e=>{if(e.target.closest(sel))onPick();});
  (function tick(t){const dt=last?Math.min(64,t-last):0;last=t;const half=(tr.scrollWidth+16)/3;
   if(!hover&&!drag&&!still&&!document.hidden&&box.offsetParent)x-=dt*0.035;
-  if(half>50){x%=half;if(x>0)x-=half;}tr.style.transform=`translate3d(${x}px,0,0)`;requestAnimationFrame(tick);})(0);};
+  if(pend){const st=Math.abs(pend)<1?pend:pend*0.16;x+=st;pend-=st;}
+  if(half>50){x%=half;if(x>0)x-=half;}tr.style.transform=`translate3d(${x}px,0,0)`;requestAnimationFrame(tick);})(0);
+ return {nudge:d=>{pend+=d;}};};
 RENDER.mudras=(function(){const tr=$('#mtrack'),det=$('#mdetail');let cur=0;
  const UM=['bhumisparsha','varada','abhaya','dhyana','dharmachakra','vitarka','anjali','uttarabodhi','karana'];
  const MIMG=(m,cls,alt)=>UM.includes(m[0])?`<div class="photo ${cls} uimg"><img src="img/u_${m[0]}.jpg" alt="${esc(alt)}" loading="lazy" decoding="async"><span class="cr">${T('Illustration')} · BuddhDhamma.in</span></div>`:PH(MUDPH[m[0]],cls,alt);
@@ -2487,7 +2492,11 @@ window.BD_API=window.BD_API||(function(){
   {id:'s3',type:'quote',text:'Not doing any evil, taking up what is wholesome, purifying one’s own mind. This is the teaching of the Buddhas.',orig:'Sabbapāpassa akaraṇaṃ, kusalassa upasampadā, sacittapariyodapanaṃ, etaṃ buddhāna sāsanaṃ.',by:'Dhammapada 183',on:true,order:3},
   {id:'s4',type:'note',label:'Learn',title:'Write your name in Dhamma Lipi',text:'Type a name or a line and see it in the scripts that carried the teaching across Asia.',link:'#learn',cta:'Try the converter →',on:true,order:4},
   {id:'s5',type:'quote',text:'All conditioned things are subject to decay. Strive on with care.',orig:'Vayadhammā saṅkhārā, appamādena sampādetha.',by:'Mahāparinibbāna Sutta, the last words',on:true,order:5},
-  {id:'s6',type:'note',label:'Courses',title:'Learn from those who read the stones',text:'Courses by epigraphers, archaeologists and Pāli scholars, many of them free.',link:'#courses',cta:'Browse courses →',on:true,order:6}];
+  {id:'s6',type:'note',label:'Courses',title:'Learn from those who read the stones',text:'Courses by epigraphers, archaeologists and Pāli scholars, many of them free.',link:'#courses',cta:'Browse courses →',on:true,order:6},
+  {id:'s7',type:'quote',text:'Mind goes before all things. Mind is their chief, they are made of mind.',orig:'Manopubbaṅgamā dhammā, manoseṭṭhā manomayā.',by:'Dhammapada 1',on:true,order:7},
+  {id:'s8',type:'note',label:'Mahāvihāras',title:'Where Asia came to study',text:'Eighteen great monasteries, from Takṣaśilā to Jagaddala, with what survives and how each one ended.',link:'#viharas',cta:'Explore all 18 →',on:true,order:8},
+  {id:'s9',type:'quote',label:'Words of Aśoka',text:'Concord alone is good, so that people may listen to and respect one another’s Dhamma.',orig:'Samavāyo eva sādhu.',by:'Aśoka, Rock Edict XII',on:true,order:9},
+  {id:'s10',type:'note',label:'Map',title:'Follow the teaching across Asia',text:'Step into the places where the Dhamma travelled, each marked with what is evidence and what is tradition.',link:'#map',cta:'Open the map →',on:true,order:10}];
  const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg>';
  function card(it){const ty=it.type;
   if(ty==='video'){const id=ytId(it.url);if(!id)return '';
@@ -2498,7 +2507,7 @@ window.BD_API=window.BD_API||(function(){
 
  /* ---------- data: one store, three possible backends ---------- */
  let be=null,all=null;const subs=[];
- const MIN=6;const byOrder=(a,b)=>(a.order||0)-(b.order||0);
+ const MIN=10;const byOrder=(a,b)=>(a.order||0)-(b.order||0);
  /* your cards first; starter cards fill the slider until you have six of your own */
  const own=()=>(all||[]).filter(x=>x.on!==false).sort(byOrder);
  const shown=()=>{const o=own();return o.length>=MIN?o:[...o,...DEF.slice(0,MIN-o.length)];};
@@ -2521,22 +2530,12 @@ window.BD_API=window.BD_API||(function(){
   if(!be)be=localBackend();
   be.subscribe(a=>{all=Array.isArray(a)?a:null;notify();});be.onAuth(notify);notify();}
 
- /* ---------- slider ---------- */
- const tr=$('#feedtrack'),dots=$('#feeddots'),band=$('#feed');let idx=0,pause=0,inView=false;
- const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
- function renderSlider(){if(!tr)return;const items=shown();tr.innerHTML=items.map(card).join('');band.hidden=!tr.children.length;
-  dots.innerHTML=[...tr.children].map((_,i)=>`<button type="button" aria-label="${t('Card')} ${i+1}"></button>`).join('');setDot();}
- const cards=()=>[...tr.children];
- function cur(){const c=cards();const x=tr.scrollLeft;let best=0,bd=1e9;c.forEach((e,i)=>{const d=Math.abs(e.offsetLeft-c[0].offsetLeft-x);if(d<bd){bd=d;best=i;}});return best;}
- function setDot(){idx=cur();$$('button',dots).forEach((b,i)=>b.setAttribute('aria-current',i===idx));}
- function go(i){const c=cards();if(!c.length)return;const max=tr.scrollWidth-tr.clientWidth;if(i>=c.length||(i>idx&&tr.scrollLeft>=max-4))i=0;if(i<0)i=c.length-1;tr.scrollTo({left:Math.min(max,c[i].offsetLeft-c[0].offsetLeft),behavior:'smooth'});}
- if(tr){let st;tr.addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(setDot,60);},{passive:true});
-  $('#feedprev').onclick=()=>{pause=Date.now();go(idx-1);};$('#feednext').onclick=()=>{pause=Date.now();go(idx+1);};
-  dots.addEventListener('click',e=>{const b=e.target.closest('button');if(b){pause=Date.now();go([...dots.children].indexOf(b));}});
-  ['pointerdown','focusin','mouseenter','touchstart'].forEach(ev=>tr.addEventListener(ev,()=>pause=Date.now(),{passive:true}));
-  let hov=false;tr.addEventListener('mouseenter',()=>hov=true);tr.addEventListener('mouseleave',()=>hov=false);
-  new IntersectionObserver(es=>{inView=es[0].isIntersecting;}).observe(tr);
-  setInterval(()=>{if(still||hov||!inView||document.hidden||Date.now()-pause<9000||$('#feedvid').open)return;go(idx+1);},6000);
+ /* ---------- slider: endless, moving, pauses on hover, drag or swipe ---------- */
+ const tr=$('#feedtrack'),band=$('#feed');let mq=null,sig='';
+ function renderSlider(){if(!tr)return;const html=shown().map(card).join('');if(html===sig)return;sig=html;tr.innerHTML=html.repeat(3);band.hidden=!html;
+  if(!mq&&html)mq=MARQUEE($('#feedstrip'),tr);}
+ if(tr){const step=()=>{const c=tr.firstElementChild;return c?c.getBoundingClientRect().width+16:400;};
+  $('#feedprev').onclick=()=>mq&&mq.nudge(step());$('#feednext').onclick=()=>mq&&mq.nudge(-step());
   /* video player */
   const dlg=$('#feedvid');
   tr.addEventListener('click',e=>{const v=e.target.closest('[data-yt]');if(!v)return;const id=v.dataset.yt;
