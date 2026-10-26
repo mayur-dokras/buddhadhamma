@@ -911,6 +911,15 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 @media (max-width:700px){.scrsel{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none;scroll-snap-type:x proximity}.scrsel::-webkit-scrollbar{display:none}.scrsel button{flex:none;scroll-snap-align:start}#convall{grid-template-columns:1fr 1fr}#convall .cvv{font-size:20px}.syl{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
 .tile.tcourse .tdate{max-width:520px}
 @media (min-width:981px){.tile.tcourse{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:40px;align-content:start}.tile.tcourse>*{grid-column:1}.tile.tcourse .tdate{grid-column:2;grid-row:1/span 4;align-self:center;max-width:none;padding:22px 24px}.tile.tcourse .tdate b{font-size:44px;width:70px}.tile.tcourse .tdate strong{font-size:17px}}
+/* swipe-row arrows */
+.hsw{display:block;position:relative;min-width:0}
+#scrsel,#ctrack,.eras,#aplaces,.vfilters div,#stops,#ctopics{scroll-padding-inline:16px}
+.timeline>.hsw{grid-column:1/-1}
+.hsa{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid var(--rule);background:rgba(255,255,255,.96);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px -6px rgba(20,18,16,.35);padding:0;animation:hsnudge 1.6s ease-in-out 2}
+.hsa.r{right:-6px}.hsa.l{left:-6px;animation:none}
+.hsa[hidden]{display:none}
+@keyframes hsnudge{0%,100%{transform:translateY(-50%)}50%{transform:translate(4px,-50%)}}
+@media (prefers-reduced-motion:reduce){.hsa{animation:none}}
 </style>
 
 <header class="top wrap">
@@ -1333,7 +1342,6 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
         <p class="capprox" id="capprox" hidden></p>
         <p class="muted cnote" id="cnote"></p>
       </div>
-      <div class="convall"><span class="label">The same, in every script</span><div id="convall"></div></div>
       <details class="ctips"><summary>How the reading works</summary>
         <ul>
           <li>Typing in हिंदी or मराठी gives the most exact result, because those letters map one to one onto the old scripts.</li>
@@ -1597,7 +1605,7 @@ const SCRIPT=(()=>{
  const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o[k]!=null).map(k=>[k,o[k]]));
  const S={};
  // Dhamma Lipi (Brāhmī), U+11000 block
- S.brahmi={name:'Dhamma Lipi',alt:'Brāhmī',font:"'Noto Sans Brahmi'",dir:'ltr',
+ S.brahmi={name:'Dhamma Lipi',alt:'Aśoka’s script',font:"'Noto Sans Brahmi'",dir:'ltr',
   note:'Aśoka’s edicts, 3rd century BCE. Read left to right. The ancestor of most scripts of South and Southeast Asia.',
   C:Object.assign(seq(0x11013,ORDER.slice(0,33)),{'ḷ':0x11034}),
   V:{a:0x11005,'ā':0x11006,i:0x11007,'ī':0x11008,u:0x11009,'ū':0x1100A,'ṛ':0x1100B,e:0x1100F,ai:0x11010,o:0x11011,au:0x11012},
@@ -1792,6 +1800,17 @@ const BR={conv:w=>SCRIPT.write(w.toLowerCase(),'brahmi').text,fromEnglish:n=>SCR
  addEventListener('keydown',e=>{if(!isOpen())return;if(e.key==='Escape'){set(false);return;}
   if(e.key==='Tab'){const f=[...m.querySelectorAll('a[href],button')].filter(x=>x.offsetParent!==null);if(!f.length)return;const i=f.indexOf(document.activeElement);if(e.shiftKey&&(i<=0)){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus();}}});
  addEventListener('hashchange',()=>set(false));window.closeSideMenu=()=>set(false);})();
+/* swipe rows: show arrows when a row has more to the side, so people know they can scroll */
+(function(){const SEL='#scrsel,#ctrack,.eras,#aplaces,.vfilters > div,#stops,#ctopics';
+ const ICON=d=>`<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="${d==='r'?'M9 5l7 7-7 7':'M15 5l-7 7 7 7'}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+ function wrap(el){if(el.__hs||!el.parentNode)return;el.__hs=1;const w=document.createElement('span');w.className='hsw';el.parentNode.insertBefore(w,el);w.appendChild(el);
+  const mk=d=>{const b=document.createElement('button');b.type='button';b.className='hsa '+d;b.setAttribute('aria-label',(typeof T==='function'?T:x=>x)(d==='r'?'Scroll right':'Scroll left'));b.innerHTML=ICON(d);b.hidden=true;
+   b.addEventListener('click',e=>{e.stopPropagation();el.scrollBy({left:(d==='r'?1:-1)*Math.max(160,el.clientWidth*.7),behavior:'smooth'});});w.appendChild(b);return b;};
+  const r=mk('r'),l=mk('l');
+  const upd=()=>{const over=el.scrollWidth>el.clientWidth+4;r.hidden=!over||el.scrollLeft+el.clientWidth>=el.scrollWidth-6;l.hidden=!over||el.scrollLeft<=6;};
+  el.addEventListener('scroll',upd,{passive:true});if(window.ResizeObserver)new ResizeObserver(upd).observe(el);new MutationObserver(()=>requestAnimationFrame(upd)).observe(el,{childList:true});upd();}
+ let q=0;const scan=()=>{q=0;document.querySelectorAll(SEL).forEach(wrap);};scan();
+ new MutationObserver(()=>{if(!q)q=requestAnimationFrame(scan);}).observe(document.body,{childList:true,subtree:true});})();
 /* map zoom and pan */
 (function(){const svg=document.querySelector('svg.main');if(!svg)return;const box=svg.parentNode;const NS='http://www.w3.org/2000/svg';
  const W=1100,H=640,MAX=12;
@@ -2075,7 +2094,7 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
 /* =================== QUESTION page =================== */
 (function(){let i=2;const li=$('#stops');
  const mk=()=>{li.innerHTML=STOPS.map((s,k)=>`<li><button type="button" data-k="${k}"><b>${String(k+1).padStart(2,'0')}</b>${T(s.t)}</button></li>`).join('');};mk();
- function go(n){i=Math.max(0,Math.min(STOPS.length-1,n));const s=STOPS[i];requestAnimationFrame(()=>{const on=li.querySelector('li.on');if(on&&li.scrollWidth>li.clientWidth)li.scrollTo({left:on.offsetLeft-16,behavior:'smooth'});});
+ function go(n){i=Math.max(0,Math.min(STOPS.length-1,n));const s=STOPS[i];requestAnimationFrame(()=>{const on=li.querySelector('li.on');if(on&&li.scrollWidth>li.clientWidth)li.scrollTo({left:li.scrollLeft+on.getBoundingClientRect().left-li.getBoundingClientRect().left-16,behavior:'smooth'});});
   $$('li',li).forEach((l,k)=>{l.className=k<i?'done':k===i?'on':'';l.querySelector('b').textContent=String(k+1).padStart(2,'0')+(k===i?' · '+T('you are here'):'')});
   $('#qtitle').textContent=T(s.t);$('#qstory').textContent=T(s.s);
   $('#qev').innerHTML=s.ev.map(e=>`<div class="card">${e[5]?PH(e[5],'pic',T(e[2])):`<div class="pic">${ART[e[0]]}</div>`}<span class="label">${T(e[1])}</span><h3>${T(e[2])}</h3><p>${T(e[3])}</p><span class="badge" style="align-self:flex-start">${T(BADGE[e[4]])}</span></div>`).join('');
@@ -2156,13 +2175,13 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
  function run(){const v=nm.value.trim();const d=S[cur];
   const r=v?SCRIPT.convert(v,cur):{text:'',iast:'',from:'english',approx:false};
   $('#cname').textContent=t(d.name)+(d.alt?' · '+t(d.alt):'');
-  const out=$('#nmout');out.textContent=r.text||'…';out.classList.toggle('empty',!r.text);$('#cfrom').hidden=!v;$('.convall').hidden=!v;out.style.fontFamily=fontOf(cur);out.dir=d.dir;out.classList.toggle('roman',!!d.roman);
+  const out=$('#nmout');out.textContent=r.text||'…';out.classList.toggle('empty',!r.text);$('#cfrom').hidden=!v;out.style.fontFamily=fontOf(cur);out.dir=d.dir;out.classList.toggle('roman',!!d.roman);
   $('#cfrom').textContent=t('Reading as')+' · '+t(FROM[r.from]||r.from);
   $('#cread').textContent=r.iast?t('Sounds')+': '+r.iast:'';
   const ap=$('#capprox');ap.hidden=!r.approx;
   ap.textContent=cur==='pali'?t('Pāli has no ś, ṣ, ai or au, so the nearest Pāli sounds are used.'):t('This script has no letter for some of these sounds, so the nearest letter is used.');
   $('#cnote').textContent=t(d.note);
-  $('#convall').innerHTML=KEYS.filter(k=>k!==cur).map(k=>{const o=SCRIPT.write(r.iast||'',k);return `<button type="button" data-k="${k}"><span class="cvn">${esc(t(S[k].name))}</span><span class="cvv" style="font-family:${fontOf(k)}" dir="${S[k].dir}">${esc(o.text||'…')}</span></button>`;}).join('');}
+}
  let tm;nm.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(run,80);});
  $('#ccopy').onclick=()=>{const x=$('#nmout').textContent;(navigator.clipboard?navigator.clipboard.writeText(x):Promise.reject()).then(()=>toast(t('Copied'))).catch(()=>toast(x));};
  /* letter chart */
@@ -2181,9 +2200,8 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
  $('#sylgrid').addEventListener('click',e=>{const b=e.target.closest('button');if(b)pickSyl(b.dataset.s);});
  $('#badd').onclick=()=>{const v=nm.value;const k=SCRIPT.detect(v);const add=(k!=='english'&&k!=='iast')?SCRIPT.write(sel,k).text:sel;nm.value=v+add;run();nm.focus();};
  function setScript(k){cur=k;$$('#scrsel button').forEach(b=>b.setAttribute('aria-selected',b.dataset.k===k));run();chart();
-  const b=$(`#scrsel button[data-k="${k}"]`),box=$('#scrsel');if(b&&box.scrollWidth>box.clientWidth)box.scrollTo({left:b.offsetLeft-16,behavior:'smooth'});}
+  const b=$(`#scrsel button[data-k="${k}"]`),box=$('#scrsel');if(b&&box.scrollWidth>box.clientWidth)box.scrollTo({left:box.scrollLeft+b.getBoundingClientRect().left-box.getBoundingClientRect().left-16,behavior:'smooth'});}
  $('#scrsel').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setScript(b.dataset.k);});
- $('#convall').addEventListener('click',e=>{const b=e.target.closest('button');if(b){setScript(b.dataset.k);$('.conv').scrollIntoView({behavior:'smooth',block:'start'});}});
  function render(){loadFonts();chips();run();chart();}
  RENDER.learn=()=>{if(!$('#s-learn').hidden)render();else{chips();run();chart();}};
  window.renderLearn=render;chips();run();chart();
@@ -2223,7 +2241,7 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
   const leaf=c.monks?'':`<g transform="translate(${cx-90} 90)"><rect width="180" height="34" rx="17" fill="#EADFC8"/><rect x="18" y="12" width="144" height="2" fill="#9E6B1B"/><rect x="18" y="19" width="110" height="2" fill="#9E6B1B"/></g>`;
   const R=c.monks?Math.max(r,110):200;const vb=`${cx-R-8} ${cy-R*0.82-14} ${2*R+16} ${R*0.82+40}`;return `<svg viewBox="${vb}" role="img" aria-label="${esc(T(c.name))}">${dots}${leaf}${seat}</svg>`;}
  function track(){tr.innerHTML=C.map((c,i)=>`<button type="button" role="tab" aria-selected="${i===cur}" data-i="${i}"><b>${c.no}</b><span><strong>${esc(T(c.place.split(',').slice(-1)[0].trim()))}</strong><em>${esc(T(c.yr))}</em></span></button>`).join('');}
- function show(i){cur=i;const c=C[i];track();requestAnimationFrame(()=>{const b=tr.querySelector('[aria-selected="true"]');if(b&&tr.scrollWidth>tr.clientWidth)tr.scrollTo({left:b.offsetLeft-(tr.clientWidth-b.offsetWidth)/2,behavior:'smooth'});});
+ function show(i){cur=i;const c=C[i];track();requestAnimationFrame(()=>{const b=tr.querySelector('[aria-selected="true"]');if(b&&tr.scrollWidth>tr.clientWidth)tr.scrollTo({left:tr.scrollLeft+b.getBoundingClientRect().left-tr.getBoundingClientRect().left-(tr.clientWidth-b.offsetWidth)/2,behavior:'smooth'});});
   det.innerHTML=`<div class="card cvis"><span class="label lit">${esc(T(c.name))}</span><h2>${esc(T(c.tagline))}</h2>${assembly(c)}<p class="muted cdots">${c.monks?`${T('Each dot is 10 monks')} · ${c.monks.toLocaleString('en-IN')} ${T('Monks').toLowerCase()}`:T('Number of monks not recorded')}</p>
    <dl class="kv"><dt>${T('Where')}</dt><dd>${esc(T(c.place))}</dd><dt>${T('When')}</dt><dd>${esc(T(c.when))} · ${esc(T(c.yr))}</dd><dt>${T('Patron')}</dt><dd>${esc(T(c.patron))}</dd><dt>${T('Presided')}</dt><dd>${esc(T(c.chair))}</dd><dt>${T('Monks')}</dt><dd>${c.monks?c.monks.toLocaleString('en-IN'):esc(T('Number not recorded'))}</dd><dt>${T('Took')}</dt><dd>${esc(T(c.took))}</dd></dl></div>
    <div class="card ctext"><div class="cbadge"><span class="badge">${T(BADGE[c.b])}</span></div>
