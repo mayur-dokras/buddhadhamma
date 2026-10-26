@@ -775,6 +775,75 @@ svg.main.dragging{cursor:grabbing}
 .joindlg .jsign{text-align:center;font-size:13.5px;color:var(--quiet);margin:0}
 .acctwrap.out{display:none}
 /*/MODC*/
+/*FEEDC*/
+/* home slider: quotes, videos, notices */
+.feedband{padding-block:clamp(36px,5vw,64px) clamp(8px,2vw,20px)}
+.feedhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:16px}
+.feedhead h2{font-size:clamp(26px,3.2vw,38px);line-height:1.1;margin-top:6px}
+.feednav{display:flex;gap:8px;flex:none}
+.feednav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--surface);color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center;transition:border-color .2s,transform .2s}
+.feednav button:hover{border-color:var(--gold)}.feednav button:active{transform:scale(.94)}
+.feedtrack{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:4px max(16px,calc((100% - 1240px)/2)) 10px;scroll-padding-inline:max(16px,calc((100% - 1240px)/2))}
+.feedtrack::-webkit-scrollbar{display:none}
+.fcard{flex:0 0 min(400px,84vw);scroll-snap-align:start;border-radius:20px;background:var(--surface);border:1px solid var(--rule);padding:22px 22px 20px;display:flex;flex-direction:column;gap:10px;min-height:230px;color:inherit;text-decoration:none;text-align:left;font:inherit;position:relative}
+.fcard .label{font-size:11.5px}
+.fcard.fq blockquote{margin:0;font-family:var(--serif);font-size:clamp(21px,2.1vw,25px);line-height:1.3;color:var(--ink)}
+.fcard.fq .orig{font-style:italic;color:var(--quiet);font-size:14.5px;margin:0;line-height:1.5}
+.fcard.fq cite{margin-top:auto;font:12px var(--mono);letter-spacing:.06em;color:var(--dim);font-style:normal;text-transform:uppercase}
+.fcard.fv{padding:12px 12px 18px;cursor:pointer}
+.fcard.fv .thumb{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#1B1712}
+.fcard.fv .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.fcard.fv .play{position:absolute;inset:0;display:grid;place-items:center}
+.fcard.fv .play span{width:58px;height:58px;border-radius:50%;background:rgba(20,18,16,.72);display:grid;place-items:center;transition:transform .2s,background .2s}
+.fcard.fv:hover .play span{transform:scale(1.08);background:var(--gold)}
+.fcard.fv .play svg{width:22px;height:22px;fill:#fff;margin-left:3px}
+.fcard.fv h3{font-size:19px;line-height:1.25;padding:0 6px}.fcard.fv p{margin:0;padding:0 6px;color:var(--quiet);font-size:14.5px}
+.fcard.fv .label{padding:0 6px}
+.fcard.fn{background:#1B1712;border-color:#1B1712;color:#F6EFE3}
+.fcard.fn .label{color:#E0B866}.fcard.fn h3{color:#F6EFE3;font-size:24px;line-height:1.2}.fcard.fn p{color:rgba(246,239,227,.74);margin:0;font-size:15px}
+.fcard.fn .go{margin-top:auto;color:#E0B866;font-weight:500}
+.feeddots{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.feeddots button{width:8px;height:8px;border-radius:8px;border:0;padding:0;background:rgba(20,18,16,.18);cursor:pointer;transition:width .25s,background .25s}
+.feeddots button[aria-current="true"]{width:24px;background:var(--gold)}
+.feedvid{border:0;padding:0;background:transparent;width:min(960px,94vw);max-width:none}
+.feedvid::backdrop{background:rgba(10,9,8,.82)}
+.feedvid .fvbox{position:relative;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
+.feedvid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.feedvid .fvbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;color:#F6EFE3;font-size:14px}
+.feedvid .fvbar a{color:#E0B866}
+.feedvid .fvbar button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:999px;padding:10px 16px;font:inherit;cursor:pointer}
+@media (max-width:700px){.feedhead h2{font-size:24px}.feednav button{width:40px;height:40px}.fcard{min-height:210px}}
+
+/* admin */
+.adm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.adm{grid-template-columns:1fr}}
+.admstat{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px 18px;margin-bottom:20px}
+.admstat p{margin:0;font-size:14.5px}
+.admform{padding:20px;display:flex;flex-direction:column;gap:14px}
+.admform label{display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--quiet)}
+.admform input[type=text],.admform input[type=url],.admform textarea,.admform select{font:inherit;font-size:16px;color:var(--ink);background:var(--ground);border:1px solid var(--rule);border-radius:12px;padding:11px 13px;width:100%}
+.admform textarea{min-height:96px;resize:vertical}
+.admform .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.admform .chk{flex-direction:row;align-items:center;gap:8px;color:var(--ink)}
+.admtypes{display:flex;gap:8px;flex-wrap:wrap}
+.admtypes button{border:1px solid var(--rule);background:var(--surface);border-radius:999px;padding:9px 16px;font:inherit;font-size:14.5px;cursor:pointer;color:var(--ink)}
+.admtypes button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.admprev{display:flex;flex-direction:column;gap:10px}
+.admprev .fcard{flex:none;width:100%;max-width:420px}
+.admlist{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.admitem{display:flex;gap:12px;align-items:center;padding:12px 14px;flex-wrap:wrap}
+.admitem .ttl{flex:1 1 200px;min-width:0}
+.admitem .ttl b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admitem .ttl small{color:var(--dim);font:12px var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.admitem.off{opacity:.55}
+.admitem .acts{display:flex;gap:6px;flex-wrap:wrap}
+.admitem .acts button{border:1px solid var(--rule);background:var(--surface);border-radius:10px;min-width:40px;height:40px;padding:0 10px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.admitem .acts button.warn{color:#9B2C1F}
+.admerr{color:#9B2C1F;font-size:14px;margin:0}
+.admform [hidden],.admstat [hidden],#s-admin [hidden]{display:none!important}
+.admitem .acts button:disabled{opacity:.35;cursor:default}
+
+/*/FEEDC*/
 #spread .msite.dim circle{opacity:.4}
 /* ---------- header menu button + side menu ---------- */
 .roll{display:inline-block;height:1.15em;line-height:1.15;overflow:hidden;vertical-align:top}
@@ -965,6 +1034,11 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 </section>
 
 <div class="strip" aria-label="The word Dhamma in eight scripts"><div class="track"><span style="font-family:var(--brahmi)">𑀥𑀫𑁆𑀫<small>Dhamma Lipi</small></span><span>धम्म<small>Devanāgarī</small></span><span>ධම්ම<small>Sinhala</small></span><span>ဓမ္မ<small>Burmese</small></span><span>ธรรม<small>Thai</small></span><span>ཆོས<small>Tibetan</small></span><span>法<small>Chinese · Japanese</small></span><span>ধম্ম<small>Bengali</small></span><span style="font-family:var(--brahmi)">𑀥𑀫𑁆𑀫<small>Dhamma Lipi</small></span><span>धम्म<small>Devanāgarī</small></span><span>ධම්ම<small>Sinhala</small></span><span>ဓမ္မ<small>Burmese</small></span><span>ธรรม<small>Thai</small></span><span>ཆོས<small>Tibetan</small></span><span>法<small>Chinese · Japanese</small></span><span>ধম্ম<small>Bengali</small></span></div></div>
+<section id="feed" class="feedband" aria-label="Worth sharing">
+  <div class="wrap"><div class="inner feedhead"><div><span class="label">Worth sharing</span><h2>Words, videos and <em>news.</em></h2></div><div class="feednav"><button type="button" id="feedprev" aria-label="Previous">←</button><button type="button" id="feednext" aria-label="Next">→</button></div></div></div>
+  <div class="feedtrack" id="feedtrack"></div>
+  <div class="feeddots" id="feeddots"></div>
+</section>
 
 
 
@@ -1377,6 +1451,35 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 
 <!--/LEARNH-->
 
+<!--FEEDH-->
+<section class="screen wrap" id="s-admin" hidden aria-label="Admin">
+  <div class="inner">
+    <div class="crumbs"><a href="#home">Home</a><span class="sep">›</span><span>Admin</span></div>
+    <div class="pagehead"><div><span class="label lit">Admin · home slider</span><h1>What the home page <em>shares.</em></h1></div><p class="side">Add quotes, course videos from YouTube and notices. They appear in the slider under the script strip, in the order shown here.</p></div>
+    <div class="card admstat"><p id="admwho">Checking access…</p><div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="admin-in" hidden>Sign in with Google</button><button class="btn sm" type="button" id="admin-out" hidden>Sign out</button><button class="btn sm" type="button" id="admexport" hidden>Export JSON</button><button class="btn sm" type="button" id="admseed" hidden>Add the starter cards</button></div></div>
+    <div class="adm" id="admbody" hidden>
+      <form class="card admform" id="admform" autocomplete="off">
+        <span class="label" id="admftitle">New card</span>
+        <div class="admtypes" role="group" aria-label="Card type"><button type="button" data-t="quote" aria-pressed="true">Quote</button><button type="button" data-t="video" aria-pressed="false">Video</button><button type="button" data-t="note" aria-pressed="false">Notice</button></div>
+        <label data-f="label">Small label on top <input type="text" name="label" maxlength="60" placeholder="For example · New · Dhamma Saṅgīti"></label>
+        <label data-f="url">YouTube link <input type="url" name="url" placeholder="https://www.youtube.com/watch?v=…"></label>
+        <label data-f="title">Title <input type="text" name="title" maxlength="140"></label>
+        <label data-f="text"><span id="admtextl">Quote</span> <textarea name="text" maxlength="600"></textarea></label>
+        <label data-f="orig">Original words (Pāli or Sanskrit, optional) <textarea name="orig" maxlength="600" style="min-height:64px"></textarea></label>
+        <label data-f="by">Source <input type="text" name="by" maxlength="120" placeholder="For example · Dhammapada 5"></label>
+        <label data-f="link">Link (a page of this site like #learn, or a full web address) <input type="text" name="link" maxlength="300"></label>
+        <label data-f="cta">Link text <input type="text" name="cta" maxlength="40" placeholder="Open →"></label>
+        <label class="chk"><input type="checkbox" name="on" checked> Show on the home page</label>
+        <p class="admerr" id="admerr" hidden></p>
+        <div class="row"><button class="btn primary" type="submit" id="admsave">Add to slider</button><button class="btn" type="button" id="admcancel" hidden>Cancel edit</button></div>
+      </form>
+      <div class="admprev"><span class="label">Preview</span><div id="admprev"></div></div>
+    </div>
+    <div class="admlist" id="admlist"></div>
+  </div>
+</section>
+
+<!--/FEEDH-->
 <!--MODH-->
 <!-- ================= COURSES ================= -->
 <section class="screen wrap" id="s-courses" hidden aria-label="Courses">
@@ -1563,6 +1666,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
   </div></div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
+<dialog class="feedvid" id="feedvid" aria-label="Video"><div class="fvbox" id="fvframe"></div><div class="fvbar"><a id="fvopen" href="#" target="_blank" rel="noopener">Open on YouTube</a><button type="button" id="fvclose">Close</button></div></dialog>
 <dialog class="joindlg" id="joinDlg" aria-labelledby="joinT">
   <form method="dialog" id="joinForm" novalidate>
     <button class="jx" type="button" value="cancel" aria-label="Close">×</button>
@@ -1586,6 +1690,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 
 <script src="data_fr.js"></script>
 <script src="data_src.js"></script>
+<script src="feed_config.js"></script>
 <script src="data_vih.js"></script>
 <script src="data_vihimg.js"></script>
 <script src="data_councils.js"></script>
@@ -2556,17 +2661,141 @@ window.BD_API=window.BD_API||(function(){
 })();
 
 /*/MODJ*/
+/*FEEDJ*/
+/* =================== HOME SLIDER + ADMIN =================== */
+(function(){
+ const t=x=>(typeof T==='function'?T(x):x);
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const safeUrl=u=>{u=String(u||'').trim();return /^#[\w-]*$/.test(u)||/^https?:\/\//i.test(u)?u:'';};
+ const ytId=u=>{u=String(u||'').trim();if(/^[\w-]{11}$/.test(u))return u;const m=u.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);return m?m[1]:'';};
+ /* starter cards, shown until the database has its own */
+ const DEF=[
+  {id:'s1',type:'quote',text:'Hatred is never ended by hatred in this world. It is ended by non-hatred alone. This is an ancient law.',orig:'Na hi verena verāni sammantīdha kudācanaṃ, averena ca sammanti, esa dhammo sanantano.',by:'Dhammapada 5',on:true,order:1},
+  {id:'s2',type:'note',label:'New · Dhamma Saṅgīti',title:'Sit in on the great councils',text:'Six gatherings that fixed, argued over and carried the teaching, from Rājagaha to Yangon.',link:'#councils',cta:'Open the councils →',on:true,order:2},
+  {id:'s3',type:'quote',text:'Not doing any evil, taking up what is wholesome, purifying one’s own mind. This is the teaching of the Buddhas.',orig:'Sabbapāpassa akaraṇaṃ, kusalassa upasampadā, sacittapariyodapanaṃ, etaṃ buddhāna sāsanaṃ.',by:'Dhammapada 183',on:true,order:3},
+  {id:'s4',type:'note',label:'Learn',title:'Write your name in Dhamma Lipi',text:'Type a name or a line and see it in the scripts that carried the teaching across Asia.',link:'#learn',cta:'Try the converter →',on:true,order:4},
+  {id:'s5',type:'quote',text:'All conditioned things are subject to decay. Strive on with care.',orig:'Vayadhammā saṅkhārā, appamādena sampādetha.',by:'Mahāparinibbāna Sutta, the last words',on:true,order:5},
+  {id:'s6',type:'note',label:'Courses',title:'Learn from those who read the stones',text:'Courses by epigraphers, archaeologists and Pāli scholars, many of them free.',link:'#courses',cta:'Browse courses →',on:true,order:6}];
+ const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l15 8-15 8z"/></svg>';
+ function card(it){const ty=it.type;
+  if(ty==='video'){const id=ytId(it.url);if(!id)return '';
+   return `<button type="button" class="fcard fv" data-yt="${id}" data-title="${esc(it.title)}" data-noi18n><div class="thumb"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="play"><span>${PLAY}</span></span></div><span class="label lit">${esc(it.label||t('Watch'))}</span>${it.title?`<h3>${esc(it.title)}</h3>`:''}${it.text?`<p>${esc(it.text)}</p>`:''}</button>`;}
+  if(ty==='note'){const u=safeUrl(it.link);const ext=/^https?:/i.test(u);const tag=u?'a':'div';
+   return `<${tag} class="fcard fn"${u?` href="${esc(u)}"${ext?' target="_blank" rel="noopener"':''}`:''} data-noi18n>${it.label?`<span class="label">${esc(it.label)}</span>`:''}${it.title?`<h3>${esc(it.title)}</h3>`:''}${it.text?`<p>${esc(it.text)}</p>`:''}${u?`<span class="go">${esc(it.cta||'Open →')}</span>`:''}</${tag}>`;}
+  return `<div class="fcard fq" data-noi18n><span class="label lit">${esc(it.label||'Words of the Buddha')}</span><blockquote>“${esc(it.text)}”</blockquote>${it.orig?`<p class="orig">${esc(it.orig)}</p>`:''}${it.by?`<cite>${esc(it.by)}</cite>`:''}</div>`;}
+
+ /* ---------- data: one store, three possible backends ---------- */
+ let be=null,all=null;const subs=[];
+ const shown=()=>((all&&all.length)?all:DEF).filter(x=>x.on!==false).sort((a,b)=>(a.order||0)-(b.order||0));
+ const notify=()=>subs.forEach(f=>f());
+ function localBackend(){const K='bd_feed_local';const rd=()=>{try{return JSON.parse(localStorage.getItem(K)||'null');}catch(e){return null;}};let cb=null;
+  const wr=a=>{try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}cb&&cb(a);};
+  return {name:'local',isAdmin:()=>true,who:()=>'',onAuth(){},subscribe(f){cb=f;f(rd()||[]);return()=>{cb=null;};},
+   save:async(id,d)=>{const a=(rd()||[]).filter(x=>x.id!==id);a.push({...d,id});wr(a);},remove:async id=>wr((rd()||[]).filter(x=>x.id!==id)),newId:()=>'l'+Date.now().toString(36)};}
+ async function firebaseBackend(cfg){const B='https://www.gstatic.com/firebasejs/10.12.2/';
+  const [A,F,U]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-firestore.js'),import(B+'firebase-auth.js')]);
+  const app=A.initializeApp(cfg),db=F.getFirestore(app),auth=U.getAuth(app);const admins=(cfg.admins||[]).map(s=>String(s).toLowerCase());
+  let user=null;const cbs=[];U.onAuthStateChanged(auth,u=>{user=u;cbs.forEach(f=>f());});
+  return {name:'firebase',isAdmin:()=>!!user&&admins.includes((user.email||'').toLowerCase()),who:()=>user?user.email:'',onAuth:f=>cbs.push(f),
+   signIn:()=>U.signInWithPopup(auth,new U.GoogleAuthProvider()),signOut:()=>U.signOut(auth),
+   subscribe(f){return F.onSnapshot(F.query(F.collection(db,'feed'),F.orderBy('order')),s=>f(s.docs.map(d=>({...d.data(),id:d.id}))),e=>{console.warn(e);f(null);});},
+   save:(id,d)=>F.setDoc(F.doc(db,'feed',id),d),remove:id=>F.deleteDoc(F.doc(db,'feed',id)),newId:()=>F.doc(F.collection(db,'feed')).id};}
+ async function start(){
+  if(window.BD_FEED_BACKEND){try{be=await window.BD_FEED_BACKEND();}catch(e){be=null;}}
+  const cfg=window.BD_FIREBASE;if(!be&&cfg&&cfg.apiKey&&cfg.projectId){try{be=await firebaseBackend(cfg);}catch(e){console.warn('Firebase',e);be=null;}}
+  if(!be)be=localBackend();
+  be.subscribe(a=>{all=Array.isArray(a)?a:null;notify();});be.onAuth(notify);notify();}
+
+ /* ---------- slider ---------- */
+ const tr=$('#feedtrack'),dots=$('#feeddots'),band=$('#feed');let idx=0,pause=0,inView=false;
+ const still=matchMedia('(prefers-reduced-motion · reduce)').matches;
+ function renderSlider(){if(!tr)return;const items=shown();tr.innerHTML=items.map(card).join('');band.hidden=!tr.children.length;
+  dots.innerHTML=[...tr.children].map((_,i)=>`<button type="button" aria-label="${t('Card')} ${i+1}"></button>`).join('');setDot();}
+ const cards=()=>[...tr.children];
+ function cur(){const c=cards();const x=tr.scrollLeft;let best=0,bd=1e9;c.forEach((e,i)=>{const d=Math.abs(e.offsetLeft-c[0].offsetLeft-x);if(d<bd){bd=d;best=i;}});return best;}
+ function setDot(){idx=cur();$$('button',dots).forEach((b,i)=>b.setAttribute('aria-current',i===idx));}
+ function go(i){const c=cards();if(!c.length)return;const max=tr.scrollWidth-tr.clientWidth;if(i>=c.length||(i>idx&&tr.scrollLeft>=max-4))i=0;if(i<0)i=c.length-1;tr.scrollTo({left:Math.min(max,c[i].offsetLeft-c[0].offsetLeft),behavior:'smooth'});}
+ if(tr){let st;tr.addEventListener('scroll',()=>{clearTimeout(st);st=setTimeout(setDot,60);},{passive:true});
+  $('#feedprev').onclick=()=>{pause=Date.now();go(idx-1);};$('#feednext').onclick=()=>{pause=Date.now();go(idx+1);};
+  dots.addEventListener('click',e=>{const b=e.target.closest('button');if(b){pause=Date.now();go([...dots.children].indexOf(b));}});
+  ['pointerdown','focusin','mouseenter','touchstart'].forEach(ev=>tr.addEventListener(ev,()=>pause=Date.now(),{passive:true}));
+  let hov=false;tr.addEventListener('mouseenter',()=>hov=true);tr.addEventListener('mouseleave',()=>hov=false);
+  new IntersectionObserver(es=>{inView=es[0].isIntersecting;}).observe(tr);
+  setInterval(()=>{if(still||hov||!inView||document.hidden||Date.now()-pause<9000||$('#feedvid').open)return;go(idx+1);},6000);
+  /* video player */
+  const dlg=$('#feedvid');
+  tr.addEventListener('click',e=>{const v=e.target.closest('[data-yt]');if(!v)return;const id=v.dataset.yt;
+   $('#fvframe').innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="${esc(v.dataset.title||'Video')}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+   $('#fvopen').href='https://www.youtube.com/watch?v='+id;dlg.showModal();});
+  const close=()=>{dlg.close();};$('#fvclose').onclick=close;dlg.addEventListener('close',()=>{$('#fvframe').innerHTML='';});
+  dlg.addEventListener('click',e=>{if(e.target===dlg)close();});}
+ subs.push(renderSlider);
+
+ /* ---------- admin ---------- */
+ let ty='quote',editing=null,sure=null;const form=$('#admform');
+ const FIELDS={quote:['label','text','orig','by'],video:['url','label','title','text'],note:['label','title','text','link','cta']};
+ const TL={quote:'Quote',video:'One line about the video (optional)',note:'Text'};
+ function setType(x){ty=x;$$('.admtypes button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===x));
+  $$('#admform [data-f]').forEach(l=>l.hidden=!FIELDS[x].includes(l.dataset.f));$('#admtextl').textContent=TL[x];preview();}
+ function read(){const f=new FormData(form);const o={type:ty,on:form.on.checked};FIELDS[ty].forEach(k=>{o[k]=String(f.get(k)||'').trim();});return o;}
+ function check(o){if(o.type==='video'&&!ytId(o.url))return 'Paste a YouTube link, for example https://www.youtube.com/watch?v=…';if(o.type==='quote'&&!o.text)return 'Write the quote.';if(o.type==='note'&&!o.title)return 'Give the notice a title.';if(o.link&&!safeUrl(o.link))return 'The link must start with # or https://';return '';}
+ function preview(){const p=$('#admprev');if(!p)return;const o=read();p.innerHTML=card(o)||'<p class="muted">The preview appears when the card has enough to show.</p>';}
+ function resetForm(){editing=null;form.reset();form.on.checked=true;$('#admftitle').textContent='New card';$('#admsave').textContent='Add to slider';$('#admcancel').hidden=true;$('#admerr').hidden=true;setType('quote');}
+ function edit(it){editing=it;form.reset();setType(it.type||'quote');['label','url','title','text','orig','by','link','cta'].forEach(k=>{if(form[k])form[k].value=it[k]||'';});form.on.checked=it.on!==false;
+  $('#admftitle').textContent='Editing a card';$('#admsave').textContent='Save changes';$('#admcancel').hidden=false;preview();form.scrollIntoView({behavior:'smooth',block:'start'});}
+ const live=()=>(all||[]).slice().sort((a,b)=>(a.order||0)-(b.order||0));
+ function renderAdmin(){if(!form||$('#s-admin').hidden)return;const ok=be&&be.isAdmin();
+  const who=be?be.who():'';const W=$('#admwho');
+  if(!be)W.textContent='Checking access…';
+  else if(be.name==='local')W.textContent='No database is connected yet, so changes stay in this browser only. Use Export JSON to keep them, or connect Firebase to publish for everyone.';
+  else if(be.name==='firebase')W.textContent=ok?`Signed in as ${who}. Changes go live for every visitor.`:who?`${who} is not on the admin list.`:'Sign in with an admin Google account to edit the slider.';
+  else W.textContent=ok?'You own this page. Changes go live for every visitor.':'Only the owner of this page can edit the slider.';
+  $('#admin-in').hidden=!(be&&be.signIn&&!who);$('#admin-out').hidden=!(be&&be.signOut&&who);
+  $('#admexport').hidden=!(be&&be.name==='local');$('#admseed').hidden=!(ok&&!(all&&all.length));
+  $('#admbody').hidden=!ok;
+  const L=live();const list=$('#admlist');
+  if(!ok){list.innerHTML='';return;}
+  list.innerHTML=(L.length?`<span class="label">${L.length} cards · top of the list shows first</span>`:`<p class="muted">The slider is showing the six starter cards. Add your own, or add the starter cards here to edit them.</p>`)+
+   L.map((it,i)=>`<div class="card admitem${it.on===false?' off':''}" data-id="${esc(it.id)}" data-noi18n><div class="ttl"><small>${esc({quote:'Quote',video:'Video',note:'Notice'}[it.type]||it.type)}${it.on===false?' · hidden':''}</small><b>${esc(it.title||it.text||it.url||'')}</b></div><div class="acts"><button type="button" data-a="up" aria-label="Move up" ${i?'':'disabled'}>↑</button><button type="button" data-a="down" aria-label="Move down" ${i<L.length-1?'':'disabled'}>↓</button><button type="button" data-a="vis">${it.on===false?'Show':'Hide'}</button><button type="button" data-a="edit">Edit</button><button type="button" data-a="del" class="warn">${sure===it.id?'Sure? Delete':'Delete'}</button></div></div>`).join('');}
+ subs.push(renderAdmin);
+ const strip=o=>{const c={...o};delete c.id;return c;};
+ async function run(p){try{await p;}catch(e){console.warn(e);toast('That did not save. Check your access and try again.');}}
+ if(form){
+  $$('.admtypes button').forEach(b=>b.onclick=()=>setType(b.dataset.t));
+  form.addEventListener('input',preview);
+  form.addEventListener('submit',async e=>{e.preventDefault();const o=read();const err=check(o);const E=$('#admerr');E.hidden=!err;E.textContent=err;if(err)return;
+   const L=live();const keep=editing?{...editing}:{};['label','url','title','text','orig','by','link','cta'].forEach(k=>delete keep[k]);
+   const d={...keep,...o,order:editing?editing.order:(L.length?Math.max(...L.map(x=>x.order||0))+1:1),at:Date.now()};
+   const id=editing?editing.id:be.newId();await run(be.save(id,strip(d)));toast(editing?'Saved':'Added to the slider');resetForm();});
+  $('#admcancel').onclick=resetForm;
+  $('#admlist').addEventListener('click',async e=>{const b=e.target.closest('button[data-a]');if(!b)return;const row=b.closest('[data-id]');const L=live();const i=L.findIndex(x=>x.id===row.dataset.id);const it=L[i];if(!it)return;const a=b.dataset.a;
+   if(a==='edit')return edit(it);
+   if(a==='del'){if(sure!==it.id){sure=it.id;renderAdmin();setTimeout(()=>{if(sure===it.id){sure=null;renderAdmin();}},4000);return;}sure=null;await run(be.remove(it.id));if(editing&&editing.id===it.id)resetForm();return;}
+   if(a==='vis')return run(be.save(it.id,strip({...it,on:it.on===false})));
+   const j=a==='up'?i-1:i+1;const o2=L[j];if(!o2)return;const oa=it.order||i+1,ob=o2.order||j+1;
+   await run(be.save(it.id,strip({...it,order:ob===oa?oa+(a==='up'?-1:1):ob})));await run(be.save(o2.id,strip({...o2,order:oa})));});
+  $('#admseed').onclick=async()=>{for(const d of DEF){await run(be.save(be.newId(),strip(d)));}toast('Starter cards added');};
+  $('#admin-in').onclick=()=>be&&be.signIn&&be.signIn().catch(e=>toast('Sign in did not finish.'));
+  $('#admin-out').onclick=()=>be&&be.signOut&&be.signOut();
+  $('#admexport').onclick=()=>{const blob=new Blob([JSON.stringify(live(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='slider-cards.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);};
+  setType('quote');}
+ window.renderAdmin=renderAdmin;
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else setTimeout(start,0);
+ renderSlider();
+})();
+
+/*/FEEDJ*/
 /* =================== ROUTER =================== */
 (function(){const home=$('#home'),screens=$$('.screen');const spread=()=>$('#spread');let homeY=0,onHome=true;
  addEventListener('scroll',()=>{if(onHome)homeY=scrollY},{passive:true});
  function route(){let h=(location.hash||'#home').slice(1);let screen=null,place=null;
-  let vih=null;if(h.startsWith('place-')){screen='s-place';place=h.slice(6);}else if(h.startsWith('vihara-')){screen='s-vihara';vih=h.slice(7);}else if(h.startsWith('course-')){screen='s-course';}else if(h.startsWith('teacher-')){screen='s-teacher';}else if(h.startsWith('dashboard')){screen='s-dashboard';}else if(h==='sessions'||h==='courses'){screen='s-courses';}else if(['map','question','archive','learn','councils','streams','connections','journey','viharas','expert'].includes(h))screen='s-'+h;
+  let vih=null;if(h.startsWith('place-')){screen='s-place';place=h.slice(6);}else if(h.startsWith('vihara-')){screen='s-vihara';vih=h.slice(7);}else if(h.startsWith('course-')){screen='s-course';}else if(h.startsWith('teacher-')){screen='s-teacher';}else if(h.startsWith('dashboard')){screen='s-dashboard';}else if(h==='sessions'||h==='courses'){screen='s-courses';}else if(['map','question','archive','learn','councils','streams','connections','journey','viharas','expert','admin'].includes(h))screen='s-'+h;
   const wasHome=onHome;onHome=!screen;
   screens.forEach(s=>s.hidden=s.id!==screen);home.hidden=!!screen;
   $$('.smnav a').forEach(a=>a.classList.toggle('on',a.dataset.r===h||(a.dataset.r==='courses'&&/^(sessions|course-|teacher-)/.test(h))||(h.startsWith('place-')&&a.dataset.r==='map')||(h.startsWith('vihara-')&&a.dataset.r==='viharas')));
   const sp=spread();if(sp){if(screen==='s-map')$('#mapSlot').appendChild(sp);else if(sp.parentNode!==$('#homeMapSlot'))$('#homeMapSlot').appendChild(sp);}
   if(screen){scrollTo({top:0,behavior:'instant'});
-   if(place)renderPlace(place);if(vih)renderVihara(vih);if(screen==='s-viharas'&&RENDER.viharas)RENDER.viharas();if(screen==='s-question')renderQuestion();if(screen==='s-archive')renderArchive();if(screen==='s-connections')renderConnections();if(screen==='s-journey')renderJourney();if(screen==='s-councils'&&window.renderCouncils)renderCouncils();if(screen==='s-learn'&&window.renderLearn)renderLearn();if(screen==='s-courses')renderCourses();if(screen==='s-course')renderCourse(h.slice(7));if(screen==='s-teacher')renderTeacher(h.slice(8));if(screen==='s-dashboard')renderDash(h==='dashboard'?'':h.slice(10));if(screen==='s-expert')renderExpertGate();}
+   if(place)renderPlace(place);if(vih)renderVihara(vih);if(screen==='s-viharas'&&RENDER.viharas)RENDER.viharas();if(screen==='s-question')renderQuestion();if(screen==='s-archive')renderArchive();if(screen==='s-connections')renderConnections();if(screen==='s-journey')renderJourney();if(screen==='s-councils'&&window.renderCouncils)renderCouncils();if(screen==='s-admin'&&window.renderAdmin)renderAdmin();if(screen==='s-learn'&&window.renderLearn)renderLearn();if(screen==='s-courses')renderCourses();if(screen==='s-course')renderCourse(h.slice(7));if(screen==='s-teacher')renderTeacher(h.slice(8));if(screen==='s-dashboard')renderDash(h==='dashboard'?'':h.slice(10));if(screen==='s-expert')renderExpertGate();}
   else{window.__snap3d=true;
    if(h!=='home'){const el=document.getElementById(h);if(el)requestAnimationFrame(()=>el.scrollIntoView({behavior:'instant'}));}
    else if(!wasHome){requestAnimationFrame(()=>scrollTo({top:homeY,behavior:'instant'}));}
@@ -2647,7 +2876,7 @@ window.BD_API=window.BD_API||(function(){
  scan(document);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)scan(n);}))).observe(document.documentElement,{childList:true,subtree:true});})();
 /* =================== BACK + JOIN =================== */
 (function(){const stack=[];const bb=$('#backBtn');
- function track(){const h=(location.hash||'#home').slice(1)||'home';const isHome=!(/^(place|vihara|course|teacher|dashboard)/.test(h)||['map','question','archive','learn','sessions','courses','expert','councils','streams','connections','journey','viharas'].includes(h));
+ function track(){const h=(location.hash||'#home').slice(1)||'home';const isHome=!(/^(place|vihara|course|teacher|dashboard)/.test(h)||['map','question','archive','learn','sessions','courses','expert','councils','streams','connections','journey','viharas','admin'].includes(h));
   if(stack.length>1&&stack[stack.length-2]===h)stack.pop();else if(stack[stack.length-1]!==h)stack.push(h);
   bb.hidden=isHome;}
  window.goBack=()=>{if(stack.length>1)history.back();else location.hash='home';};
