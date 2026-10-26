@@ -2498,7 +2498,10 @@ window.BD_API=window.BD_API||(function(){
 
  /* ---------- data: one store, three possible backends ---------- */
  let be=null,all=null;const subs=[];
- const shown=()=>((all&&all.length)?all:DEF).filter(x=>x.on!==false).sort((a,b)=>(a.order||0)-(b.order||0));
+ const MIN=6;const byOrder=(a,b)=>(a.order||0)-(b.order||0);
+ /* your cards first; starter cards fill the slider until you have six of your own */
+ const own=()=>(all||[]).filter(x=>x.on!==false).sort(byOrder);
+ const shown=()=>{const o=own();return o.length>=MIN?o:[...o,...DEF.slice(0,MIN-o.length)];};
  const notify=()=>subs.forEach(f=>f());
  function localBackend(){const K='bd_feed_local';const rd=()=>{try{return JSON.parse(localStorage.getItem(K)||'null');}catch(e){return null;}};let cb=null;
   const wr=a=>{try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}cb&&cb(a);};
@@ -2567,7 +2570,7 @@ window.BD_API=window.BD_API||(function(){
   $('#admbody').hidden=!ok;
   const L=live();const list=$('#admlist');
   if(!ok){list.innerHTML='';return;}
-  list.innerHTML=(L.length?`<span class="label">${L.length} cards · top of the list shows first</span>`:`<p class="muted">The slider is showing the six starter cards. Add your own, or add the starter cards here to edit them.</p>`)+
+  list.innerHTML=(()=>{const n=Math.max(0,MIN-own().length);return n?`<p class="muted">Your cards show first. ${n} starter card${n>1?'s':''} fill the rest of the slider until you have ${MIN} of your own.</p>`:'';})()+(L.length?`<span class="label">${L.length} card${L.length>1?"s":""} · top of the list shows first</span>`:`<p class="muted">No cards of your own yet. Add one above, or press Add the starter cards to edit them here.</p>`)+
    L.map((it,i)=>`<div class="card admitem${it.on===false?' off':''}" data-id="${esc(it.id)}" data-noi18n><div class="ttl"><small>${esc({quote:'Quote',video:'Video',note:'Notice'}[it.type]||it.type)}${it.on===false?' · hidden':''}</small><b>${esc(it.title||it.text||it.url||'')}</b></div><div class="acts"><button type="button" data-a="up" aria-label="Move up" ${i?'':'disabled'}>↑</button><button type="button" data-a="down" aria-label="Move down" ${i<L.length-1?'':'disabled'}>↓</button><button type="button" data-a="vis">${it.on===false?'Show':'Hide'}</button><button type="button" data-a="edit">Edit</button><button type="button" data-a="del" class="warn">${sure===it.id?'Sure? Delete':'Delete'}</button></div></div>`).join('');}
  subs.push(renderAdmin);
  const strip=o=>{const c={...o};delete c.id;return c;};
