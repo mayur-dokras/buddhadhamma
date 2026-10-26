@@ -8354,5 +8354,13 @@
 "Pāli as printed today in Roman letters with marks, the system of the Pali Text Society. Pāli has no ś, ṣ, ai or au, so these become s, s, e and o.": [
 "आज रोमन अक्षरों में चिह्नों सहित छपने वाली पालि, पालि टेक्स्ट सोसाइटी की पद्धति। पालि में ś, ṣ, ai और au नहीं हैं, इसलिए ये s, s, e और o बन जाते हैं।",
 "आज रोमन अक्षरांत चिन्हांसह छापली जाणारी पाली, पाली टेक्स्ट सोसायटीची पद्धत. पालीत ś, ṣ, ai आणि au नाहीत, म्हणून ते s, s, e आणि o होतात."
+],
+"In English, write long vowels twice: aa, ee, oo. A name keeps its final a, as Hindi and Marathi do, so “Mayur” is read ma-yu-ra. For the exact spelling type it in Hindi or Marathi: मयूर gives ma-yū-ra.": [
+"अंग्रेज़ी में दीर्घ स्वर दो बार लिखें: aa, ee, oo। हिंदी और मराठी की तरह नाम का अंतिम अ बना रहता है, इसलिए “Mayur” को म-यु-र पढ़ा जाता है। सटीक वर्तनी के लिए हिंदी या मराठी में लिखें: मयूर से म-यू-र मिलता है।",
+"इंग्रजीत दीर्घ स्वर दोनदा लिहा: aa, ee, oo. हिंदी आणि मराठीप्रमाणे नावाचा शेवटचा अ कायम राहतो, म्हणून “Mayur” म-यु-र असे वाचले जाते. अचूक लेखनासाठी हिंदी किंवा मराठीत लिहा: मयूर पासून म-यू-र मिळते."
+],
+"For Pāli lines, type the marks so endings stay right, for example": [
+"पालि पंक्तियों के लिए चिह्नों के साथ लिखें ताकि अंत सही रहें, जैसे",
+"पाली ओळींसाठी चिन्हांसह लिहा म्हणजे शेवट बरोबर राहतील, उदा."
 ]
 }

@@ -354,7 +354,9 @@ html:lang(hi) h1,html:lang(mr) h1,html:lang(hi) h2,html:lang(mr) h2,html:lang(hi
 .mud .photo img,.bigpic .photo img{object-position:50% 25%}
 @media (max-width:560px){.nav a.mapl{display:none}.nav a.journey{font-size:0;gap:0;padding:10px 11px}.nav a.journey i{width:9px;height:9px}.lang button{padding:5px 7px;font-size:12px;min-height:30px}.brand{font-size:18px}.topr{gap:5px}}
 input,textarea,select{color:var(--ink)!important;-webkit-text-fill-color:var(--ink);background:#fff;caret-color:var(--gold)}
-input::placeholder{color:var(--dim);-webkit-text-fill-color:var(--dim)}
+input::placeholder,textarea::placeholder{color:var(--dim);-webkit-text-fill-color:var(--dim);opacity:1}
+.convout.empty{color:var(--dim);opacity:.5}
+.convmeta [hidden],.convall[hidden]{display:none!important}
 .photo{position:relative;overflow:hidden;background:var(--soft)}
 .photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .photo.contain img{object-fit:contain;background:#fff}
@@ -1335,8 +1337,8 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
       <details class="ctips"><summary>How the reading works</summary>
         <ul>
           <li>Typing in हिंदी or मराठी gives the most exact result, because those letters map one to one onto the old scripts.</li>
-          <li>In English, write long vowels twice, aa, ee, oo. “Meera” becomes mīra; type मीरा for mīrā.</li>
-          <li>You can also type Pāli with its marks, for example <i>dhammaṃ saraṇaṃ gacchāmi</i>.</li>
+          <li>In English, write long vowels twice, aa, ee, oo. A name keeps its final a, as Hindi and Marathi do, so “Mayur” is read ma-yu-ra. For the exact spelling type it in Hindi or Marathi, मयूर gives ma-yū-ra.</li>
+          <li>For Pāli lines, type the marks so endings stay right, for example <i>dhammaṃ saraṇaṃ gacchāmi</i>.</li>
           <li>Paste letters in Dhamma Lipi, Kharoṣṭhī, Siddham, Sinhala, Burmese, Thai or Devanāgarī and the page reads them back.</li>
           <li>This changes the script, not the language. It does not translate English into Pāli.</li>
         </ul>
@@ -1662,6 +1664,8 @@ const SCRIPT=(()=>{
   let t=s.toLowerCase().normalize('NFC').replace(/[^a-zāīūṛṭḍṇñṅśṣṃṁḥḷ\s.,'’-]/g,'');
   t=t.replace(/cch/g,'ĉĉh').replace(/chh/g,'ĉh').replace(/ch/g,'ĉ').replace(/sh/g,'ś').replace(/ck/g,'k').replace(/c/g,'k').replace(/ĉ/g,'c')
    .replace(/aa/g,'ā').replace(/ee|ii/g,'ī').replace(/oo|uu/g,'ū').replace(/f/g,'ph').replace(/z/g,'j').replace(/x/g,'kṣ').replace(/q/g,'k').replace(/w/g,'v');
+  // Indian names written in English drop the final a that Hindi, Marathi and Pāli keep (Mayur is मयूर, ma-yū-ra): restore it
+  t=t.replace(/([kgṅcjñṭḍṇtdnpbmyrlvśṣsḷ]h?)(?=$|[\s.,'’-])/g,'$1a');
   return t;}
  /* reading any supported script back into sounds */
  const REV={};
@@ -2152,7 +2156,7 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
  function run(){const v=nm.value.trim();const d=S[cur];
   const r=v?SCRIPT.convert(v,cur):{text:'',iast:'',from:'english',approx:false};
   $('#cname').textContent=t(d.name)+(d.alt?' · '+t(d.alt):'');
-  const out=$('#nmout');out.textContent=r.text||'…';out.style.fontFamily=fontOf(cur);out.dir=d.dir;out.classList.toggle('roman',!!d.roman);
+  const out=$('#nmout');out.textContent=r.text||'…';out.classList.toggle('empty',!r.text);$('#cfrom').hidden=!v;$('.convall').hidden=!v;out.style.fontFamily=fontOf(cur);out.dir=d.dir;out.classList.toggle('roman',!!d.roman);
   $('#cfrom').textContent=t('Reading as')+' · '+t(FROM[r.from]||r.from);
   $('#cread').textContent=r.iast?t('Sounds')+': '+r.iast:'';
   const ap=$('#capprox');ap.hidden=!r.approx;
