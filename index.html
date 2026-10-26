@@ -430,6 +430,10 @@ input::placeholder,textarea::placeholder{color:var(--dim);-webkit-text-fill-colo
 #lb .x{position:fixed;top:16px;right:18px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;opacity:0;transition:opacity .3s}
 #lb.open .x{opacity:1}
 /* mahaviharas */
+.vhstrip .vcard{flex:0 0 270px;transition:border-color .3s}.vhstrip.drag .vcard{pointer-events:none}.vhstrip .vcard img{-webkit-user-drag:none;user-select:none}
+.vhnote{font-size:14.5px;margin:-6px 0 6px}
+@media (max-width:700px){.vhstrip .vcard{flex-basis:78vw;max-width:300px}}
+.vgrp{display:flex;flex-direction:column;gap:4px;margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule)}.vgrp p{margin:0;font-size:14.5px}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
 .vcard{display:flex;flex-direction:column;gap:8px;padding:12px 12px 16px;color:inherit;text-decoration:none;transition:transform .3s,border-color .3s}
 .vcard:hover{transform:translateY(-3px);border-color:rgba(194,138,44,.55)}
@@ -1230,7 +1234,8 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
       <div><span class="label">The great libraries · 18 centres</span><h2>Where Asia came to <em>study.</em></h2></div>
       <p class="side">From Taxila to Sumatra, eighteen great monasteries taught grammar, logic, medicine and the Dharma for 1,700 years. See what survives, how big they were, and how they ended.</p>
     </div>
-    <div class="vgrid" id="vihHome"></div>
+    <p class="muted vhnote">Oldest first, from Takṣaśilā to Jagaddala. Swipe or drag through all eighteen and tap one to step inside.</p>
+    <div class="mudras vhstrip" id="vihStrip"><div class="mtrack" id="vihHome"></div></div>
     <div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn primary" href="#viharas">Explore all 18 →</a><a class="btn" href="#vihara-nalanda">Open Nālandā</a></div>
   </div>
 </section>
@@ -2004,6 +2009,19 @@ const EDGES=[['ashoka','sarnath','set up a pillar at'],['ashoka','mauryan','rule
 const TPC={};function TPAT(en,d){const l=LANG.cur;if(!TPC[l])TPC[l]=((window.I18N&&I18N.pat)||[]).map(p=>[new RegExp(p[0]),l==='hi'?p[1]:p[2]]);for(const [re,tpl] of TPC[l]){const m=en.match(re);if(m){const r=tpl.replace(/\{(\d)\}/g,(_,i)=>T(m[i])).replace(/\$(\d)/g,(_,i)=>m[i]);return r;}}if(en.includes(' · ')){const parts=en.split(' · ');const tr=parts.map(x=>d[x]||x);if(tr.some((x,i)=>x!==parts[i]))return tr.join(' · ');}return null;}
 const T=en=>{if(LANG.cur==='en'||en==null)return en;const d=window.I18N&&I18N[LANG.cur];if(!d)return en;if(d[en])return d[en];const k=String(en).trim().replace(/\s+/g,' ');return d[k]||TPAT(k,d)||en;};window.T=T;window.PH=PH;
 const RENDER={};
+/* endless marquee: JS-driven so it never runs out, pauses on hover, can be dragged/swiped */
+window.MARQUEE=function(box,tr,sel,onPick){const still=matchMedia('(prefers-reduced-motion · reduce)').matches;let x=0,last=0,hover=false,drag=null,moved=false;
+ box.addEventListener('scroll',()=>{box.scrollLeft=0;});
+ box.addEventListener('mouseenter',()=>hover=true);box.addEventListener('mouseleave',()=>hover=false);
+ box.addEventListener('dragstart',e=>e.preventDefault());
+ box.addEventListener('pointerdown',e=>{drag={x0:e.clientX,s:x,id:e.pointerId};moved=false;});
+ addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const d=e.clientX-drag.x0;if(Math.abs(d)>6&&!moved){moved=true;box.classList.add('drag');}if(moved)x=drag.s+d;});
+ addEventListener('pointerup',()=>{if(drag){drag=null;setTimeout(()=>box.classList.remove('drag'),0);}});addEventListener('pointercancel',()=>{drag=null;box.classList.remove('drag');});
+ box.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+ if(sel&&onPick)tr.addEventListener('click',e=>{if(e.target.closest(sel))onPick();});
+ (function tick(t){const dt=last?Math.min(64,t-last):0;last=t;const half=(tr.scrollWidth+16)/3;
+  if(!hover&&!drag&&!still&&!document.hidden&&box.offsetParent)x-=dt*0.035;
+  if(half>50){x%=half;if(x>0)x-=half;}tr.style.transform=`translate3d(${x}px,0,0)`;requestAnimationFrame(tick);})(0);};
 RENDER.mudras=(function(){const tr=$('#mtrack'),det=$('#mdetail');let cur=0;
  const UM=['bhumisparsha','varada','abhaya','dhyana','dharmachakra','vitarka','anjali','uttarabodhi','karana'];
  const MIMG=(m,cls,alt)=>UM.includes(m[0])?`<div class="photo ${cls} uimg"><img src="img/u_${m[0]}.jpg" alt="${esc(alt)}" loading="lazy" decoding="async"><span class="cr">${T('Illustration')} · BuddhDhamma.in</span></div>`:PH(MUDPH[m[0]],cls,alt);
@@ -2015,18 +2033,7 @@ RENDER.mudras=(function(){const tr=$('#mtrack'),det=$('#mdetail');let cur=0;
  tr.addEventListener('click',e=>{const b=e.target.closest('.mud');if(b)show(+b.dataset.k)});
  det.addEventListener('click',e=>{const b=e.target.closest('[data-step]');if(b)show((cur+ +b.dataset.step+MUDRAS.length)%MUDRAS.length)});
  function render(){tr.innerHTML=MUDRAS.map(card).join('').repeat(3);show(cur);}
- /* endless marquee: JS-driven so it never runs out, pauses on hover, can be dragged/swiped */
- const box=$('#mudrastrip');const still=matchMedia('(prefers-reduced-motion · reduce)').matches;let x=0,last=0,hover=false,drag=null,moved=false;
- box.addEventListener('scroll',()=>{box.scrollLeft=0;});
- box.addEventListener('mouseenter',()=>hover=true);box.addEventListener('mouseleave',()=>hover=false);
- box.addEventListener('pointerdown',e=>{drag={x0:e.clientX,s:x,id:e.pointerId};moved=false;});
- addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const d=e.clientX-drag.x0;if(Math.abs(d)>6&&!moved){moved=true;box.classList.add('drag');}if(moved)x=drag.s+d;});
- addEventListener('pointerup',()=>{if(drag){drag=null;setTimeout(()=>box.classList.remove('drag'),0);}});addEventListener('pointercancel',()=>{drag=null;box.classList.remove('drag');});
- box.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
- tr.addEventListener('click',e=>{const b=e.target.closest('.mud');if(b){$('#mdetail').scrollIntoView({behavior:'smooth',block:'nearest'});}});
- (function tick(t){const dt=last?Math.min(64,t-last):0;last=t;const half=(tr.scrollWidth+16)/3;
-  if(!hover&&!drag&&!still&&!document.hidden)x-=dt*0.035;
-  if(half>50){x%=half;if(x>0)x-=half;}tr.style.transform=`translate3d(${x}px,0,0)`;requestAnimationFrame(tick);})(0);
+ MARQUEE($('#mudrastrip'),tr,'.mud',()=>$('#mdetail').scrollIntoView({behavior:'smooth',block:'nearest'}));
  render();return render;})();
 
 /* =================== HOME: inscription =================== */
@@ -2151,7 +2158,7 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
  function close(){if(!src||busy)return;busy=true;const img=src;const tw=parseFloat(im.style.width),th=parseFloat(im.style.height);const r=img.getBoundingClientRect();
   const [t0,c0]=startT(r,tw,th);lb.classList.remove('open');im.style.transform=t0;im.style.clipPath=c0;
   setTimeout(()=>{img.style.visibility='';lb.classList.remove('on');lb.setAttribute('aria-hidden','true');src=null;busy=false;},430);}
- document.addEventListener('click',e=>{const img=e.target.closest&&e.target.closest('.photo img, img.zoomable');if(!img||img.closest('#reader,#lb,button,[role=button]'))return;e.preventDefault();e.stopPropagation();open(img);},true);
+ document.addEventListener('click',e=>{const img=e.target.closest&&e.target.closest('.photo img, img.zoomable');if(!img||img.closest('#reader,#lb,button,[role=button],a[href^="#"]'))return;e.preventDefault();e.stopPropagation();open(img);},true);
  lb.addEventListener('click',close);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&src)close();});
  addEventListener('scroll',()=>{if(src&&!busy)close();},{passive:true});addEventListener('hashchange',()=>{if(src){src.style.visibility='';lb.classList.remove('on','open');src=null;}});
 })();
@@ -2573,10 +2580,11 @@ window.BD_API=window.BD_API||(function(){
  const AI=(f,cap)=>`<div class="photo"><img src="img/${f}.jpg" alt="${esc(T(cap))}" loading="lazy" decoding="async"></div>`;
  const VI=window.VIH_IMG||{V:{},S:{}};const vimg=(k,alt)=>`<div class="photo"><img src="img/vh/${k}.webp" alt="${esc(T(alt))}" loading="lazy" decoding="async"></div>`;
  const vhero=v=>{const x=VI.V[v.id];if(!x)return null;const h=x.views.find(o=>o.k===x.hero)||x.views[0];return h;};
+ const vyear=t=>{let m=t.match(/(\d+)(?:st|nd|rd|th) century( BCE)?/);if(m)return (m[2]?-1:1)*((+m[1]-1)*100+50);m=t.match(/(\d{2,4})(?:[–-]\d+)?\s*(BCE|CE)?\s*$/);if(m&&(m[2]||+m[1]>999))return m[2]==='BCE'?-m[1]:+m[1];return null;};
  const PHn=(i,c,a)=>PH(i,c,a).replace(/<a\b[^>]*>/g,'<span>').replace(/<\/a>/g,'</span>');const fy=y=>y<0?(-y)+' BCE':y+' CE';
  function pic(v,big){const hv=vhero(v);if(hv)return vimg(hv.k,hv.t);if(v.ai&&v.ai.length)return AI(v.ai[0][0],v.ai[0][1]);if(v.ph&&v.ph.length)return PHn(v.ph[0],'',v.n);return `<div class="vplan">${PLAN}<span>${T('Reconstruction in preparation')}</span></div>`;}
  const card=v=>`<a class="card vcard" href="#vihara-${v.id}"><div class="pic">${pic(v)}<span class="vst">${T(v.st)}</span></div><h3>${esc(T(v.n))}${v.en&&v.en!==v.n?` <span class="muted" style="font-size:15px;font-family:var(--sans)">${esc(T(v.en))}</span>`:''}</h3><span class="vmeta">${esc(T(v.loc))} · ${esc(T(v.c))}</span><span class="vmeta">${esc(T(v.d))}</span><div class="vtags">${v.sub.slice(0,4).map(x=>`<span>${esc(T(x))}</span>`).join('')}</div></a>`;
- function home(){const el=$('#vihHome');if(!el)return;el.innerHTML=['nalanda','vikramashila','taxila','mahavihara'].map(byId).filter(Boolean).map(card).join('');}
+ function home(){const el=$('#vihHome');if(!el)return;el.innerHTML=[...V].sort((a,b)=>a.f-b.f).map(card).join('').repeat(3);if(!home.on){home.on=1;MARQUEE($('#vihStrip'),el);}}
  let fc='',fs='';
  function timeline(){const W=1000,L=170,R=20,top=26,rh=21,y0=-500,y1=1300,X=y=>L+(y-y0)/(y1-y0)*(W-L-R);const S=[...V].sort((a,b)=>a.f-b.f);const H=top+S.length*rh+10;
   let g=`<rect x="${X(1193)}" y="${top-6}" width="${X(1207)-X(1193)+3}" height="${S.length*rh+4}" fill="rgba(160,60,40,.12)"/><text x="${X(1200)}" y="${top-10}" text-anchor="middle" font-size="10.5" font-family="JetBrains Mono" fill="rgba(140,50,30,.8)">${T('raids')} 1193–1207</text>`;
@@ -2600,8 +2608,12 @@ window.BD_API=window.BD_API||(function(){
   const hv=vhero(v),xv=VI.V[v.id];
   const srcl=o=>`<ol class="vsrcs">${o.s.map(k=>VI.S[k]).filter(Boolean).map(r=>`<li><a href="${r[1]}" target="_blank" rel="noopener">${esc(T(r[0]))}</a></li>`).join('')}</ol>`;
   const tags=o=>`<div class="vtags2"><span class="vst2">${T('Reconstruction')}</span><span class="badge">${T(BADGE[o.b]||BADGE.recon)}</span></div>`;
-  const rest=xv?xv.views.filter(o=>o!==hv):[];
-  const views=rest.length?`<div class="vviews"><span class="label">${T('Reconstructions')} · ${rest.length+1} ${T('views')}</span>${rest.map((o,j)=>`<div class="vrow">${vimg(o.k,o.t)}<div class="vtxt"><span class="vno">${T('View')} ${j+2} / ${rest.length+1}</span><h3>${esc(T(o.t))}</h3>${tags(o)}<p>${esc(T(o.d))}</p>${srcl(o)}</div></div>`).join('')}</div>`:'';
+  const raw=xv?xv.views.filter(o=>o!==hv):[];
+  /* order: the place first (undated views), then moments in time from oldest to newest */
+  const site=raw.filter(o=>vyear(o.t)===null),time=raw.filter(o=>vyear(o.t)!==null).sort((a,b)=>vyear(a.t)-vyear(b.t)),rest=[...site,...time];
+  const vrow=(o,j)=>`<div class="vrow">${vimg(o.k,o.t)}<div class="vtxt"><span class="vno">${T('View')} ${j+2} / ${rest.length+1}</span><h3>${esc(T(o.t))}</h3>${tags(o)}<p>${esc(T(o.d))}</p>${srcl(o)}</div></div>`;
+  const grp=(h,sub,arr,off)=>arr.length?`<div class="vgrp"><span class="label lit">${T(h)}</span><p class="muted">${T(sub)}</p></div>${arr.map((o,j)=>vrow(o,j+off)).join('')}`:'';
+  const views=rest.length?`<div class="vviews"><span class="label">${T('Reconstructions')} · ${rest.length+1} ${T('views')}</span>${grp('Walk the site','The buildings and the life inside them.',site,0)}${grp('Through the centuries','Moments from its history, oldest first.',time,site.length)}</div>`:'';
   const herocap=hv?`<div class="vherocap"><div><span class="vno" style="font:12px var(--mono);color:var(--dim)">${T('View')} 1 / ${rest.length+1}</span><h3>${esc(T(hv.t))}</h3></div><div style="display:flex;flex-direction:column;gap:10px">${tags(hv)}<p>${esc(T(hv.d))}</p>${srcl(hv)}</div></div>`:'';
   const hero=hv?vimg(hv.k,hv.t):v.ai&&v.ai.length?AI(v.ai[0][0],v.ai[0][1]):(v.ph&&v.ph.length?PH(v.ph[0],'',v.n):`<div class="vplan">${PLAN}<span>${T('Reconstruction in preparation')}</span></div>`);
   const gal=hv?(v.ph||[]).map(p=>PH(p,'',v.n)):[...(v.ai||[]).slice(1).map(a=>AI(a[0],a[1])),...(v.ph||[]).slice(v.ai&&v.ai.length?0:1).map(p=>PH(p,'',v.n))];
