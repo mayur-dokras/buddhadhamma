@@ -870,6 +870,43 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
  .crumbs a{padding:8px 0}
  .zoomctl button{width:40px;height:40px}
 }
+/* ---------- learn: script converter ---------- */
+.scrsel{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.scrsel button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:14px;border:1px solid var(--rule);background:var(--surface);min-height:52px;transition:border-color .2s}
+.scrsel button:hover{border-color:var(--gold)}
+.scrsel button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.scrsel .sg{font-size:22px;line-height:1.3;min-width:44px;text-align:center;color:var(--lamp)}
+.scrsel button[aria-selected="true"] .sg{color:var(--gold2)}
+.scrsel .sn{display:flex;flex-direction:column;line-height:1.2}.scrsel .sn b{font-size:14px;font-weight:600}.scrsel .sn small{font-size:11.5px;opacity:.65}
+.conv{padding:clamp(18px,2.4vw,28px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px 28px;margin-bottom:18px}
+.convin{display:flex;flex-direction:column;gap:10px}
+.conv .namein{min-height:96px;padding:14px 16px;resize:vertical;line-height:1.45;font-size:18px}
+.convmeta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.convres{display:flex;flex-direction:column;gap:10px;min-width:0}
+.convhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.convout{font-size:clamp(40px,5vw,60px);line-height:1.45;color:var(--gold);min-height:90px;overflow-wrap:anywhere;padding:6px 0}
+.convout.roman{font-style:italic;font-size:clamp(34px,4vw,48px)}
+.capprox{margin:0;font-size:13px;color:#8A5C12;background:rgba(194,138,44,.12);border-radius:10px;padding:8px 12px}
+.cnote{margin:0;font-size:13.5px;line-height:1.55}
+.convall{grid-column:1/-1;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--rule);padding-top:16px}
+#convall{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+#convall button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:12px;background:var(--soft);min-width:0}
+#convall button:hover{background:#EFE6D3}
+#convall .cvn{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+#convall .cvv{font-size:24px;line-height:1.5;color:var(--ink);overflow-wrap:anywhere}
+.ctips{grid-column:1/-1;font-size:14px;color:var(--quiet)}
+.ctips summary{cursor:pointer;color:var(--lamp);font-weight:600;list-style:none}.ctips summary::-webkit-details-marker{display:none}
+.ctips ul{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.5}
+.lgrid{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)!important}
+.lsel{padding:22px;display:flex;flex-direction:column;gap:10px;position:sticky;top:96px}
+.syl{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))!important}
+.syl button.apx{opacity:.55;border-style:dashed}
+.syl button span{font-family:inherit}
+.bigg{font-family:inherit;min-height:150px;display:grid;place-items:center}
+@media (max-width:900px){.conv{grid-template-columns:1fr}.lgrid{grid-template-columns:1fr!important}.lsel{position:static}}
+@media (max-width:700px){.scrsel{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none;scroll-snap-type:x proximity}.scrsel::-webkit-scrollbar{display:none}.scrsel button{flex:none;scroll-snap-align:start}#convall{grid-template-columns:1fr 1fr}#convall .cvv{font-size:20px}.syl{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+.tile.tcourse .tdate{max-width:520px}
+@media (min-width:981px){.tile.tcourse{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:40px;align-content:start}.tile.tcourse>*{grid-column:1}.tile.tcourse .tdate{grid-column:2;grid-row:1/span 4;align-self:center;max-width:none;padding:22px 24px}.tile.tcourse .tdate b{font-size:44px;width:70px}.tile.tcourse .tdate strong{font-size:17px}}
 </style>
 
 <header class="top wrap">
@@ -947,12 +984,12 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
         <p>Dhamma Lipi writes syllables, not letters. Learn a few and you can read <i>budhe</i> on the real stone. Try writing your own name.</p>
         <span class="go">Start lesson 1 →</span>
       </a>
-      <a class="tile card" href="#courses">
-        <span class="label">Courses · taught by specialists</span>
-        <h3>Learn from those who <em>read the stones</em></h3>
-        <div class="tdate"><b>14</b><span><strong>Next course · 14 November</strong>Read your first Dhamma Lipi inscription</span></div>
-        <p>Courses by epigraphers, archaeologists and Pāli scholars, online and in person.</p>
-        <span class="go">Browse courses →</span>
+      <a class="tile card" href="#streams">
+        <span class="label">Traditions · as rivers</span>
+        <h3>Streams, not boxes</h3>
+        <svg viewBox="0 0 300 70" aria-hidden="true"><path d="M150 0 V18 C150 36 60 28 60 70" fill="none" stroke="#C2702C" stroke-width="5" stroke-linecap="round"/><path d="M150 18 C160 36 240 28 240 70" fill="none" stroke="#5F74A6" stroke-width="5" stroke-linecap="round"/><path d="M150 18 V70" fill="none" stroke="#6E8A55" stroke-width="5" stroke-linecap="round"/></svg>
+        <p>Theravāda, Mahāyāna and Vajrayāna drawn as rivers that branch, run side by side and meet, not as separate boxes.</p>
+        <span class="go">See how they flow →</span>
       </a>
       <a class="tile card" href="#archive">
         <span class="label">Archive · research mode</span>
@@ -961,12 +998,12 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
         <p>Excavation reports, inscriptions and catalogues, each with a citation you can copy.</p>
         <span class="go">Open the shelves →</span>
       </a>
-      <a class="tile card wide" href="#streams">
-        <span class="label">Traditions · as rivers</span>
-        <h3>Streams, not boxes</h3>
-        <svg viewBox="0 0 300 70" aria-hidden="true"><path d="M150 0 V18 C150 36 60 28 60 70" fill="none" stroke="#C2702C" stroke-width="5" stroke-linecap="round"/><path d="M150 18 C160 36 240 28 240 70" fill="none" stroke="#5F74A6" stroke-width="5" stroke-linecap="round"/><path d="M150 18 V70" fill="none" stroke="#6E8A55" stroke-width="5" stroke-linecap="round"/></svg>
-        <p>Theravāda, Mahāyāna and Vajrayāna drawn as rivers that branch, run side by side and meet, not as separate boxes.</p>
-        <span class="go">See how they flow →</span>
+      <a class="tile card wide tcourse" href="#courses">
+        <span class="label">Courses · taught by specialists</span>
+        <h3>Learn from those who <em>read the stones</em></h3>
+        <div class="tdate"><b>14</b><span><strong>Next course · 14 November</strong>Read your first Dhamma Lipi inscription</span></div>
+        <p>Courses by epigraphers, archaeologists and Pāli scholars, online and in person.</p>
+        <span class="go">Browse courses →</span>
       </a>
     </div>
   </div>
@@ -1129,33 +1166,55 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
 </section>
 
 <!-- ================= LEARN ================= -->
+<!--LEARNH-->
 <section class="screen wrap" id="s-learn" hidden aria-label="Learn">
   <div class="inner">
     <div class="crumbs"><a href="#home">Home</a><span class="sep">›</span><span>Learn</span></div>
-    <div class="pagehead"><div><span class="label lit">Learn · Dhamma Lipi lesson 1 of 3</span><h1>Read the <em>stones</em> yourself.</h1></div><p class="side">Dhamma Lipi writes syllables, not letters. Each consonant carries an "a"; small marks change the vowel. Tap a syllable to see it large.</p></div>
-    <div class="lgrid">
-      <div class="card" style="padding:22px;display:flex;flex-direction:column;gap:12px">
-        <span class="label">Write your name</span>
-        <label for="nm" class="muted" style="font-size:14px">Your name, in English letters</label>
-        <input class="namein" id="nm" value="Meera" autocomplete="off">
-        <div class="nameout" id="nmout" aria-live="polite"></div>
-        <p class="muted" style="font-size:13.5px">Split by sound, not spelling: "Meera" becomes mī·rā. Sounds Dhamma Lipi lacked (f, z) get the nearest letter.</p>
+    <div class="pagehead"><div><span class="label lit">Learn · scripts of the Buddhist world</span><h1>Read the <em>stones</em> yourself.</h1></div><p class="side">Write a name or a line in Dhamma Lipi, Pāli and the other scripts that carried the teaching. Paste letters from an inscription in any of them to read it back.</p></div>
+    <span class="label" style="display:block;margin-bottom:10px">Choose a script</span>
+    <div class="scrsel" id="scrsel" role="tablist" aria-label="Script"></div>
+    <div class="card conv">
+      <div class="convin">
+        <label class="label" for="nm">Type or paste</label>
+        <textarea class="namein" id="nm" rows="2" autocomplete="off" spellcheck="false" placeholder="A name or a line in English, हिंदी or मराठी, or letters from an inscription">Meera</textarea>
+        <div class="convmeta"><span class="pill" id="cfrom"></span><span class="ph" id="cread"></span></div>
       </div>
+      <div class="convres">
+        <div class="convhead"><span class="label lit" id="cname"></span><button type="button" class="btn sm" id="ccopy">Copy</button></div>
+        <div class="convout" id="nmout" aria-live="polite"></div>
+        <p class="capprox" id="capprox" hidden></p>
+        <p class="muted cnote" id="cnote"></p>
+      </div>
+      <div class="convall"><span class="label">The same, in every script</span><div id="convall"></div></div>
+      <details class="ctips"><summary>How the reading works</summary>
+        <ul>
+          <li>Typing in हिंदी or मराठी gives the most exact result, because those letters map one to one onto the old scripts.</li>
+          <li>In English, write long vowels twice: aa, ee, oo. “Meera” becomes mīra; type मीरा for mīrā.</li>
+          <li>You can also type Pāli with its marks, for example <i>dhammaṃ saraṇaṃ gacchāmi</i>.</li>
+          <li>Paste letters in Dhamma Lipi, Kharoṣṭhī, Siddham, Sinhala, Burmese, Thai or Devanāgarī and the page reads them back.</li>
+          <li>This changes the script, not the language. It does not translate English into Pāli.</li>
+        </ul>
+      </details>
+    </div>
+    <div class="lgrid">
       <div class="card" style="padding:22px;display:flex;flex-direction:column;gap:14px">
-        <span class="label">Ordered by where the sound is made</span>
+        <span class="label" id="charthead">Ordered by where the sound is made</span>
         <div id="sylgrid" style="display:flex;flex-direction:column;gap:12px"></div>
       </div>
-      <div class="card" style="padding:22px;display:flex;flex-direction:column;gap:10px;position:sticky;top:96px">
+      <div class="card lsel">
         <span class="label">Selected</span>
-        <div class="bigg" id="bigg">𑀩𑀼</div>
-        <p style="text-align:center;font:500 18px var(--mono)" id="bigt">bu</p>
-        <p class="muted" style="text-align:center;font-size:14px" id="bign">ba + the vowel sign for u · as in <i>budhe</i></p>
-        <a class="btn primary" href="#inscription" data-home="1">Find it on the stone →</a>
+        <div class="bigg" id="bigg"></div>
+        <p style="text-align:center;font:500 18px var(--mono);margin:0" id="bigt"></p>
+        <p class="muted" style="text-align:center;font-size:14px;margin:0" id="bign"></p>
+        <button class="btn" type="button" id="badd">Add to the text</button>
+        <a class="btn primary" href="#inscription" data-home="1" id="bstone">Find it on the stone →</a>
       </div>
     </div>
     <a class="nextcard card" href="#courses"><div><span class="label lit">Next step · courses</span><h3>Learn from those who <em>read the stones</em></h3><p>Courses by epigraphers, archaeologists and Pāli scholars, many of them free.</p></div><span class="go">Browse courses →</span></a>
   </div>
 </section>
+
+<!--/LEARNH-->
 
 <!--MODH-->
 <!-- ================= COURSES ================= -->
@@ -1380,16 +1439,152 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2400);}
 const BADGE={fact:'● Fact',trad:'◇ Traditional account',debated:'◌ Debated',interp:'◐ Interpretation',recon:'▧ Reconstruction'};
 
-/* ---------- Dhamma Lipi converter (IAST → Dhamma Lipi) ---------- */
-const BR=(()=>{const C={kh:0x11014,gh:0x11016,ch:0x11019,jh:0x1101B,'ṭh':0x1101E,'ḍh':0x11020,th:0x11023,dh:0x11025,ph:0x11028,bh:0x1102A,k:0x11013,g:0x11015,'ṅ':0x11017,c:0x11018,j:0x1101A,'ñ':0x1101C,'ṭ':0x1101D,'ḍ':0x1101F,'ṇ':0x11021,t:0x11022,d:0x11024,n:0x11026,p:0x11027,b:0x11029,m:0x1102B,y:0x1102C,r:0x1102D,l:0x1102E,v:0x1102F,'ś':0x11030,'ṣ':0x11031,s:0x11032,h:0x11033};
- const IV={a:0x11005,'ā':0x11006,i:0x11007,'ī':0x11008,u:0x11009,'ū':0x1100A,e:0x1100F,o:0x11011},VS={a:0,'ā':0x11038,i:0x1103A,'ī':0x1103B,u:0x1103C,'ū':0x1103D,e:0x11042,o:0x11044};
- const ch=n=>String.fromCodePoint(n);
- function conv(w){w=w.toLowerCase();let o='',i=0;while(i<w.length){let two=w.substr(i,2),one=w[i];let cons=C[two]!==undefined&&two.length===2?two:(C[one]!==undefined?one:null);
-  if(cons){o+=ch(C[cons]);i+=cons.length;const v=w[i];if(v&&VS[v]!==undefined){if(VS[v])o+=ch(VS[v]);i++;}else o+=ch(0x11046);continue;}
-  if(IV[one]!==undefined){o+=ch(IV[one]);i++;continue;} if(one==='ṃ'){o+=ch(0x11001);i++;continue;} i++;}
-  return o;}
- function fromEnglish(n){return n.toLowerCase().replace(/[^a-z\s]/g,'').replace(/ee/g,'ī').replace(/oo/g,'ū').replace(/aa/g,'ā').replace(/sh/g,'ś').replace(/f/g,'ph').replace(/z/g,'j').replace(/x/g,'ks').replace(/q/g,'k').replace(/w/g,'v').replace(/ai/g,'e').replace(/au/g,'o').split(/\s+/).filter(Boolean).map(conv).join(' ');}
- return {conv,fromEnglish};})();
+/*ENGINE*/
+/* ---------- script engine: one sound model (IAST), many scripts ---------- */
+const SCRIPT=(()=>{
+ const CONS=['kh','gh','ch','jh','ṭh','ḍh','th','dh','ph','bh','k','g','ṅ','c','j','ñ','ṭ','ḍ','ṇ','t','d','n','p','b','m','y','r','l','v','ś','ṣ','s','h','ḷ'];
+ const VOW=['ai','au','ā','ī','ū','ṛ','a','i','u','e','o'];
+ const ORDER=['k','kh','g','gh','ṅ','c','ch','j','jh','ñ','ṭ','ṭh','ḍ','ḍh','ṇ','t','th','d','dh','n','p','ph','b','bh','m','y','r','l','v','ś','ṣ','s','h'];
+ const seq=(start,list)=>Object.fromEntries(list.map((k,i)=>[k,start+i]));
+ const pick=(o,keys)=>Object.fromEntries(keys.filter(k=>o[k]!=null).map(k=>[k,o[k]]));
+ const S={};
+ // Dhamma Lipi (Brāhmī), U+11000 block
+ S.brahmi={name:'Dhamma Lipi',alt:'Brāhmī',font:"'Noto Sans Brahmi'",dir:'ltr',
+  note:'Aśoka’s edicts, 3rd century BCE. Read left to right. The ancestor of most scripts of South and Southeast Asia.',
+  C:Object.assign(seq(0x11013,ORDER.slice(0,33)),{'ḷ':0x11034}),
+  V:{a:0x11005,'ā':0x11006,i:0x11007,'ī':0x11008,u:0x11009,'ū':0x1100A,'ṛ':0x1100B,e:0x1100F,ai:0x11010,o:0x11011,au:0x11012},
+  M:{'ā':0x11038,i:0x1103A,'ī':0x1103B,u:0x1103C,'ū':0x1103D,'ṛ':0x1103E,e:0x11042,ai:0x11043,o:0x11044,au:0x11045},
+  vir:0x11046,anu:0x11001,vis:0x11002};
+ // Kharoṣṭhī, U+10A00 block, right to left; no ṅ, jh or ḷ; long vowels take the length mark
+ const KC={k:0x10A10,kh:0x10A11,g:0x10A12,gh:0x10A13,c:0x10A15,ch:0x10A16,j:0x10A17,'ñ':0x10A19,'ṭ':0x10A1A,'ṭh':0x10A1B,'ḍ':0x10A1C,'ḍh':0x10A1D,'ṇ':0x10A1E,t:0x10A1F,th:0x10A20,d:0x10A21,dh:0x10A22,n:0x10A23,p:0x10A24,ph:0x10A25,b:0x10A26,bh:0x10A27,m:0x10A28,y:0x10A29,r:0x10A2A,l:0x10A2B,v:0x10A2C,'ś':0x10A2D,'ṣ':0x10A2E,s:0x10A2F,h:0x10A31};
+ S.kharosthi={name:'Kharoṣṭhī',alt:'Gāndhārī',font:"'Noto Sans Kharoshthi'",dir:'rtl',
+  note:'Gandhāra, 3rd century BCE to 3rd century CE. Read right to left. Used for Aśoka’s north-western edicts and the oldest Buddhist manuscripts, the Gāndhārī scrolls.',
+  C:KC,fb:{'ṅ':'n',jh:'j','ḷ':'l'},V:{a:0x10A00},M:{i:0x10A01,u:0x10A02,'ṛ':0x10A03,e:0x10A05,o:0x10A06},len:0x10A0C,vir:0x10A3F,anu:0x10A0E,vis:0x10A0F,
+  long:{'ā':'a','ī':'i','ū':'u'},merge:{ai:'e',au:'o'}};
+ // Siddham, U+11580 block
+ S.siddham={name:'Siddham',alt:'Siddhamātṛkā',font:"'Noto Sans Siddham'",dir:'ltr',
+  note:'From the 6th century CE. Carried Sanskrit Buddhist texts and mantras to China, Korea and Japan, where it is still written.',
+  C:seq(0x1158E,ORDER),fb:{'ḷ':'l'},
+  V:{a:0x11580,'ā':0x11581,i:0x11582,'ī':0x11583,u:0x11584,'ū':0x11585,'ṛ':0x11586,e:0x1158A,ai:0x1158B,o:0x1158C,au:0x1158D},
+  M:{'ā':0x115AF,i:0x115B0,'ī':0x115B1,u:0x115B2,'ū':0x115B3,'ṛ':0x115B4,e:0x115B8,ai:0x115B9,o:0x115BA,au:0x115BB},vir:0x115BF,anu:0x115BD,vis:0x115BE};
+ // Devanāgarī, U+0900 block
+ const DC=Object.assign(pick(seq(0x0915,['k','kh','g','gh','ṅ','c','ch','j','jh','ñ','ṭ','ṭh','ḍ','ḍh','ṇ','t','th','d','dh','n','_nnn','p','ph','b','bh','m','y','r','_rra','l','ḷ','_llla','v','ś','ṣ','s','h']),['k','kh','g','gh','ṅ','c','ch','j','jh','ñ','ṭ','ṭh','ḍ','ḍh','ṇ','t','th','d','dh','n','p','ph','b','bh','m','y','r','l','ḷ','v','ś','ṣ','s','h']));
+ S.deva={name:'Devanāgarī',alt:'Hindi · Marathi',font:"'Noto Sans Devanagari'",dir:'ltr',
+  note:'Modern Hindi, Marathi and Sanskrit. Indian editions of the Pāli canon are also printed in it.',
+  C:DC,V:{a:0x0905,'ā':0x0906,i:0x0907,'ī':0x0908,u:0x0909,'ū':0x090A,'ṛ':0x090B,e:0x090F,ai:0x0910,o:0x0913,au:0x0914},
+  M:{'ā':0x093E,i:0x093F,'ī':0x0940,u:0x0941,'ū':0x0942,'ṛ':0x0943,e:0x0947,ai:0x0948,o:0x094B,au:0x094C},vir:0x094D,anu:0x0902,vis:0x0903};
+ // Sinhala, U+0D80 block
+ S.sinhala={name:'Sinhala',alt:'Pāli in Sri Lanka',font:"'Noto Sans Sinhala'",dir:'ltr',
+  note:'The script of the Pāli scriptures and commentaries of Sri Lanka.',
+  C:{k:0x0D9A,kh:0x0D9B,g:0x0D9C,gh:0x0D9D,'ṅ':0x0D9E,c:0x0DA0,ch:0x0DA1,j:0x0DA2,jh:0x0DA3,'ñ':0x0DA4,'ṭ':0x0DA7,'ṭh':0x0DA8,'ḍ':0x0DA9,'ḍh':0x0DAA,'ṇ':0x0DAB,t:0x0DAD,th:0x0DAE,d:0x0DAF,dh:0x0DB0,n:0x0DB1,p:0x0DB4,ph:0x0DB5,b:0x0DB6,bh:0x0DB7,m:0x0DB8,y:0x0DBA,r:0x0DBB,l:0x0DBD,v:0x0DC0,'ś':0x0DC1,'ṣ':0x0DC2,s:0x0DC3,h:0x0DC4,'ḷ':0x0DC5},
+  V:{a:0x0D85,'ā':0x0D86,i:0x0D89,'ī':0x0D8A,u:0x0D8B,'ū':0x0D8C,'ṛ':0x0D8D,e:0x0D91,ai:0x0D93,o:0x0D94,au:0x0D96},
+  M:{'ā':0x0DCF,i:0x0DD2,'ī':0x0DD3,u:0x0DD4,'ū':0x0DD6,'ṛ':0x0DD8,e:0x0DD9,ai:0x0DDB,o:0x0DDC,au:0x0DDE},vir:0x0DCA,anu:0x0D82,vis:0x0D83};
+ // Burmese, U+1000 block; inner conjuncts stack with U+1039, a final bare consonant takes asat U+103A
+ S.myanmar={name:'Burmese',alt:'Pāli in Myanmar',font:"'Noto Sans Myanmar'",dir:'ltr',
+  note:'The script of the Sixth Council edition of the Pāli canon, chanted in Yangon in 1954 to 1956.',
+  C:Object.assign(seq(0x1000,['k','kh','g','gh','ṅ','c','ch','j','jh']),{'ñ':0x1009,'ṭ':0x100B,'ṭh':0x100C,'ḍ':0x100D,'ḍh':0x100E,'ṇ':0x100F,t:0x1010,th:0x1011,d:0x1012,dh:0x1013,n:0x1014,p:0x1015,ph:0x1016,b:0x1017,bh:0x1018,m:0x1019,y:0x101A,r:0x101B,l:0x101C,v:0x101D,s:0x101E,h:0x101F,'ḷ':0x1020}),
+  fb:{'ś':'s','ṣ':'s'},V:{a:0x1021,'ā':[0x1021,0x102C],i:0x1023,'ī':0x1024,u:0x1025,'ū':0x1026,e:0x1027,o:0x1029},
+  M:{'ā':0x102C,i:0x102D,'ī':0x102E,u:0x102F,'ū':0x1030,e:0x1031,o:[0x1031,0x102C]},vir:0x1039,fin:0x103A,anu:0x1036,vis:0x1038,merge:{ai:'e',au:'o','ṛ':'ri'}};
+ // Thai as used for Pāli: phinthu marks a bare consonant, e and o are written before the consonant
+ S.thai={name:'Thai',alt:'Pāli in Thailand',font:"'Noto Sans Thai'",dir:'ltr',
+  note:'Pāli as written in Thailand. A small dot below (phinthu) marks a consonant without a vowel.',
+  C:{k:0x0E01,kh:0x0E02,g:0x0E04,gh:0x0E06,'ṅ':0x0E07,c:0x0E08,ch:0x0E09,j:0x0E0A,jh:0x0E0C,'ñ':0x0E0D,'ṭ':0x0E0F,'ṭh':0x0E10,'ḍ':0x0E11,'ḍh':0x0E12,'ṇ':0x0E13,t:0x0E15,th:0x0E16,d:0x0E17,dh:0x0E18,n:0x0E19,p:0x0E1B,ph:0x0E1C,b:0x0E1E,bh:0x0E20,m:0x0E21,y:0x0E22,r:0x0E23,l:0x0E25,v:0x0E27,s:0x0E2A,h:0x0E2B,'ḷ':0x0E2C},
+  fb:{'ś':'s','ṣ':'s'},carrier:0x0E2D,M:{'ā':0x0E32,i:0x0E34,'ī':0x0E35,u:0x0E38,'ū':0x0E39},pre:{e:0x0E40,o:0x0E42},vir:0x0E3A,anu:0x0E4D,merge:{ai:'e',au:'o','ṛ':'ri'}};
+ S.pali={name:'Pāli',alt:'Roman letters',font:'var(--serif)',dir:'ltr',roman:true,
+  note:'Pāli as printed today in Roman letters with marks, the system of the Pali Text Society. Pāli has no ś, ṣ, ai or au, so these become s, s, e and o.'};
+ const KEYS=['brahmi','pali','kharosthi','siddham','sinhala','myanmar','thai','deva'];
+ const ch=c=>Array.isArray(c)?String.fromCodePoint(...c):String.fromCodePoint(c);
+ /* -------- reading input -------- */
+ function tokenize(s){const out=[];let i=0;s=s.normalize('NFC');
+  while(i<s.length){let m=null;
+   for(const c of CONS)if(s.startsWith(c,i)){m={t:'c',v:c};break;}
+   if(!m)for(const v of VOW)if(s.startsWith(v,i)){m={t:'v',v};break;}
+   if(!m&&(s[i]==='ṃ'||s[i]==='ṁ'))m={t:'m',v:'ṃ'};
+   if(!m&&s[i]==='ḥ')m={t:'h',v:'ḥ'};
+   if(!m)m={t:'x',v:s[i]};
+   out.push(m);i+=m.v.length;}
+  return out;}
+ function syllables(iast){const tk=tokenize(iast),sy=[];let cl=[];
+  const flush=()=>{if(cl.length){sy.push({c:cl,v:null});cl=[];}};
+  for(const t of tk){
+   if(t.t==='c'){cl.push(t.v);continue;}
+   if(t.t==='v'){sy.push({c:cl,v:t.v});cl=[];continue;}
+   if(t.t==='m'||t.t==='h'){flush();const last=sy[sy.length-1];if(last&&last.v!==' ')last[t.t==='m'?'anu':'vis']=1;continue;}
+   flush();sy.push({x:t.v});}
+  flush();return sy;}
+ function fromEnglish(s){
+  let t=s.toLowerCase().normalize('NFC').replace(/[^a-zāīūṛṭḍṇñṅśṣṃṁḥḷ\s.,'’-]/g,'');
+  t=t.replace(/cch/g,'ĉĉh').replace(/chh/g,'ĉh').replace(/ch/g,'ĉ').replace(/sh/g,'ś').replace(/ck/g,'k').replace(/c/g,'k').replace(/ĉ/g,'c')
+   .replace(/aa/g,'ā').replace(/ee|ii/g,'ī').replace(/oo|uu/g,'ū').replace(/f/g,'ph').replace(/z/g,'j').replace(/x/g,'kṣ').replace(/q/g,'k').replace(/w/g,'v');
+  return t;}
+ /* reading any supported script back into sounds */
+ const REV={};
+ for(const k of KEYS){const d=S[k];if(d.roman)continue;const r={};
+  for(const [p,c] of Object.entries(d.C||{}))r[ch(c)]=['c',p];
+  for(const [p,c] of Object.entries(d.V||{}))if(!Array.isArray(c))r[ch(c)]=['v',p];
+  for(const [p,c] of Object.entries(d.M||{}))if(!Array.isArray(c))r[ch(c)]=['m',p];
+  for(const [p,c] of Object.entries(d.pre||{}))r[ch(c)]=['pre',p];
+  if(d.vir)r[ch(d.vir)]=['vir'];if(d.fin)r[ch(d.fin)]=['vir'];if(d.anu)r[ch(d.anu)]=['anu'];if(d.vis)r[ch(d.vis)]=['vis'];
+  if(d.len)r[ch(d.len)]=['len'];if(d.carrier)r[ch(d.carrier)]=['carrier'];REV[k]=r;}
+ function detect(s){
+  for(const k of KEYS){const r=REV[k];if(r&&[...s].some(c=>r[c]&&(r[c][0]==='c'||r[c][0]==='v')))return k;}
+  if(/[āīūṭḍṇñṅśṣṃṁḷṛ]/.test(s))return 'iast';
+  return 'english';}
+ function toIAST(s,k){const r=REV[k],LONG={a:'ā',i:'ī',u:'ū'};let out='',pend=null,pendV=null,pv=null;
+  const flush=()=>{if(pend!==null){out+=pend+(pendV||'a');pend=null;pendV=null;}};
+  for(const c of s){const e=r[c];
+   if(!e){flush();out+=c;continue;}
+   const [t,p]=e;
+   if(t==='pre'){flush();pv=p;continue;}
+   if(t==='c'||t==='carrier'||(t==='v'&&p==='a')){flush();pend=t==='c'?p:'';pendV=pv;pv=null;continue;}
+   if(t==='v'){flush();out+=p;continue;}
+   if(t==='m'){if(pend!==null){out+=pend+((pendV==='e'&&p==='ā')?'o':p);pend=null;pendV=null;}
+     else if(p==='ā'&&/e$/.test(out))out=out.replace(/e$/,'o');
+     else out+=p;continue;}
+   if(t==='vir'){if(pend!==null){out+=pend;pend=null;pendV=null;}continue;}
+   if(t==='len'){if(pend!==null){out+=pend+'ā';pend=null;pendV=null;}else out=out.replace(/([aiu])$/,m=>LONG[m]);continue;}
+   if(t==='anu'){flush();out+='ṃ';continue;}
+   if(t==='vis'){flush();out+='ḥ';continue;}}
+  flush();return out;}
+ function readInput(s){const k=detect(s);
+  if(k==='english')return {from:'english',iast:fromEnglish(s)};
+  if(k==='iast')return {from:'iast',iast:s.toLowerCase().normalize('NFC').replace(/ṁ/g,'ṃ')};
+  return {from:k,iast:toIAST(s.normalize('NFC'),k)};}
+ /* -------- writing -------- */
+ function cons(d,p){if(d.C[p]!=null)return {c:d.C[p],ok:true};const f=d.fb&&d.fb[p];if(f&&d.C[f]!=null)return {c:d.C[f],ok:false};return null;}
+ function vowelOf(d,v){if(d.merge&&d.merge[v])return {v:d.merge[v],ok:false};return {v,ok:true};}
+ function write(iast,key){const d=S[key];let approx=false;
+  if(d.roman){let t=iast.replace(/ś|ṣ/g,'s').replace(/ai/g,'e').replace(/au/g,'o').replace(/ṛ/g,'ri');approx=t!==iast;return {text:t,approx};}
+  let out='';const sy=syllables(iast);
+  for(const s of sy){
+   if(s.x!==undefined){out+=s.x;continue;}
+   let v=s.v,vo;
+   if(v){vo=vowelOf(d,v);if(!vo.ok)approx=true;v=vo.v;}
+   if(v==='ri'){v='i';s.c=s.c.concat(['r']);}
+   const cs=s.c.map(p=>{const r=cons(d,p);if(!r){approx=true;return null;}if(!r.ok)approx=true;return r.c;}).filter(x=>x!=null);
+   let body='';
+   if(cs.length){
+    body=cs.map((c,i)=>{if(i<cs.length-1&&key==='myanmar'&&c===0x1004)return ch([0x1004,0x103A,0x1039]);return ch(c)+(i<cs.length-1?ch(d.vir):'');}).join('');
+    if(v===null){body+=ch(d.fin||d.vir);}
+    else if(v!=='a'){
+     if(key==='kharosthi'){const base=d.long[v];if(base){if(base!=='a')body+=ch(d.M[base]);body+=ch(d.len);}else body+=ch(d.M[v]);}
+     else if(key==='thai'&&d.pre[v]){body=ch(d.pre[v])+body;}
+     else if(d.M[v]!=null)body+=ch(d.M[v]);else approx=true;}
+   }else if(v){
+    if(key==='kharosthi'){const base=d.long[v];body=ch(d.V.a);if(base){if(base!=='a')body+=ch(d.M[base]);body+=ch(d.len);}else if(v!=='a')body+=ch(d.M[v]);}
+    else if(key==='thai'){body=(d.pre[v]?ch(d.pre[v]):'')+ch(d.carrier)+(d.M[v]!=null?ch(d.M[v]):'');}
+    else if(d.V[v]!=null)body=ch(d.V[v]);else approx=true;}
+   if(s.anu&&d.anu)body+=ch(d.anu);
+   if(s.vis&&d.vis)body+=ch(d.vis);
+   out+=body;}
+  return {text:out,approx};}
+ function convert(input,key){const r=readInput(input);return Object.assign({from:r.from,iast:r.iast},write(r.iast,key));}
+ return {S,KEYS,ORDER,convert,write,readInput,syllables,fromEnglish,toIAST,detect};
+})();
+/* kept for the inscription reader and older code */
+const BR={conv:w=>SCRIPT.write(w.toLowerCase(),'brahmi').text,fromEnglish:n=>SCRIPT.convert(n,'brahmi').text};
+
+/*/ENGINE*/
 </script>
 
 {{MAPEXTRA}}
@@ -1750,12 +1945,59 @@ function renderPlace(sl){const s=(window.SITES||[]).find(x=>slug(x[0])===sl);con
  addEventListener('scroll',()=>{if(src&&!busy)close();},{passive:true});addEventListener('hashchange',()=>{if(src){src.style.visibility='';lb.classList.remove('on','open');src=null;}});
 })();
 
-/* =================== LEARN =================== */
-(function(){const rows=[['Throat (velar)','ka kha ga gha ṅa'],['Palate (palatal)','ca cha ja jha ña'],['Tongue curled back (retroflex)','ṭa ṭha ḍa ḍha ṇa'],['Teeth (dental)','ta tha da dha na'],['Lips (labial)','pa pha ba bha ma'],['Others','ya ra la va sa'],['One consonant, many vowels','ba bā bi bī bu be bo']];
- $('#sylgrid').innerHTML=rows.map(r=>`<div><p class="muted" style="font-size:13.5px;margin-bottom:6px">${r[0]}</p><div class="syl">${r[1].split(' ').map(s=>`<button type="button" data-s="${s}" aria-pressed="${s==='bu'}"><span>${BR.conv(s)}</span><small>${s}</small></button>`).join('')}</div></div>`).join('');
- $('#sylgrid').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const s=b.dataset.s;$('#bigg').textContent=BR.conv(s);$('#bigt').textContent=s;$('#bign').textContent=s.length>2||/[āīūeoiu]$/.test(s)&&s!=='a'?(s.replace(/[aāiīuūeo]$/,'')+'a + vowel sign for '+s.slice(-1)):'consonant with its built-in a';$$('#sylgrid button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
- const nm=$('#nm'),out=$('#nmout');const upd=()=>{out.textContent=BR.fromEnglish(nm.value)||'…';};nm.addEventListener('input',upd);upd();
- })();
+/*LEARNJ*/
+/* =================== LEARN: one converter for the scripts of the Buddhist world =================== */
+(function(){
+ const S=SCRIPT.S,KEYS=SCRIPT.KEYS;let cur='brahmi',sel='bu';
+ const t=x=>(typeof T==='function'?T(x):x);
+ const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ let fontsOn=false;
+ function loadFonts(){if(fontsOn)return;fontsOn=true;const l=document.createElement('link');l.rel='stylesheet';
+  l.href='https://fonts.googleapis.com/css2?family=Noto+Sans+Kharoshthi&family=Noto+Sans+Myanmar&family=Noto+Sans+Siddham&family=Noto+Sans+Sinhala&family=Noto+Sans+Thai&display=swap';document.head.appendChild(l);}
+ const fontOf=k=>S[k].font+",'Noto Sans Devanagari',sans-serif";
+ const FROM={english:'English letters',iast:'Pāli or Sanskrit letters',brahmi:'Dhamma Lipi',kharosthi:'Kharoṣṭhī',siddham:'Siddham',deva:'हिंदी · मराठी',sinhala:'Sinhala',myanmar:'Burmese',thai:'Thai'};
+ /* script chips */
+ function chips(){$('#scrsel').innerHTML=KEYS.map(k=>{const d=S[k];const g=SCRIPT.write('dhamma',k).text;
+  return `<button type="button" role="tab" data-k="${k}" aria-selected="${k===cur}"><span class="sg" style="font-family:${fontOf(k)}" dir="${d.dir}">${esc(g)}</span><span class="sn"><b>${esc(t(d.name))}</b><small>${esc(t(d.alt))}</small></span></button>`;}).join('');}
+ /* converter */
+ const nm=$('#nm');
+ function run(){const v=nm.value.trim();const d=S[cur];
+  const r=v?SCRIPT.convert(v,cur):{text:'',iast:'',from:'english',approx:false};
+  $('#cname').textContent=t(d.name)+(d.alt?' · '+t(d.alt):'');
+  const out=$('#nmout');out.textContent=r.text||'…';out.style.fontFamily=fontOf(cur);out.dir=d.dir;out.classList.toggle('roman',!!d.roman);
+  $('#cfrom').textContent=t('Reading as')+' · '+t(FROM[r.from]||r.from);
+  $('#cread').textContent=r.iast?t('Sounds')+': '+r.iast:'';
+  const ap=$('#capprox');ap.hidden=!r.approx;
+  ap.textContent=cur==='pali'?t('Pāli has no ś, ṣ, ai or au, so the nearest Pāli sounds are used.'):t('This script has no letter for some of these sounds, so the nearest letter is used.');
+  $('#cnote').textContent=t(d.note);
+  $('#convall').innerHTML=KEYS.filter(k=>k!==cur).map(k=>{const o=SCRIPT.write(r.iast||'',k);return `<button type="button" data-k="${k}"><span class="cvn">${esc(t(S[k].name))}</span><span class="cvv" style="font-family:${fontOf(k)}" dir="${S[k].dir}">${esc(o.text||'…')}</span></button>`;}).join('');}
+ let tm;nm.addEventListener('input',()=>{clearTimeout(tm);tm=setTimeout(run,80);});
+ $('#ccopy').onclick=()=>{const x=$('#nmout').textContent;(navigator.clipboard?navigator.clipboard.writeText(x):Promise.reject()).then(()=>toast(t('Copied'))).catch(()=>toast(x));};
+ /* letter chart */
+ const ROWS=[['Vowels','a ā i ī u ū e o'],['Throat (velar)','ka kha ga gha ṅa'],['Palate (palatal)','ca cha ja jha ña'],['Tongue curled back (retroflex)','ṭa ṭha ḍa ḍha ṇa'],['Teeth (dental)','ta tha da dha na'],['Lips (labial)','pa pha ba bha ma'],['Others','ya ra la va sa ha'],['One consonant, many vowels','ba bā bi bī bu bū be bo']];
+ function chart(){const d=S[cur];$('#charthead').textContent=t('Letters of')+' '+t(d.name)+' · '+t('ordered by where the sound is made');
+  $('#sylgrid').innerHTML=ROWS.map(r=>`<div><p class="muted" style="font-size:13.5px;margin-bottom:6px">${t(r[0])}</p><div class="syl">${r[1].split(' ').map(s=>{const o=SCRIPT.write(s,cur);
+   return `<button type="button" data-s="${s}" aria-pressed="${s===sel}" class="${o.approx?'apx':''}" ${o.approx?`title="${esc(t('Not in this script; nearest letter shown'))}"`:''}><span style="font-family:${fontOf(cur)}">${esc(o.text)}</span><small>${s}${o.approx?' ≈':''}</small></button>`;}).join('')}</div></div>`).join('');
+  pickSyl(sel);}
+ const VNAME={'ā':'ā','i':'i','ī':'ī','u':'u','ū':'ū','e':'e','o':'o'};
+ function pickSyl(s){sel=s;const d=S[cur],o=SCRIPT.write(s,cur);const big=$('#bigg');big.textContent=o.text;big.style.fontFamily=fontOf(cur);$('#bigt').textContent=s;
+  const m=s.match(/^([^aāiīuūeo]*)([aāiīuūeo])$/)||['',s,''];const c=m[1],v=m[2];
+  let n=!c?t('a vowel written on its own'):v==='a'?t('a consonant with its built-in a'):`${c}a + ${t('the vowel sign for')} ${VNAME[v]||v}`;
+  if(o.approx)n+=' · '+t('not in this script; nearest letter shown');
+  $('#bign').textContent=n;$('#bstone').hidden=cur!=='brahmi';
+  $$('#sylgrid button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.s===s));}
+ $('#sylgrid').addEventListener('click',e=>{const b=e.target.closest('button');if(b)pickSyl(b.dataset.s);});
+ $('#badd').onclick=()=>{const v=nm.value;const k=SCRIPT.detect(v);const add=(k!=='english'&&k!=='iast')?SCRIPT.write(sel,k).text:sel;nm.value=v+add;run();nm.focus();};
+ function setScript(k){cur=k;$$('#scrsel button').forEach(b=>b.setAttribute('aria-selected',b.dataset.k===k));run();chart();
+  const b=$(`#scrsel button[data-k="${k}"]`),box=$('#scrsel');if(b&&box.scrollWidth>box.clientWidth)box.scrollTo({left:b.offsetLeft-16,behavior:'smooth'});}
+ $('#scrsel').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setScript(b.dataset.k);});
+ $('#convall').addEventListener('click',e=>{const b=e.target.closest('button');if(b){setScript(b.dataset.k);$('.conv').scrollIntoView({behavior:'smooth',block:'start'});}});
+ function render(){loadFonts();chips();run();chart();}
+ RENDER.learn=()=>{if(!$('#s-learn').hidden)render();else{chips();run();chart();}};
+ window.renderLearn=render;chips();run();chart();
+})();
+
+/*/LEARNJ*/
 
 /* =================== STREAMS =================== */
 (function(){const yv=y=>{const T=[[-400,70],[-250,110],[1,180],[500,310],[1000,430],[1200,480],[1500,550],[1900,630],[2026,660]];for(let i=1;i<T.length;i++)if(y<=T[i][0]){const[a,b]=T[i-1],[c,d]=T[i];return b+(d-b)*(y-a)/(c-a);}return 660;};
@@ -2107,7 +2349,7 @@ window.BD_API=window.BD_API||(function(){
   $$('.smnav a').forEach(a=>a.classList.toggle('on',a.dataset.r===h||(a.dataset.r==='courses'&&/^(sessions|course-|teacher-)/.test(h))||(h.startsWith('place-')&&a.dataset.r==='map')||(h.startsWith('vihara-')&&a.dataset.r==='viharas')));
   const sp=spread();if(sp){if(screen==='s-map')$('#mapSlot').appendChild(sp);else if(sp.parentNode!==$('#homeMapSlot'))$('#homeMapSlot').appendChild(sp);}
   if(screen){scrollTo({top:0,behavior:'instant'});
-   if(place)renderPlace(place);if(vih)renderVihara(vih);if(screen==='s-viharas'&&RENDER.viharas)RENDER.viharas();if(screen==='s-question')renderQuestion();if(screen==='s-archive')renderArchive();if(screen==='s-connections')renderConnections();if(screen==='s-journey')renderJourney();if(screen==='s-councils'&&window.renderCouncils)renderCouncils();if(screen==='s-courses')renderCourses();if(screen==='s-course')renderCourse(h.slice(7));if(screen==='s-teacher')renderTeacher(h.slice(8));if(screen==='s-dashboard')renderDash(h==='dashboard'?'':h.slice(10));if(screen==='s-expert')renderExpertGate();}
+   if(place)renderPlace(place);if(vih)renderVihara(vih);if(screen==='s-viharas'&&RENDER.viharas)RENDER.viharas();if(screen==='s-question')renderQuestion();if(screen==='s-archive')renderArchive();if(screen==='s-connections')renderConnections();if(screen==='s-journey')renderJourney();if(screen==='s-councils'&&window.renderCouncils)renderCouncils();if(screen==='s-learn'&&window.renderLearn)renderLearn();if(screen==='s-courses')renderCourses();if(screen==='s-course')renderCourse(h.slice(7));if(screen==='s-teacher')renderTeacher(h.slice(8));if(screen==='s-dashboard')renderDash(h==='dashboard'?'':h.slice(10));if(screen==='s-expert')renderExpertGate();}
   else{window.__snap3d=true;
    if(h!=='home'){const el=document.getElementById(h);if(el)requestAnimationFrame(()=>el.scrollIntoView({behavior:'instant'}));}
    else if(!wasHome){requestAnimationFrame(()=>scrollTo({top:homeY,behavior:'instant'}));}
