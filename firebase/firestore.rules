@@ -1,12 +1,66 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Home slider cards: everyone can read, only listed admins can write.
+
+    function signedIn()  { return request.auth != null; }
+    function verified()  { return signedIn() && request.auth.token.email_verified == true; }
+    function isMe(uid)   { return verified() && request.auth.uid == uid; }
+    function isAdmin()   { return verified() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    function isExpert()  { return verified() && exists(/databases/$(database)/documents/experts/$(request.auth.uid)); }
+    function ownsCourse(cid) { return verified() && get(/databases/$(database)/documents/courses/$(cid)).data.owner == request.auth.uid; }
+
+    // Admin list: managed only from the Firebase console
+    match /admins/{uid} {
+      allow read: if isMe(uid);
+      allow write: if false;
+    }
+
+    // Home slider (Dhamma Vani): everyone reads, only admins edit
     match /feed/{card} {
       allow read: if true;
-      allow write: if request.auth != null
-        && request.auth.token.email_verified == true
-        && request.auth.token.email.lower() in ['you@example.com'];
+      allow write: if isAdmin();
+    }
+
+    // Members: each person sees and edits only their own record
+    match /users/{uid} {
+      allow read, write: if isMe(uid) || isAdmin();
+      match /enrollments/{courseId} {
+        allow read, write: if isMe(uid) || isAdmin();
+      }
+    }
+
+    // Expert profiles: public to read; the expert edits their own but cannot approve themselves
+    match /experts/{uid} {
+      allow read: if true;
+      allow create: if isMe(uid) && request.resource.data.status == 'review';
+      allow update: if isAdmin() || (isMe(uid) && request.resource.data.status == resource.data.status);
+      allow delete: if isAdmin();
+    }
+
+    // Courses: published ones are public; experts create drafts and send them for review; admins publish
+    match /courses/{courseId} {
+      allow read: if resource.data.status == 'published' || isAdmin()
+                  || (verified() && resource.data.owner == request.auth.uid);
+      allow create: if isExpert() && request.resource.data.owner == request.auth.uid
+                    && request.resource.data.status in ['draft', 'review'];
+      allow update: if isAdmin() || (verified() && resource.data.owner == request.auth.uid
+                    && request.resource.data.owner == request.auth.uid
+                    && (request.resource.data.status in ['draft', 'review'] || request.resource.data.status == resource.data.status));
+      allow delete: if isAdmin() || (verified() && resource.data.owner == request.auth.uid);
+
+      // Video lessons: only enrolled learners, the course owner and admins can open them
+      match /lessons/{doc} {
+        allow read: if isAdmin() || ownsCourse(courseId)
+                    || (verified() && exists(/databases/$(database)/documents/courses/$(courseId)/seats/$(request.auth.uid)));
+        allow write: if isAdmin() || ownsCourse(courseId);
+      }
+
+      // One seat per enrolled learner, used to count places
+      match /seats/{uid} {
+        allow read: if true;
+        allow create: if isMe(uid);
+        allow delete: if isMe(uid) || isAdmin();
+      }
     }
   }
 }

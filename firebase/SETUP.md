@@ -1,22 +1,21 @@
-# Home slider: connecting Firebase
+# Accounts, enrolment and the admin page
 
-The slider and its admin page (`/#admin`) work without a database, showing six starter cards.
-To publish cards for every visitor, connect a free Firebase project (Spark plan, no card needed).
+The site connects to the Firebase project set in `feed_config.js`.
 
-1. Go to console.firebase.google.com and create a project.
-2. Build → Firestore Database → Create database (production mode).
-3. Firestore → Rules: paste `firebase/firestore.rules`, put your Google email in place of `you@example.com`, Publish.
-4. Build → Authentication → Get started → enable the Google provider.
-5. Authentication → Settings → Authorized domains: add `mayur-dokras.github.io` and `buddhadhamma.in`.
-6. Project settings → Your apps → Web app (</>) → copy the config.
-7. Edit `feed_config.js` in the repo root:
+## One-time setup in the Firebase console
+1. Firestore Database: created in production mode (asia-south1).
+2. Firestore → Rules: paste `firebase/firestore.rules` and Publish. Paste again whenever this file changes.
+3. Authentication → Sign-in method: Email/Password enabled.
+4. Authentication → Settings → Authorized domains: `mayur-dokras.github.io` (add your own domain later).
 
-```js
-window.BD_FIREBASE={apiKey:"...",authDomain:"yourproject.firebaseapp.com",projectId:"yourproject",appId:"...",
-  admins:["you@example.com"]};
-```
+## Make yourself admin
+1. On the site, Join for updates with your email and a password, and open the verification link.
+2. Firebase console → Authentication → Users: copy your User UID.
+3. Firestore → Start collection `admins` → Document ID = your UID → field `role` (string) = `admin` → Save.
+4. Reload the site. The account menu now shows Admin, and `/#admin` lets you edit the slider,
+   publish courses, approve experts and download the members list.
 
-8. Commit. After Pages deploys, open `/#admin`, sign in with Google, press "Add the starter cards" and edit from there.
-
-The web config is not a secret; the Firestore rules are what keep editing limited to your account.
-The admin list in `feed_config.js` only decides who sees the editor; the rules decide who can save.
+## How it works
+- Members and experts sign up with email and password and must open the verification link before they can continue.
+- Experts create courses and add YouTube lessons (one per line: `title | link`). Courses go live when an admin publishes them.
+- Learners enrol after signing in. Lessons unlock only for enrolled learners.

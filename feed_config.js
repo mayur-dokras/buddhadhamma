@@ -1,9 +1,9 @@
-/* Slider database settings.
-   Leave as null to show the built-in starter cards.
-   To let the admin page publish for everyone, create a Firebase project,
-   paste its web app config here and list the Google accounts allowed to edit.
-   Example:
-   window.BD_FIREBASE={apiKey:"...",authDomain:"yourproject.firebaseapp.com",projectId:"yourproject",appId:"...",
-     admins:["you@example.com"]};
-*/
-window.BD_FIREBASE=null;
+/* Firebase web config for BuddhDhamma.in. This is public by design; the Firestore rules protect the data. */
+window.BD_FIREBASE={
+  apiKey:"AIzaSyAIji5GArpF3lfX5IHDK-9W9dou1b2QRW4",
+  authDomain:"buddhadhamma-c7599.firebaseapp.com",
+  projectId:"buddhadhamma-c7599",
+  storageBucket:"buddhadhamma-c7599.firebasestorage.app",
+  messagingSenderId:"975006923091",
+  appId:"1:975006923091:web:94cf0d2cc7210b5606c9a6"
+};
