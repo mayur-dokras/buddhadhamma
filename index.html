@@ -794,6 +794,7 @@ svg.main.dragging{cursor:grabbing}
 .admsh{display:flex;justify-content:space-between;align-items:center}.admsh b{font:500 22px var(--sans)}
 .admsec .admitem{border:1px solid var(--rule);border-radius:12px}
 .joindlg [hidden]{display:none!important}
+.joinopen[hidden],.smact .joinbtn.joinopen[hidden]{display:none!important}
 /*/MODC*/
 /*FEEDC*/
 /* home slider: quotes, videos, notices */
@@ -2850,6 +2851,7 @@ window.BD_API=window.BD_API||(function(){const LOCAL=(function(){
  const ICO={d:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',c:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v14c-3-1-6-1-8 1-2-2-5-2-8-1zM12 6v14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',n:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',p:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',o:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'};
  let acctMe=null;
  async function updateAcct(){acctMe=await API.me();am.hidden=true;ab.setAttribute('aria-expanded','false');
+  $$('.joinopen').forEach(b=>{b.hidden=!!acctMe;});
   const mm=$('#mmAcct');if(mm){mm.href=acctMe?'#dashboard':'#expert';mm.firstChild.textContent=(acctMe?(acctMe.role==='member'?t('My learning'):t('Expert dashboard')):t('Expert sign in'))+' ';}
   ab.parentNode.classList.toggle('out',!acctMe);
   if(!acctMe){ab.classList.remove('in');ab.href='#expert';ab.removeAttribute('aria-haspopup');ab.title=t('Expert sign in');ab.setAttribute('aria-label',t('Expert sign in'));
