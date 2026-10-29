@@ -772,6 +772,26 @@ svg.main.dragging{cursor:grabbing}
 .joindlg .jexpbtn{gap:10px}
 .joindlg .jsign{text-align:center;font-size:13.5px;color:var(--quiet);margin:0}
 .acctwrap.out{display:none}
+/* lessons, member dashboard, verification gate */
+.lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.lsn{display:flex;gap:14px;align-items:center;width:100%;text-align:left;background:var(--ground);border:1px solid var(--rule);border-radius:14px;padding:8px;cursor:pointer;font:inherit;color:inherit;transition:border-color .2s}
+.lsn:hover{border-color:var(--gold)}
+.lth{position:relative;flex:0 0 132px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#1B1712}
+.lth img{width:100%;height:100%;object-fit:cover;display:block}
+.lth i{position:absolute;inset:0;display:grid;place-items:center}.lth svg{width:30px;height:30px;fill:#fff;filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+.ltx{display:flex;flex-direction:column;gap:3px;min-width:0}.ltx small{font:12px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.06em}.ltx b{font-weight:500;line-height:1.3}
+.lplay{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}.lplay iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lpt{display:block;margin:8px 2px 4px;font-weight:500}
+.lockd p{font-size:15px}
+@media (max-width:560px){.lth{flex-basis:104px}}
+.dash.member .dside a[data-d]:not([data-d="overview"]){display:none}
+.vgate .jdone{display:flex;flex-direction:column;gap:12px;align-items:flex-start;text-align:left}
+.vgate .jdone .btn{width:100%;justify-content:center}
+.joindlg .jpw[hidden],.joindlg [data-jm][hidden]{display:none!important}
+.admsec{padding:18px;display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.admsh{display:flex;justify-content:space-between;align-items:center}.admsh b{font:500 22px var(--sans)}
+.admsec .admitem{border:1px solid var(--rule);border-radius:12px}
+.joindlg [hidden]{display:none!important}
 /*/MODC*/
 /*FEEDC*/
 /* home slider: quotes, videos, notices */
@@ -1316,7 +1336,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
   <div class="inner">
     <div class="crumbs"><a href="#home">Home</a><span class="sep">›</span><span>Admin</span></div>
     <div class="pagehead"><div><span class="label lit">Admin · home slider</span><h1>What the home page <em>shares.</em></h1></div><p class="side">Add quotes, course videos from YouTube and notices. They appear in the slider under the script strip, in the order shown here.</p></div>
-    <div class="card admstat"><p id="admwho">Checking access…</p><div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="admin-in" hidden>Sign in with Google</button><button class="btn sm" type="button" id="admin-out" hidden>Sign out</button><button class="btn sm" type="button" id="admexport" hidden>Export JSON</button><button class="btn sm" type="button" id="admseed" hidden>Add the starter cards</button></div></div>
+    <div class="card admstat"><p id="admwho">Checking access…</p><div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="admin-in" hidden>Sign in</button><button class="btn sm" type="button" id="admin-out" hidden>Sign out</button><button class="btn sm" type="button" id="admexport" hidden>Export JSON</button><button class="btn sm" type="button" id="admseed" hidden>Add the starter cards</button></div></div>
     <div class="adm" id="admbody" hidden>
       <form class="card admform" id="admform" autocomplete="off">
         <span class="label" id="admftitle">New card</span>
@@ -1337,6 +1357,7 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
       <div class="admprev"><span class="label">Preview</span><div id="admprev"></div></div>
     </div>
     <div class="admlist" id="admlist"></div>
+    <div id="admextra"></div>
   </div>
 </section>
 
@@ -1534,12 +1555,15 @@ html:lang(hi) .roll,html:lang(mr) .roll{height:1.5em;line-height:1.5}
     <span class="label lit">Join BuddhDhamma.in</span>
     <h2 id="joinT">Get updates as the site <em>grows.</em></h2>
     <p class="muted">New places, new councils and mahāvihāras, and invitations to new courses. We write rarely and never share your details.</p>
-    <label>Your name<input name="name" autocomplete="name" required maxlength="80"></label>
+    <p class="muted jnote" id="joinNote" hidden></p>
+    <label data-jm="join">Your name<input name="name" autocomplete="name" required maxlength="80"></label>
     <label>Email<input name="email" type="email" autocomplete="email" required maxlength="120"></label>
-    <label><span>Mobile number <span class="muted">(optional, for WhatsApp updates)</span></span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+91"></label>
-    <label class="jchk"><input type="checkbox" name="ok" required> I agree to receive occasional updates from BuddhDhamma.in.</label>
+    <label class="jpw" hidden><span>Password <span class="muted" data-jm="join">(at least 8 characters)</span></span><input name="password" type="password" autocomplete="new-password" maxlength="128"></label>
+    <label data-jm="join"><span>Mobile number <span class="muted">(optional, for WhatsApp updates)</span></span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+91"></label>
+    <label class="jchk" data-jm="join"><input type="checkbox" name="ok" required> I agree to receive occasional updates from BuddhDhamma.in.</label>
     <p class="jerr" id="joinErr" role="alert"></p>
     <button class="btn primary" type="submit" id="joinGo">Join for updates</button>
+    <p class="jsign jlive" hidden><span data-jm="join">Already joined? <button type="button" class="linkbtn" id="joinToIn">Sign in</button></span><span data-jm="in" hidden>New here? <button type="button" class="linkbtn" id="joinToUp">Join for updates</button> · <button type="button" class="linkbtn" id="joinForgot">Forgot password?</button></span></p>
     <div class="jexp"><span class="jor"><i></i>or<i></i></span>
       <button class="btn jexpbtn" type="button" data-expert="up"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 9l9-5 9 5-9 5z M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Join as an expert</button>
       <p class="jsign">Already teaching here? <button type="button" class="linkbtn" data-expert="in">Sign in</button></p></div>
@@ -2226,10 +2250,161 @@ function renderJourney(){let t=getTrail();const sample=!t.length;if(sample)t=['i
  $('#trail').innerHTML=pts.map((s,i)=>`<li><b>${i+1}</b><div style="flex:1;min-width:0"><a href="#place-${slug(s[0])}" style="font-weight:500">${esc(RICH[slug(s[0])]?RICH[slug(s[0])].title:s[0])}</a><div class="muted" style="font-size:13.5px">${esc(s[1])}</div></div></li>`).join('');}
 $('#jclear').onclick=()=>{setTrail([]);renderJourney();toast('Trail cleared');};
 
+/*AUTHJ*/
+/* =================== ACCOUNTS: sign-in, email verification gate, live courses data =================== */
+(function(){
+ const cfg=window.BD_FIREBASE;if(!cfg||!cfg.apiKey||!cfg.projectId)return;
+ const B=window.BD_FB_BASE||'https://www.gstatic.com/firebasejs/10.12.2/';
+ const t=x=>(typeof T==='function'?T(x):x);
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const ready=Promise.all([import(B+'firebase-app.js'),import(B+'firebase-auth.js'),import(B+'firebase-firestore.js')])
+  .then(([A,U,F])=>{const app=A.initializeApp(cfg);return {A,U,F,app,auth:U.getAuth(app),db:F.getFirestore(app)};});
+ window.BD_FB=ready;
+ let K=null,user=null,profile=null,admin=false,known=false,poll=0,cool=0;
+ const subs=[],waiters=[];
+ const fire=()=>{subs.forEach(f=>{try{f();}catch(e){console.warn(e);}});};
+ const settle=()=>{known=true;waiters.splice(0).forEach(r=>r());};
+ const ERR={'auth/email-already-in-use':'An account with this email already exists. Sign in instead.','auth/invalid-credential':'Email or password is incorrect.','auth/wrong-password':'Email or password is incorrect.','auth/user-not-found':'Email or password is incorrect.','auth/invalid-email':'Please enter a valid email address.','auth/weak-password':'Password must be at least 8 characters.','auth/too-many-requests':'Too many attempts. Wait a few minutes and try again.','auth/network-request-failed':'No connection. Check your internet and try again.','permission-denied':'You do not have permission to do that.'};
+ const nice=e=>{console.warn(e);return new Error(ERR[e&&e.code]||'Something went wrong. Please try again.');};
+ const PK='bd_pending_';
+ const pend=uid=>{try{return JSON.parse(localStorage.getItem(PK+uid)||'null');}catch(e){return null;}};
+ const setPend=(uid,v)=>{try{v?localStorage.setItem(PK+uid,JSON.stringify(v)):localStorage.removeItem(PK+uid);}catch(e){}};
+ const back=()=>({url:location.origin+location.pathname});
+
+ /* profile is loaded only for verified accounts; the database refuses unverified ones anyway */
+ async function loadProfile(){const {F,db}=K,uid=user.uid;
+  const get=p=>F.getDoc(F.doc(db,...p)).catch(()=>null);
+  const [u,ex,ad]=await Promise.all([get(['users',uid]),get(['experts',uid]),get(['admins',uid])]);
+  admin=!!(ad&&ad.exists());
+  let ud=u&&u.exists()?u.data():null,ed=ex&&ex.exists()?ex.data():null;const p=pend(uid);
+  if(!ud){ud={name:(p&&p.name)||user.displayName||user.email.split('@')[0],email:user.email,phone:(p&&p.phone)||'',lang:(p&&p.lang)||'en',updates:!!(p&&p.updates),role:(p&&p.role)||(ed?'expert':'member'),joined:F.serverTimestamp()};
+   await F.setDoc(F.doc(db,'users',uid),ud);}
+  if(p&&p.role==='expert'&&!ed){ed={name:p.name||ud.name,title:'',institution:p.institution||'',topic:p.topic||'',bio:'',expertise:[],languages:['English'],links:'',photo:'',status:'review',created:F.serverTimestamp()};
+   await F.setDoc(F.doc(db,'experts',uid),ed);if(ud.role!=='expert'){await F.updateDoc(F.doc(db,'users',uid),{role:'expert'});ud.role='expert';}}
+  if(p)setPend(uid,null);
+  profile=ed?{...ed,id:uid,email:user.email,phone:ud.phone||'',role:'expert'}:{id:uid,name:ud.name,email:user.email,phone:ud.phone||'',updates:!!ud.updates,role:'member'};}
+ async function onUser(u){user=u;profile=null;admin=false;
+  if(u&&!u.emailVerified){try{await u.reload();user=K.auth.currentUser;}catch(e){}}
+  if(user&&user.emailVerified){try{const r=await user.getIdTokenResult();if(!r.claims.email_verified)await user.getIdToken(true);await loadProfile();}catch(e){console.warn(e);}}
+  settle();gate();fire();}
+ ready.then(k=>{K=k;k.U.onAuthStateChanged(k.auth,onUser);}).catch(e=>{console.warn('Firebase did not load',e);settle();fire();});
+
+ /* ---------- verification gate: an unverified account cannot use the site until the link is opened ---------- */
+ let after=null;
+ function gate(){const need=!!(user&&!user.emailVerified);let d=document.getElementById('verifyDlg');
+  if(!need){if(d&&d.open)d.close();clearInterval(poll);return;}
+  if(!d){d=document.createElement('dialog');d.id='verifyDlg';d.className='joindlg vgate';
+   d.innerHTML=`<div class="jdone"><span class="jtick" aria-hidden="true">✉</span><span class="label lit">${t('One last step')}</span><h2>${t('Check your')} <em>${t('inbox.')}</em></h2>
+    <p class="muted">${t('We sent a verification link to')} <b data-noi18n id="vgMail"></b>. ${t('Open it, then come back here. The page carries on by itself once you are verified.')}</p>
+    <p class="jerr" id="vgErr" role="alert"></p>
+    <button class="btn primary" type="button" id="vgGo">${t('I have verified, continue')}</button>
+    <button class="btn" type="button" id="vgAgain">${t('Send the link again')}</button>
+    <p class="muted" style="font-size:13.5px;margin:0">${t('Not there? Look in Spam or Promotions.')} <button type="button" class="linkbtn" id="vgOut">${t('Use a different email')}</button></p></div>`;
+   document.body.appendChild(d);d.addEventListener('cancel',e=>e.preventDefault());
+   d.querySelector('#vgGo').onclick=()=>check(true);
+   d.querySelector('#vgAgain').onclick=async()=>{const er=d.querySelector('#vgErr');if(Date.now()<cool){er.textContent=t('Please wait a minute before asking again.');return;}
+    try{await K.U.sendEmailVerification(user,back());cool=Date.now()+60000;er.textContent='';toast(t('A new link is on its way.'));}catch(e){er.textContent=t(nice(e).message);}};
+   d.querySelector('#vgOut').onclick=async()=>{const u=user;try{await u.delete();}catch(e){}try{await K.U.signOut(K.auth);}catch(e){}if(u)setPend(u.uid,null);};}
+  d.querySelector('#vgMail').textContent=user.email;d.querySelector('#vgErr').textContent='';
+  if(window.closeSideMenu)window.closeSideMenu();['joinDlg','enrolDlg'].forEach(id=>{const x=document.getElementById(id);if(x&&x.open)x.close();});
+  if(!d.open)d.showModal();clearInterval(poll);poll=setInterval(()=>check(false),5000);}
+ async function check(manual){if(!user)return;const u=K.auth.currentUser;try{await u.reload();}catch(e){}
+  if(u&&u.emailVerified){clearInterval(poll);try{await u.getIdToken(true);user=u;await loadProfile();}catch(e){console.warn(e);}gate();const a=after;after=null;if(a)a();fire();toast(t('Email verified. Welcome!'));}
+  else if(manual){const er=document.getElementById('vgErr');if(er)er.textContent=t('Not verified yet. Open the link in the email first.');}}
+ addEventListener('focus',()=>{if(user&&!user.emailVerified)check(false);});
+
+ const whenKnown=()=>known?Promise.resolve():new Promise(r=>waiters.push(r));
+ async function create(email,password,name,data,then){await ready;let cred;
+  try{cred=await K.U.createUserWithEmailAndPassword(K.auth,email,password);}catch(e){throw nice(e);}
+  setPend(cred.user.uid,{...data,name});after=then||null;
+  try{await K.U.updateProfile(cred.user,{displayName:name});}catch(e){}
+  try{await K.U.sendEmailVerification(cred.user,back());cool=Date.now()+60000;}catch(e){console.warn(e);}
+  user=cred.user;gate();}
+ window.BD_AUTH={live:true,ready,whenKnown,
+  state:()=>!known?'loading':!user?'out':!user.emailVerified?'unverified':'in',
+  user:()=>user,profile:()=>profile,isAdmin:()=>admin,uid:()=>user&&user.emailVerified?user.uid:null,
+  onChange:f=>{subs.push(f);},
+  async joinMember({name,email,password,phone}){await whenKnown();
+   if(profile){await K.F.updateDoc(K.F.doc(K.db,'users',user.uid),{updates:true,...(phone?{phone}:{})}).catch(()=>{});return 'already';}
+   await create(email,password,name,{role:'member',phone:phone||'',lang:(typeof LANG!=='undefined'&&LANG.cur)||'en',updates:true});return 'verify';},
+  async joinExpert({name,email,password,topic,institution}){await whenKnown();
+   if(profile){if(profile.role==='expert')return 'already';
+    const {F,db}=K;await F.setDoc(F.doc(db,'experts',user.uid),{name,title:'',institution:institution||'',topic:topic||'',bio:'',expertise:[],languages:['English'],links:'',photo:'',status:'review',created:F.serverTimestamp()});
+    await F.updateDoc(F.doc(db,'users',user.uid),{role:'expert'});await loadProfile();fire();return 'upgraded';}
+   await create(email,password,name,{role:'expert',topic,institution},()=>{location.hash='#dashboard-profile';});return 'verify';},
+  async signIn(email,password,then){await ready;await whenKnown();after=then||null;known=false;
+   try{await K.U.signInWithEmailAndPassword(K.auth,email,password);}catch(e){after=null;known=true;throw nice(e);}
+   await new Promise(r=>{const s=Date.now();const f=()=>{if((known&&user)||Date.now()-s>8000){known=true;r();}else setTimeout(f,60);};f();});
+   if(profile&&after){const a=after;after=null;a();}return profile;},
+  async resetPassword(email){await ready;try{await K.U.sendPasswordResetEmail(K.auth,email,back());}catch(e){if(e&&e.code==='auth/user-not-found')return;throw nice(e);}},
+  async signOut(){await ready;await K.U.signOut(K.auth);},
+  async reloadProfile(){if(user&&user.emailVerified){await loadProfile();fire();}}};
+
+ /* ---------- live courses data, same shape as the preview data layer ---------- */
+ window.BD_LIVE_API=L=>{const S=L.SEED,SX=S.experts,SC=S.courses;const A=window.BD_AUTH;
+  const k=async()=>{await ready;await whenKnown();return K;};
+  const need=()=>{const u=A.uid();if(!u)throw new Error('Please sign in again.');return u;};
+  async function seats(cid){const {F,db}=await k();try{const s=await F.getCountFromServer(F.collection(db,'courses',cid,'seats'));return s.data().count;}catch(e){return 0;}}
+  const exCache={};
+  async function expertOf(id){if(SX[id])return SX[id];if(exCache[id])return exCache[id];const {F,db}=await k();
+   try{const d=await F.getDoc(F.doc(db,'experts',id));return exCache[id]=d.exists()?{...d.data(),id}:null;}catch(e){return null;}}
+  async function hydrate(list){const ids=[...new Set(list.map(c=>c.owner))],ex={};await Promise.all(ids.map(async i=>{ex[i]=await expertOf(i);}));
+   const n=await Promise.all(list.map(c=>seats(c.id)));return list.map((c,i)=>({...c,taken:(c.sample?(c.taken||0):0)+n[i],expert:ex[c.owner]||null}));}
+  const rows=s=>s.docs.map(d=>({...d.data(),id:d.id}));
+  async function q(...w){const {F,db}=await k();try{return rows(await F.getDocs(F.query(F.collection(db,'courses'),...w.map(x=>F.where(...x)))));}catch(e){console.warn(e);return [];}}
+  const clean=o=>{const c={...o};['id','expert','taken','lessons'].forEach(x=>delete c[x]);return c;};
+  return {preview:false,live:true,TOPICS:L.TOPICS,
+   async signUp(d){const r=await A.joinExpert(d);return r==='verify'?{verify:true}:A.profile();},
+   async signIn({email,password}){return A.signIn(email,password,()=>{location.hash='#dashboard';});},
+   async signOut(){await A.signOut();},
+   async me(){await k();return A.profile();},
+   async saveProfile(p){const u=need();const {F,db}=await k();const d={...p};delete d.status;delete d.id;delete d.role;delete d.email;
+    try{await F.updateDoc(F.doc(db,'experts',u),d);await F.updateDoc(F.doc(db,'users',u),{name:p.name});}catch(e){throw nice(e);}delete exCache[u];await A.reloadProfile();return A.profile();},
+   async listCourses(){const u=A.uid();const pub=await q(['status','==','published']);const own=u?await q(['owner','==',u]):[];
+    const seen=new Set(),all=[];[...pub,...own.filter(c=>c.status==='review')].forEach(c=>{if(!seen.has(c.id)){seen.add(c.id);all.push(c);}});
+    return hydrate([...all,...SC]);},
+   async myCourses(){const u=A.uid();if(!u)return [];return hydrate(await q(['owner','==',u]));},
+   async getCourse(id){const s=SC.find(c=>c.id===id);if(s)return (await hydrate([s]))[0];const {F,db}=await k();
+    try{const d=await F.getDoc(F.doc(db,'courses',id));if(!d.exists())return null;return (await hydrate([{...d.data(),id}]))[0];}catch(e){return null;}},
+   async getExpert(id){const e=await expertOf(id);if(!e)return null;const live=SX[id]?[]:await q(['owner','==',id],['status','==','published']);
+    return {...e,courses:await hydrate([...live,...SC.filter(c=>c.owner===id)])};},
+   async saveCourse(c){const u=need();const {F,db}=await k();const lessons=c.lessons;const d=clean(c);if(lessons)d.lessonCount=lessons.length;
+    try{let id=c.id;if(id){d.owner=u;await F.updateDoc(F.doc(db,'courses',id),d);}else{d.owner=u;d.created=F.serverTimestamp();const r=await F.addDoc(F.collection(db,'courses'),d);id=r.id;}
+     if(lessons)await F.setDoc(F.doc(db,'courses',id,'lessons','list'),{items:lessons});return {...c,id};}catch(e){throw nice(e);}},
+   async deleteCourse(id){need();const {F,db}=await k();try{await F.deleteDoc(F.doc(db,'courses',id));}catch(e){throw nice(e);}},
+   async enrol(id){const u=need();const {F,db}=await k();const c=await this.getCourse(id);if(!c)throw new Error('Course not found.');
+    if(await this.isEnrolled(id))return true;if((c.taken||0)>=c.seats)throw new Error('This course is full.');const p=A.profile();
+    try{await F.setDoc(F.doc(db,'courses',id,'seats',u),{at:F.serverTimestamp()});
+     await F.setDoc(F.doc(db,'users',u,'enrollments',id),{course:id,title:c.title,cover:c.cover||'',name:p.name,email:p.email,at:F.serverTimestamp()});}catch(e){throw nice(e);}return true;},
+   async isEnrolled(id){const u=A.uid();if(!u)return false;const {F,db}=await k();try{return (await F.getDoc(F.doc(db,'users',u,'enrollments',id))).exists();}catch(e){return false;}},
+   async myEnrolments(){const u=A.uid();if(!u)return [];const {F,db}=await k();try{return rows(await F.getDocs(F.collection(db,'users',u,'enrollments')));}catch(e){return [];}},
+   async getLessons(id){if(SC.some(c=>c.id===id))return null;const {F,db}=await k();try{const d=await F.getDoc(F.doc(db,'courses',id,'lessons','list'));return d.exists()?(d.data().items||[]):[];}catch(e){return null;}}};};
+
+ /* ---------- admin: review courses and experts, download members ---------- */
+ const csv=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+ window.renderAdminExtra=async function(){const box=document.getElementById('admextra');if(!box)return;if(!admin||!K){box.innerHTML='';return;}
+  const {F,db}=K;const list=async(c,...w)=>{try{return (await F.getDocs(F.query(F.collection(db,c),...w.map(x=>F.where(...x))))).docs.map(d=>({...d.data(),id:d.id}));}catch(e){console.warn(e);return [];}};
+  const [cr,ex]=await Promise.all([list('courses',['status','==','review']),list('experts',['status','==','review'])]);
+  let members=0;try{members=(await F.getCountFromServer(F.collection(db,'users'))).data().count;}catch(e){}
+  const exn={};ex.forEach(e=>exn[e.id]=e.name);
+  box.innerHTML=`<div class="card admsec"><div class="admsh"><span class="label lit">${t('Courses waiting for review')}</span><b>${cr.length}</b></div>${cr.length?cr.map(c=>`<div class="admitem" data-c="${esc(c.id)}" data-noi18n><div class="ttl"><small>${esc(c.format||'')} · ${esc(c.language||'')}</small><b>${esc(c.title||'')}</b></div><div class="acts"><a class="btn sm" href="#course-${esc(c.id)}">${t('View')}</a><button type="button" data-a="pub">${t('Publish')}</button><button type="button" data-a="back" class="warn">${t('Send back')}</button></div></div>`).join(''):`<p class="muted">${t('Nothing waiting.')}</p>`}</div>
+   <div class="card admsec"><div class="admsh"><span class="label lit">${t('Experts waiting for approval')}</span><b>${ex.length}</b></div>${ex.length?ex.map(e=>`<div class="admitem" data-e="${esc(e.id)}" data-noi18n><div class="ttl"><small>${esc(e.topic||'')}</small><b>${esc(e.name||'')}</b></div><div class="acts"><a class="btn sm" href="#teacher-${esc(e.id)}">${t('View')}</a><button type="button" data-a="ok">${t('Approve')}</button></div></div>`).join(''):`<p class="muted">${t('Nothing waiting.')}</p>`}</div>
+   <div class="card admsec"><div class="admsh"><span class="label lit">${t('Members')}</span><b>${members}</b></div><p class="muted" style="margin:0">${t('Everyone who joined with a verified email.')}</p><button class="btn sm" type="button" id="admcsv" style="align-self:flex-start">${t('Download members (CSV)')}</button></div>`;
+  box.onclick=async e=>{const b=e.target.closest('button');if(!b)return;
+   try{if(b.id==='admcsv'){const us=await list('users');const head=['name','email','phone','role','lang','updates','joined'];
+     const body=us.map(u=>[u.name,u.email,u.phone,u.role,u.lang,u.updates?'yes':'no',u.joined&&u.joined.toDate?u.joined.toDate().toISOString().slice(0,10):''].map(csv).join(','));
+     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([head.join(',')+'\n'+body.join('\n')],{type:'text/csv'}));a.download='members.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);return;}
+    const c=b.closest('[data-c]'),x=b.closest('[data-e]');
+    if(c)await F.updateDoc(F.doc(db,'courses',c.dataset.c),{status:b.dataset.a==='pub'?'published':'draft'});
+    if(x)await F.updateDoc(F.doc(db,'experts',x.dataset.e),{status:'verified'});
+    toast(t('Saved'));window.renderAdminExtra();}catch(err){console.warn(err);toast(t('That did not save. Check your access and try again.'));}};};
+})();
+
+/*/AUTHJ*/
 /*MODJ*/
 /* =================== COURSES + EXPERTS =================== */
 /* Data layer. A real backend (for example Supabase) can replace window.BD_API with the same methods. */
-window.BD_API=window.BD_API||(function(){
+window.BD_API=window.BD_API||(function(){const LOCAL=(function(){
  const K='bd_courses_v2';
  const TOPICS=['Scripts and inscriptions','Pāli and Sanskrit','Archaeology','Art and architecture','History','Texts and philosophy'];
  const seed=()=>({users:[],session:null,enrol:[],
@@ -2244,6 +2419,7 @@ window.BD_API=window.BD_API||(function(){
    {id:'c4',owner:'ex1',status:'published',sample:1,title:'Kharoṣṭhī, writing right to left',summary:'The script of Gandhāra’s birch-bark scrolls and Indo-Greek coins.',topic:TOPICS[0],level:'Intermediate',language:'Hindi',format:'Live online',start:'2027-01-09',sessions:4,minutes:60,schedule:'Saturdays, 11:00 IST',fee:800,seats:25,taken:7,cover:'img/g_khar.jpg',description:'After Dhamma Lipi, Kharoṣṭhī. We learn the letters, then read coin legends and a reliquary inscription from Gandhāra.',learn:['Read Kharoṣṭhī letters and ligatures','Read Indo-Greek bilingual coins','Understand Gāndhārī Prakrit spellings'],link:''},
    {id:'c5',owner:'ex2',status:'published',sample:1,title:'How to look at a Gandhāran relief',summary:'Stories carved in schist, panel by panel.',topic:TOPICS[3],level:'All levels',language:'English',format:'In person',start:'2026-12-12',sessions:1,minutes:120,schedule:'Saturday, 10:30 · museum gallery walk',fee:500,seats:20,taken:20,cover:'img/g_buddha.jpg',description:'A gallery walk that teaches how to read narrative reliefs: who is who, what is happening, and how the sculptors told a story in stone.',learn:['Identify common scenes from the Buddha’s life','Read composition and gesture','Spot later restorations'],link:''},
    {id:'c6',owner:'ex3',status:'published',sample:1,title:'What makes a primary source?',summary:'Reports, editions, translations. Who said what, and when.',topic:TOPICS[4],level:'All levels',language:'English',format:'Recorded',start:'2026-11-01',sessions:3,minutes:40,schedule:'Watch at your own pace',fee:0,seats:500,taken:122,cover:'img/lum_pillar.jpg',description:'A short course on research method for students and curious readers, using the archive on this site.',learn:['Tell a primary from a secondary source','Cite an edition and a translation','Use the Internet Archive well'],link:''}]});
+ const SEED=seed();
  let db;try{db=JSON.parse(localStorage.getItem(K));}catch(e){}
  if(!db||!db.experts)db=seed();
  const save=()=>{try{localStorage.setItem(K,JSON.stringify(db));}catch(e){throw new Error('Storage is full. Try a smaller photo.');}};
@@ -2251,7 +2427,8 @@ window.BD_API=window.BD_API||(function(){
  const uid=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
  const me=()=>db.session&&db.experts[db.session]?db.experts[db.session]:null;
  const withExpert=c=>({...c,expert:db.experts[c.owner]||null});
- return {preview:true,TOPICS,
+ return {preview:true,TOPICS,SEED,
+  async isEnrolled(){return false;},async myEnrolments(){return [];},async getLessons(id){const c=db.courses.find(c=>c.id===id);return c&&c.lessons?c.lessons:(c&&c.sample?null:[]);},
   async signUp({name,email,password,topic,institution}){email=email.toLowerCase();if(db.users.some(u=>u.email===email))throw new Error('An account with this email already exists. Sign in instead.');const id=uid('u');db.users.push({id,email,pw:await hash(password),created:Date.now()});db.experts[id]={id,name,title:'',institution:institution||'',topic,bio:'',expertise:[],languages:['English'],links:'',photo:'',email,status:'review'};db.session=id;save();return me();},
   async signIn({email,password}){email=email.toLowerCase();const u=db.users.find(u=>u.email===email);if(!u||u.pw!==await hash(password))throw new Error('Email or password is incorrect.');db.session=u.id;save();return me();},
   async signOut(){db.session=null;save();},
@@ -2264,6 +2441,8 @@ window.BD_API=window.BD_API||(function(){
   async saveCourse(c){const m=me();if(!m)throw new Error('Please sign in again.');if(c.id){const o=db.courses.find(x=>x.id===c.id&&x.owner===m.id);if(!o)throw new Error('Course not found.');Object.assign(o,c);}else{c.id=uid('c');c.owner=m.id;c.taken=0;db.courses.unshift(c);}save();return c;},
   async deleteCourse(id){const s=db.session;db.courses=db.courses.filter(c=>!(c.id===id&&c.owner===s));save();},
   async enrol(id,rec){const c=db.courses.find(c=>c.id===id);if(!c)throw new Error('Course not found.');if(c.taken>=c.seats)throw new Error('This course is full.');c.taken++;db.enrol.push({course:id,...rec,at:new Date().toISOString()});save();return true;}};
+})();
+ return window.BD_LIVE_API?window.BD_LIVE_API(LOCAL):LOCAL;
 })();
 
 (function(){
@@ -2321,6 +2500,7 @@ window.BD_API=window.BD_API||(function(){
   <div class="cdgrid"><div style="display:flex;flex-direction:column;gap:18px">
    <div class="card cdsec"><span class="label">${t('About this course')}</span>${String(c.description||'').split(/\n+/).filter(Boolean).map(p=>`<p style="margin:0;font-size:16px;line-height:1.65" data-noi18n>${esc(p)}</p>`).join('')}</div>
    ${(c.learn||[]).length?`<div class="card cdsec"><span class="label">${t('What you will learn')}</span><ul class="learn" data-noi18n>${c.learn.map(l=>`<li>${esc(l)}</li>`).join('')}</ul></div>`:''}
+   <div id="lessonsBox"></div>
    <div class="card cdsec"><span class="label">${t('Your teacher')}</span><div style="display:flex;gap:16px;align-items:flex-start">${avatar(e,'md')}<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:22px" data-noi18n>${esc(e.name)}</h3><p class="muted" style="margin:0" data-noi18n>${esc(e.bio||'')}</p><a class="linkbtn" href="#teacher-${esc(e.id)}" style="align-self:flex-start">${t('View full profile')}</a></div></div></div>
   </div>
   <aside class="card enrol"><div class="big">${money(c.fee)}</div>
@@ -2330,11 +2510,25 @@ window.BD_API=window.BD_API||(function(){
    <button class="btn primary" type="button" id="enrolBtn" ${full||own?'disabled':''}>${own?t('This is your course'):full?t('Course full'):+c.fee>0?t('Reserve a place'):t('Enrol for free')}</button>
    ${+c.fee>0&&!own?`<p class="muted" style="font-size:12.5px;margin:0">${t('Payment details are sent by email after you reserve.')}</p>`:''}
   </aside></div>`;
-  const b=$('#enrolBtn');if(b)b.onclick=()=>openEnrol(c);}
+  const b=$('#enrolBtn');if(b)b.onclick=()=>openEnrol(c);courseExtras(c,own);}
+
+ /* lessons: YouTube videos that unlock for enrolled learners */
+ const parseLessons=v=>String(v||'').split('\n').map(x=>x.trim()).filter(Boolean).map(x=>{const i=x.lastIndexOf('|');return i<0?{title:x,url:''}:{title:x.slice(0,i).trim(),url:x.slice(i+1).trim()};});
+ const ytId=u=>{u=String(u||'').trim();if(/^[\w-]{11}$/.test(u))return u;const m=u.match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/|\/live\/)([\w-]{11})/);return m?m[1]:'';};
+ const PLAYI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>';
+ async function courseExtras(c,own){const id=c.id;const enrolled=await API.isEnrolled(id);if(!curCourse||curCourse.id!==id)return;
+  const b=$('#enrolBtn');if(b&&enrolled){b.disabled=true;b.textContent='✓ '+t('You are enrolled');}
+  const box=$('#lessonsBox');if(!box)return;const L=await API.getLessons(id);if(!curCourse||curCourse.id!==id)return;
+  if(L&&L.length&&(enrolled||own||API.preview)){box.innerHTML=`<div class="card cdsec"><span class="label">${t('Lessons')} · ${L.length}</span><ol class="lessons" data-noi18n>${L.map((l,i)=>{const v=ytId(l.url);return `<li><button type="button" class="lsn" data-v="${esc(v)}"><span class="lth">${v?`<img src="https://i.ytimg.com/vi/${esc(v)}/mqdefault.jpg" alt="" loading="lazy">`:''}<i>${PLAYI}</i></span><span class="ltx"><small>${t('Lesson')} ${i+1}</small><b>${esc(l.title||'')}</b></span></button></li>`;}).join('')}</ol></div>`;
+   box.querySelector('.lessons').onclick=e=>{const x=e.target.closest('.lsn');if(!x||!x.dataset.v)return;const li=x.parentNode;li.innerHTML=`<div class="lplay"><iframe src="https://www.youtube-nocookie.com/embed/${x.dataset.v}?autoplay=1&rel=0" title="${esc(x.querySelector('b').textContent)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><b class="lpt">${esc(x.querySelector('b').textContent)}</b>`;};return;}
+  const n=+c.lessonCount||0;
+  box.innerHTML=n?`<div class="card cdsec lockd"><span class="label">${t('Lessons')} · ${n}</span><p style="margin:0">🔒 ${t('The video lessons open here as soon as you enrol.')}</p></div>`:'';}
 
  /* enrol dialog */
  const ed=$('#enrolDlg'),ef=$('#enrolForm');
- function openEnrol(c){ef.reset();$('#enrolErr').textContent='';ef.hidden=false;$('#enrolDone').hidden=true;$('#enrolSub').textContent=c.title;ed.showModal();setTimeout(()=>ef.name.focus(),50);}
+ async function openEnrol(c){if(API.live){const m=await API.me();if(!m){if(window.openJoin)window.openJoin({mode:'join',reason:'enrol'});return;}
+   const b=$('#enrolBtn');if(b)b.disabled=true;try{await API.enrol(c.id);ef.hidden=true;$('#enrolDone').hidden=false;$('#enrolMsg').textContent=`${t('You are enrolled in')} “${c.title}”. ${t('Your lessons and joining details are now on this page and in My learning.')}`;ed.showModal();renderCourse(c.id);}catch(x){if(b)b.disabled=false;toast(t(x.message));}return;}
+  ef.reset();$('#enrolErr').textContent='';ef.hidden=false;$('#enrolDone').hidden=true;$('#enrolSub').textContent=c.title;ed.showModal();setTimeout(()=>ef.name.focus(),50);}
  ed.addEventListener('click',e=>{if(e.target===ed||e.target.closest('[data-close]'))ed.close();});
  ef.addEventListener('submit',async e=>{e.preventDefault();const name=ef.name.value.trim(),email=ef.email.value.trim();
   if(!name){$('#enrolErr').textContent=t('Please enter your name.');return;}
@@ -2359,16 +2553,16 @@ window.BD_API=window.BD_API||(function(){
  const tab=w=>{$$('#s-expert .seg button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===w));fin.hidden=w!=='in';fup.hidden=w!=='up';};
  $$('#s-expert .seg button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));$$('#s-expert [data-go]').forEach(b=>b.onclick=()=>tab(b.dataset.go));
  $$('#s-expert .pwtog').forEach(b=>b.onclick=()=>{const i=b.previousElementSibling;const show=i.type==='password';i.type=show?'text':'password';b.textContent=t(show?'Hide':'Show');});
- $('#forgot').onclick=()=>toast(t('Password reset by email will work once accounts go live.'));
+ $('#forgot').onclick=async()=>{if(!API.live){toast(t('Password reset by email will work once accounts go live.'));return;}const em=fin.email.value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){$('#inErr').textContent=t('Type your email above first, then press Forgot password.');fin.email.focus();return;}try{await window.BD_AUTH.resetPassword(em);toast(t('If that email has an account, a reset link is on its way.'));}catch(x){$('#inErr').textContent=t(x.message);}};
  const mark=(f,n,bad)=>f[n].closest('.field').classList.toggle('bad',bad);
  fin.addEventListener('submit',async e=>{e.preventDefault();const em=fin.email.value.trim(),pw=fin.password.value;const err=$('#inErr');err.textContent='';
   mark(fin,'email',!em);mark(fin,'password',!pw);if(!em||!pw){err.textContent=t('Please enter your email and password.');return;}
-  try{await API.signIn({email:em,password:pw});fin.reset();location.hash='#dashboard';}catch(x){err.textContent=t(x.message);}});
+  try{const r=await API.signIn({email:em,password:pw});fin.reset();if(!API.live||r)location.hash='#dashboard';}catch(x){err.textContent=t(x.message);}});
  fup.addEventListener('submit',async e=>{e.preventDefault();const err=$('#upErr');err.textContent='';const v=n=>fup[n].value.trim();
-  const bad={name:!v('name'),email:!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('email')),password:fup.password.value.length<8,topic:!v('topic')};Object.keys(bad).forEach(k=>mark(fup,k,bad[k]));
+  const upg=fup.classList.contains('upg');const bad={name:!v('name'),email:!upg&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('email')),password:!upg&&fup.password.value.length<8,topic:!v('topic')};Object.keys(bad).forEach(k=>mark(fup,k,bad[k]));
   if(bad.name){err.textContent=t('Please enter your name.');return;}if(bad.email){err.textContent=t('Please enter a valid email address.');return;}if(bad.password){err.textContent=t('Password must be at least 8 characters.');return;}if(bad.topic){err.textContent=t('Please choose your main subject.');return;}
   if(!fup.ok.checked){err.textContent=t('Please tick the box to continue.');return;}
-  try{await API.signUp({name:v('name'),email:v('email'),password:fup.password.value,topic:v('topic'),institution:v('institution')});fup.reset();location.hash='#dashboard-profile';toast(t('Account created. Complete your profile next.'));}catch(x){err.textContent=t(x.message);}});
+  try{const r=await API.signUp({name:v('name'),email:v('email'),password:fup.password.value,topic:v('topic'),institution:v('institution')});fup.reset();if(r&&r.verify)return;location.hash='#dashboard-profile';toast(t('Account created. Complete your profile next.'));}catch(x){err.textContent=t(x.message);}});
  $('#upTopic').innerHTML=`<option value="">${t('Choose a subject')}</option>`+TOPICS.map(x=>`<option value="${esc(x)}">${esc(t(x))}</option>`).join('');
  $('#demoNote').hidden=!API.preview;
 
@@ -2376,7 +2570,13 @@ window.BD_API=window.BD_API||(function(){
  const D=$('#dMain');
  const resize=(file,max)=>new Promise((res,rej)=>{if(!file||!/^image\//.test(file.type))return rej(new Error('Please choose an image file.'));const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82));};im.onerror=()=>rej(new Error('This image could not be read.'));im.src=r.result;};r.readAsDataURL(file);});
  const completeness=m=>{const items=[[t('Add a profile photo'),!!m.photo],[t('Write a short biography'),(m.bio||'').length>=60],[t('Add your title and institution'),!!(m.title&&m.institution)],[t('List your areas of expertise'),(m.expertise||[]).length>0],[t('Publish your first course'),false]];return items;};
- async function renderDash(sub){const m=await API.me();if(!m){location.replace('#expert');return;}
+ async function renderDash(sub){const m=await API.me();if(!m){if(API.live&&window.BD_AUTH.state()==='unverified')return;if(API.live&&window.openJoin){location.replace('#courses');window.openJoin({mode:'in'});return;}location.replace('#expert');return;}
+  $('#s-dashboard .dash').classList.toggle('member',m.role==='member');
+  if(m.role==='member'){$('#dName').textContent=m.name;$('#dAv').outerHTML=avatar(m,'md').replace('class="av md"','class="av md" id="dAv"');$('#dStatus').textContent=t('Member');
+   const en=await API.myEnrolments();
+   D.innerHTML=`<div class="dhead"><div><span class="label lit">${t('My learning')}</span><h2>${t('Namaste')}, ${esc(m.name.split(' ')[0])}</h2></div><a class="btn" href="#courses">${t('Browse courses')}</a></div>
+    <div class="card">${en.length?`<div class="mylist">${en.map(e=>`<div class="myrow">${e.cover?`<img src="${esc(e.cover)}" alt="">`:'<span class="noimg"></span>'}<div style="min-width:0"><h4 data-noi18n>${esc(e.title||'')}</h4><span class="ph">${t('Enrolled')}</span></div><div class="acts"><a class="btn sm primary" href="#course-${esc(e.course||e.id)}">${t('Open')}</a></div></div>`).join('')}</div>`:`<div class="cempty"><h3>${t('You have not enrolled in a course yet.')}</h3><a class="btn primary" href="#courses">${t('Browse courses')}</a></div>`}</div>
+    <div class="card dform" style="margin-top:18px"><h3>${t('Teach here?')}</h3><p class="muted" style="margin:0">${t('If you are an epigrapher, archaeologist or scholar, you can apply to teach with this same account.')}</p><a class="btn sm" href="#expert" data-upg style="align-self:flex-start">${t('Apply to teach')}</a></div>`;return;}
   $('#dName').textContent=m.name;$('#dAv').outerHTML=avatar(m,'md').replace('class="av md"','class="av md" id="dAv"');$('#dStatus').textContent=m.status==='verified'?t('Verified expert'):t('Profile under review');$('#dPublic').href='#teacher-'+m.id;
   const key=sub.startsWith('edit-')?'courses':sub||'overview';$$('.dside a[data-d]').forEach(a=>a.classList.toggle('on',a.dataset.d===key));
   const mine=await API.myCourses();
@@ -2436,12 +2636,14 @@ window.BD_API=window.BD_API||(function(){
    <h3 style="margin-top:8px">${t('Content')}</h3>
    <label class="field">${t('Description')}<textarea name="description" maxlength="3000">${esc(c.description)}</textarea></label>
    <label class="field">${t('What learners will be able to do')} <span class="hint">${t('One point per line')}</span><textarea name="learn" style="min-height:96px" maxlength="1000">${esc((c.learn||[]).join('\n'))}</textarea></label>
+   <label class="field">${t('Video lessons')} <span class="hint">${t('One per line: title | YouTube link. Set the videos to Unlisted on YouTube. Only enrolled learners see them here.')}</span><textarea name="lessons" style="min-height:110px" maxlength="8000" placeholder="Lesson 1 · The vowels | https://youtu.be/..."></textarea></label>
    <div class="field">${t('Cover image')}<div class="covpick" id="covpick">${COVERS.map(u=>`<button type="button" data-u="${u}" aria-pressed="${u===cover}"><img src="${u}" alt="" loading="lazy"></button>`).join('')}</div><label class="btn sm" style="cursor:pointer;align-self:flex-start;margin-top:4px">${t('Upload your own')}<input type="file" accept="image/*" id="cfFile" hidden></label></div>
    <p class="ferr" id="cfErr" role="alert"></p>
    <div class="formbar"><a class="btn" href="#dashboard-courses">${t('Cancel')}</a><button class="btn" type="submit" data-s="draft">${t('Save draft')}</button><button class="btn primary" type="submit" data-s="review">${c.status==='published'?t('Save changes'):t('Submit for review')}</button></div></form>
    <div class="dprev"><span class="label">${t('Card preview')}</span><div id="cfPrev"></div><p class="muted" style="font-size:13px;margin:0">${t('Courses are checked by our editors before they appear on the Courses page.')}</p></div></div>`;
   const f=$('#cf');
-  const read=()=>({title:f.title.value.trim(),summary:f.summary.value.trim(),topic:f.topic.value,level:f.level.value,language:f.language.value,format:f.format.value,start:f.start.value,sessions:Math.max(1,+f.sessions.value||1),minutes:Math.max(10,+f.minutes.value||60),seats:Math.max(1,+f.seats.value||1),schedule:f.schedule.value.trim(),fee:Math.max(0,+f.fee.value||0),link:f.link.value.trim(),description:f.description.value.trim(),learn:f.learn.value.split('\n').map(s=>s.trim()).filter(Boolean),cover});
+  const read=()=>({title:f.title.value.trim(),summary:f.summary.value.trim(),topic:f.topic.value,level:f.level.value,language:f.language.value,format:f.format.value,start:f.start.value,sessions:Math.max(1,+f.sessions.value||1),minutes:Math.max(10,+f.minutes.value||60),seats:Math.max(1,+f.seats.value||1),schedule:f.schedule.value.trim(),fee:Math.max(0,+f.fee.value||0),link:f.link.value.trim(),description:f.description.value.trim(),learn:f.learn.value.split('\n').map(s=>s.trim()).filter(Boolean),cover,...(lessonsOk?{lessons:parseLessons(f.lessons.value)}:{})});
+  let lessonsOk=isNew;if(!isNew)API.getLessons(c.id).then(L=>{if(L&&f.lessons&&!f.lessons.value)f.lessons.value=L.map(l=>`${l.title} | ${l.url}`).join('\n');lessonsOk=true;}).catch(()=>{});
   const prev=()=>{const p=read();$('#cfPrev').innerHTML=cardHTML({...p,id:c.id||'new',status:'published',title:p.title||t('Course title'),summary:p.summary||t('Short summary'),taken:c.taken||0,expert:m}).replace('<a ','<div ').replace(/<\/a>$/,'</div>');};
   f.addEventListener('input',e=>{if(e.target.name==='topic'&&!picked){cover=TCOV[f.topic.value]||cover;$$('#covpick button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.u===cover));}prev();});f.topic.addEventListener('change',()=>f.dispatchEvent(new Event('input')));prev();
   $('#covpick').onclick=e=>{const b=e.target.closest('button');if(!b)return;cover=b.dataset.u;picked=true;$$('#covpick button').forEach(x=>x.setAttribute('aria-pressed',x===b));prev();};
@@ -2450,6 +2652,7 @@ window.BD_API=window.BD_API||(function(){
    if(!p.title){err.textContent=t('Please add a course title.');f.title.focus();return;}
    if(s!=='draft'){if(!p.summary){err.textContent=t('Please add a short summary.');f.summary.focus();return;}if(p.description.length<40){err.textContent=t('Please write a description of at least 40 characters.');f.description.focus();return;}if(p.format!=='Recorded'&&!p.start){err.textContent=t('Please choose a start date.');f.start.focus();return;}}
    if(p.link&&!/^https?:\/\//.test(p.link)){err.textContent=t('The joining link should start with https://');return;}
+   if(p.lessons&&p.lessons.some(l=>!ytId(l.url))){err.textContent=t('Each lesson line needs a title, a | sign, then a YouTube link.');f.lessons.focus();return;}
    p.status=s==='draft'?(c.status==='published'?'published':'draft'):(c.status==='published'?'published':'review');if(c.id)p.id=c.id;
    try{await API.saveCourse(p);toast(t(s==='draft'?'Draft saved':p.status==='published'?'Changes saved':'Sent for review'));location.hash='#dashboard-courses';}catch(x){err.textContent=t(x.message);}});}
  $('#dOut').onclick=async e=>{e.preventDefault();await API.signOut();toast(t('Signed out'));location.hash='#courses';updateAcct();};
@@ -2459,23 +2662,27 @@ window.BD_API=window.BD_API||(function(){
  const ICO={d:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v4h-7zM13 10h7v10h-7zM4 13h7v7H4z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',c:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v14c-3-1-6-1-8 1-2-2-5-2-8-1zM12 6v14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>',n:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',p:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',o:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'};
  let acctMe=null;
  async function updateAcct(){acctMe=await API.me();am.hidden=true;ab.setAttribute('aria-expanded','false');
-  const mm=$('#mmAcct');if(mm){mm.href=acctMe?'#dashboard':'#expert';mm.firstChild.textContent=(acctMe?t('Expert dashboard'):t('Expert sign in'))+' ';}
+  const mm=$('#mmAcct');if(mm){mm.href=acctMe?'#dashboard':'#expert';mm.firstChild.textContent=(acctMe?(acctMe.role==='member'?t('My learning'):t('Expert dashboard')):t('Expert sign in'))+' ';}
   ab.parentNode.classList.toggle('out',!acctMe);
   if(!acctMe){ab.classList.remove('in');ab.href='#expert';ab.removeAttribute('aria-haspopup');ab.title=t('Expert sign in');ab.setAttribute('aria-label',t('Expert sign in'));
    ab.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20.5c1-4 4-6 7.5-6s6.5 2 7.5 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="lbl">'+t('Sign in')+'</span>';return;}
   const first=acctMe.name.split(' ').filter(w=>!/^(Dr|Prof)\.?$/i.test(w))[0]||acctMe.name;
   ab.classList.add('in');ab.href='#dashboard';ab.setAttribute('aria-haspopup','menu');ab.title=acctMe.name;ab.setAttribute('aria-label',t('Account menu'));
   ab.innerHTML=avatar(acctMe)+`<span class="nm" data-noi18n>${esc(first)}</span><svg class="caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
-  am.innerHTML=`<div class="who"><b data-noi18n>${esc(acctMe.name)}</b><span class="ph">${esc(acctMe.email||'')}</span></div><a href="#dashboard">${ICO.d}${t('Dashboard')}</a><a href="#dashboard-courses">${ICO.c}${t('My courses')}</a><a href="#dashboard-new">${ICO.n}${t('New course')}</a><a href="#dashboard-profile">${ICO.p}${t('Profile')}</a><span class="sep"></span><button type="button" data-out>${ICO.o}${t('Sign out')}</button>`;}
+  const adm=window.BD_AUTH&&window.BD_AUTH.isAdmin()?`<a href="#admin">${ICO.d}${t('Admin')}</a>`:'';
+  am.innerHTML=`<div class="who"><b data-noi18n>${esc(acctMe.name)}</b><span class="ph">${esc(acctMe.email||'')}</span></div>`+(acctMe.role==='member'?`<a href="#dashboard">${ICO.c}${t('My learning')}</a><a href="#courses">${ICO.d}${t('Browse courses')}</a>`:`<a href="#dashboard">${ICO.d}${t('Dashboard')}</a><a href="#dashboard-courses">${ICO.c}${t('My courses')}</a><a href="#dashboard-new">${ICO.n}${t('New course')}</a><a href="#dashboard-profile">${ICO.p}${t('Profile')}</a>`)+adm+`<span class="sep"></span><button type="button" data-out>${ICO.o}${t('Sign out')}</button>`;}
  ab.addEventListener('click',e=>{if(!acctMe)return;e.preventDefault();const open=am.hidden;am.hidden=!open;ab.setAttribute('aria-expanded',String(open));});
  am.addEventListener('click',async e=>{if(e.target.closest('[data-out]')){await API.signOut();toast(t('Signed out'));location.hash='#courses';updateAcct();}else if(e.target.closest('a'))am.hidden=true;});
  document.addEventListener('click',e=>{if(!e.target.closest('.acctwrap'))am.hidden=true;});
  addEventListener('keydown',e=>{if(e.key==='Escape'&&!am.hidden){am.hidden=true;ab.focus();}});
  addEventListener('hashchange',updateAcct);updateAcct();window.updateAcct=updateAcct;
+ if(window.BD_AUTH)window.BD_AUTH.onChange(()=>{updateAcct();const h=location.hash.slice(1);if(h.startsWith('course-'))renderCourse(h.slice(7));else if(h.startsWith('dashboard'))renderDash(h==='dashboard'?'':h.slice(10));else if(h==='expert')renderExpertGate();});
  /* expose to the router */
  window.renderCourses=renderCourses;window.renderCourse=renderCourse;window.renderTeacher=renderTeacher;window.renderDash=renderDash;
  let wantTab='in';
- window.renderExpertGate=async()=>{const m=await API.me();if(m)location.replace('#dashboard');else{tab(wantTab);wantTab='in';setTimeout(()=>{const f=$('#s-expert form:not([hidden]) input');if(f)f.focus();},80);}};
+ window.renderExpertGate=async()=>{const m=await API.me();fup.classList.remove('upg');['email','password'].forEach(n=>{const f=fup[n].closest('.field');if(f)f.hidden=false;});
+  if(m&&m.role==='member'){tab('up');fup.classList.add('upg');fup.name.value=m.name||'';['email','password'].forEach(n=>{const f=fup[n].closest('.field');if(f)f.hidden=true;});return;}
+  if(m)location.replace('#dashboard');else{tab(wantTab);wantTab='in';setTimeout(()=>{const f=$('#s-expert form:not([hidden]) input');if(f)f.focus();},80);}};
  $$('[data-expert]').forEach(b=>b.addEventListener('click',()=>{const d=$('#joinDlg');if(d&&d.open)d.close();wantTab=b.dataset.expert;if(location.hash==='#expert')renderExpertGate();else location.hash='#expert';}));
  RENDER.courses=()=>{updateAcct();const h=location.hash.slice(1);$('#ctopics').innerHTML='';$('#upTopic').innerHTML=`<option value="">${t('Choose a subject')}</option>`+TOPICS.map(x=>`<option value="${esc(x)}">${esc(t(x))}</option>`).join('');
   if(h==='courses'||h==='sessions')renderCourses();else if(h.startsWith('course-'))renderCourse(h.slice(7));else if(h.startsWith('teacher-'))renderTeacher(h.slice(8));else if(h.startsWith('dashboard')&&!/^dashboard-(new|edit-|profile)/.test(h))renderDash(h==='dashboard'?'':h.slice(10));};
@@ -2521,17 +2728,14 @@ window.BD_API=window.BD_API||(function(){
   const wr=a=>{try{localStorage.setItem(K,JSON.stringify(a));}catch(e){}cb&&cb(a);};
   return {name:'local',isAdmin:()=>true,who:()=>'',onAuth(){},subscribe(f){cb=f;f(rd()||[]);return()=>{cb=null;};},
    save:async(id,d)=>{const a=(rd()||[]).filter(x=>x.id!==id);a.push({...d,id});wr(a);},remove:async id=>wr((rd()||[]).filter(x=>x.id!==id)),newId:()=>'l'+Date.now().toString(36)};}
- async function firebaseBackend(cfg){const B='https://www.gstatic.com/firebasejs/10.12.2/';
-  const [A,F,U]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-firestore.js'),import(B+'firebase-auth.js')]);
-  const app=A.initializeApp(cfg),db=F.getFirestore(app),auth=U.getAuth(app);const admins=(cfg.admins||[]).map(s=>String(s).toLowerCase());
-  let user=null;const cbs=[];U.onAuthStateChanged(auth,u=>{user=u;cbs.forEach(f=>f());});
-  return {name:'firebase',isAdmin:()=>!!user&&admins.includes((user.email||'').toLowerCase()),who:()=>user?user.email:'',onAuth:f=>cbs.push(f),
-   signIn:()=>U.signInWithPopup(auth,new U.GoogleAuthProvider()),signOut:()=>U.signOut(auth),
+ async function firebaseBackend(){const K=await window.BD_FB;const {F,db}=K;const A=window.BD_AUTH;
+  return {name:'firebase',isAdmin:()=>A.isAdmin(),who:()=>{const u=A.user();return u?u.email:'';},onAuth:f=>A.onChange(f),
+   signIn:async()=>{if(window.openJoin)window.openJoin({mode:'in'});},signOut:()=>A.signOut(),
    subscribe(f){return F.onSnapshot(F.query(F.collection(db,'feed'),F.orderBy('order')),s=>f(s.docs.map(d=>({...d.data(),id:d.id}))),e=>{console.warn(e);f(null);});},
    save:(id,d)=>F.setDoc(F.doc(db,'feed',id),d),remove:id=>F.deleteDoc(F.doc(db,'feed',id)),newId:()=>F.doc(F.collection(db,'feed')).id};}
  async function start(){
   if(window.BD_FEED_BACKEND){try{be=await window.BD_FEED_BACKEND();}catch(e){be=null;}}
-  const cfg=window.BD_FIREBASE;if(!be&&cfg&&cfg.apiKey&&cfg.projectId){try{be=await firebaseBackend(cfg);}catch(e){console.warn('Firebase',e);be=null;}}
+  if(!be&&window.BD_FB&&window.BD_AUTH){try{be=await firebaseBackend();}catch(e){console.warn('Firebase',e);be=null;}}
   if(!be)be=localBackend();
   be.subscribe(a=>{all=Array.isArray(a)?a:null;notify();});be.onAuth(notify);notify();}
 
@@ -2570,11 +2774,11 @@ window.BD_API=window.BD_API||(function(){
   const who=be?be.who():'';const W=$('#admwho');
   if(!be)W.textContent='Checking access…';
   else if(be.name==='local')W.textContent='No database is connected yet, so changes stay in this browser only. Use Export JSON to keep them, or connect Firebase to publish for everyone.';
-  else if(be.name==='firebase')W.textContent=ok?`Signed in as ${who}. Changes go live for every visitor.`:who?`${who} is not on the admin list.`:'Sign in with an admin Google account to edit the slider.';
+  else if(be.name==='firebase')W.textContent=ok?`Signed in as ${who}. Changes go live for every visitor.`:who?`${who} is not an admin yet. Add this account's User UID to the admins collection in Firestore.`:'Sign in with your admin email and password to edit the slider.';
   else W.textContent=ok?'You own this page. Changes go live for every visitor.':'Only the owner of this page can edit the slider.';
   $('#admin-in').hidden=!(be&&be.signIn&&!who);$('#admin-out').hidden=!(be&&be.signOut&&who);
   $('#admexport').hidden=!(be&&be.name==='local');$('#admseed').hidden=!(ok&&!(all&&all.length));
-  $('#admbody').hidden=!ok;
+  $('#admbody').hidden=!ok;if(be&&be.name==='firebase'&&window.renderAdminExtra)window.renderAdminExtra();
   const L=live();const list=$('#admlist');
   if(!ok){list.innerHTML='';return;}
   list.innerHTML=(()=>{const n=Math.max(0,MIN-own().length);return n?`<p class="muted">Your cards show first. ${n} starter card${n>1?'s':''} fill the rest of the slider until you have ${MIN} of your own.</p>`:'';})()+(L.length?`<span class="label">${L.length} card${L.length>1?"s":""} · top of the list shows first</span>`:`<p class="muted">No cards of your own yet. Add one above, or press Add the starter cards to edit them here.</p>`)+
@@ -2704,12 +2908,32 @@ window.BD_API=window.BD_API||(function(){
  window.goBack=()=>{if(stack.length>1)history.back();else location.hash='home';};
  bb.addEventListener('click',window.goBack);addEventListener('hashchange',track);track();
  const dlg=$('#joinDlg'),f=$('#joinForm'),done=$('#joinDone'),err=$('#joinErr');
- function open(){f.hidden=false;done.hidden=true;err.textContent='';if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','');if(window.closeSideMenu)window.closeSideMenu();setTimeout(()=>f.name.focus(),50);}
+ const AU=window.BD_AUTH;let mode='join';
+ function setMode(m){mode=m;const live=!!AU;$$('.jlive,.jpw',dlg).forEach(x=>x.hidden=!live);$$('[data-jm]',dlg).forEach(x=>x.hidden=x.dataset.jm!==m);
+  $('#joinT').innerHTML=m==='in'?esc(T('Welcome'))+' <em>'+esc(T('back.'))+'</em>':esc(T('Get updates as the site'))+' <em>'+esc(T('grows.'))+'</em>';
+  $('#joinGo').textContent=T(m==='in'?'Sign in':'Join for updates');f.password.autocomplete=m==='in'?'current-password':'new-password';$$('.jexp',dlg).forEach(x=>x.hidden=m==='in');
+  dlg.querySelector('form > p.muted:not(.jnote)').hidden=m==='in';err.textContent='';}
+ function open(o){o=o||{};f.hidden=false;done.hidden=true;err.textContent='';setMode(AU&&o.mode==='in'?'in':'join');
+  const n=$('#joinNote');n.hidden=!o.reason;n.textContent=o.reason==='enrol'?T('Join or sign in first, then you can enrol in the course.'):'';
+  if(AU&&AU.state()==='in'&&mode==='join'){f.hidden=true;done.hidden=false;const p=AU.profile();$('#joinWho').textContent=(p&&p.name||'').split(' ')[0];$('#joinMsg').textContent=T('You are already a member. Updates will reach your email.');}
+  if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','');if(window.closeSideMenu)window.closeSideMenu();setTimeout(()=>{const x=mode==='in'?f.email:f.name;if(!f.hidden)x.focus();},50);}
+ window.openJoin=open;
+ if(AU){$('#joinToIn').onclick=()=>setMode('in');$('#joinToUp').onclick=()=>setMode('join');
+  $('#joinForgot').onclick=async()=>{const em=f.email.value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){err.textContent=T('Type your email above first, then press Forgot password.');f.email.focus();return;}
+   try{await AU.resetPassword(em);err.textContent='';toast(T('If that email has an account, a reset link is on its way.'));}catch(x){err.textContent=T(x.message);}};}
  $$('.joinopen').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();open();}));
  dlg.querySelector('.jx').addEventListener('click',()=>dlg.close());$('#joinClose').addEventListener('click',()=>dlg.close());
  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
  f.addEventListener('submit',async e=>{e.preventDefault();err.textContent='';
   const name=f.name.value.trim(),email=f.email.value.trim(),phone=f.phone.value.trim().replace(/[^\d+ ]/g,'');
+  if(AU){const pw=f.password.value,go=$('#joinGo');
+   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent=T('Please enter a valid email address.');f.email.focus();return;}
+   if(mode==='in'){if(!pw){err.textContent=T('Please enter your password.');f.password.focus();return;}go.disabled=true;try{await AU.signIn(email,pw);f.reset();dlg.close();if(AU.state()==='in')toast(T('Signed in'));}catch(x){err.textContent=T(x.message);}go.disabled=false;return;}
+   if(!name){err.textContent=T('Please enter your name.');f.name.focus();return;}
+   if(pw.length<8){err.textContent=T('Password must be at least 8 characters.');f.password.focus();return;}
+   if(phone&&phone.replace(/\D/g,'').length<8){err.textContent=T('Please check the mobile number.');f.phone.focus();return;}
+   if(!f.ok.checked){err.textContent=T('Please tick the box to agree to updates.');return;}
+   go.disabled=true;try{const r=await AU.joinMember({name,email,password:pw,phone});f.reset();if(r==='already'){$('#joinWho').textContent=name.split(' ')[0];$('#joinMsg').textContent=T('You are already a member. Updates will reach your email.');f.hidden=true;done.hidden=false;}else dlg.close();}catch(x){err.textContent=T(x.message);}go.disabled=false;return;}
   if(!name){err.textContent=T('Please enter your name.');f.name.focus();return;}
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent=T('Please enter a valid email address.');f.email.focus();return;}
   if(phone&&phone.replace(/\D/g,'').length<8){err.textContent=T('Please check the mobile number.');f.phone.focus();return;}
